@@ -1,34 +1,33 @@
-# Tên ứng dụng
+# Soasis Ecommerce Project
 
-- Mô tả vắn tắt tên ứng dụng ở đây (Gợi ý: ứng dụng giải quyết vấn đề gì, có các đối tượng người dùng như thế nào, có các chức năng gì...)
+- This is a project for the final Application Development project at IUH to demonstrate our learning and understanding throughout the course. We chose to develop an ecommerce shopping website as it is a complex and flexible application which challenged our understanding of the technologies involved.
 
-- Bạn có thể trải nghiệm ứng dụng ở đây [LINK](https://update-this-link)
-- Một số sceenshot của ứng dụng
+- The purpose of this project was to build a ecommerce project where seller can register, add, edit/delete their shop product on their shop profile, receive orders from customers, see their total earnings and revenue payment, and also is for customers who can register, set their profile, search for their favorite products , order and purchase product from their favorite shops.
 
-## CÀI ĐẶT
+- A live demo can be found: Update when project completed
+- Sceenshot: Update when project completed
 
-Hướng dẫn cài đặt và chạy sau khi pull project từ github về (Lưu ý: hướng dẫn phải chạy được). Bao gồm:
-- Các phần mềm cần cài đặt
-- Các gói thư viện python cần dùng (có thể sử dụng pip freeze để tạo)
-- Script tạo database (Để script trong thư mục installation)
-- Script tạo dữ liệu (Để script trong thư mục installation)
+## Deployment
 
-## THÔNG TIN THÀNH VIÊN
+- Update when project completed
 
-- Họ tên sv 1 - msv
-- Họ tên sv 2 - msv
-- Họ tên sv 3 - msv
-- Họ tên sv 4 - msv
+## Member Information
 
-## TRÁCH NHIỆM
+- Dang Huu Tri - 21109451
+- Tran Ky - 21011801
+- Le Thi Minh Trang - 21099921
 
-- Thành viên 1:
+## Responsibility
+
+- Dang Huu Tri:
     - trách nhiệm 1
     - trách nhiệm 2
-- Thành viên 2
+- Tran Ky:
     - trách nhiệm 1
     - trách nhiệm 2
-- ...
+- Le Thi Minh Trang:
+    - trách nhiệm 1
+    - trách nhiệm 2
 
 
 ---
