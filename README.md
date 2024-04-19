@@ -20,14 +20,14 @@
 ## Responsibility
 
 - Dang Huu Tri:
-    - trách nhiệm 1
-    - trách nhiệm 2
+    - 
+    - 
 - Tran Ky:
-    - trách nhiệm 1
-    - trách nhiệm 2
+    - 
+    - 
 - Le Thi Minh Trang:
-    - trách nhiệm 1
-    - trách nhiệm 2
+    - 
+    - 
 
 
 ---
