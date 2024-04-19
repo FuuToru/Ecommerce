@@ -8,7 +8,7 @@ function Header(){
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <i class="fa-brands fa-stripe-s ma-5"></i>
-            <a className="navbar-brand" href="#">oasis</a>
+            <Link className="navbar-brand" to="/">oasis</Link>
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
               <button className="btn btn-outline-success" type="submit">Search</button>
