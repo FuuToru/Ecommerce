@@ -12,48 +12,48 @@ function App() {
       <Header/>
       <main className='mt-4'>
         <div className='container'>
-        <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <div id="hero-carousel" className="carousel slide" data-bs-ride="carousel">
+            <div className="carousel-indicators">
+              <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
 
-            <div class="carousel-inner">
-              <div class="carousel-item active c-item">
-                <img src="https://omisell.com/vi-vn/wp-content/uploads/sites/2/2021/07/Ta%CC%82%CC%81t_ca%CC%89_nhu%CC%9B%CC%83ng_die%CC%82%CC%80u_ca%CC%82%CC%80n_bie%CC%82%CC%81t_ve%CC%82%CC%80_Flashsale_Shopee.png" class="d-block w-100 c-img" alt="Slide 1"/>
-                {/* <div class="carousel-caption top-0 mt-4">
-                  <p class="mt-5 fs-3 text-uppercase">Discover the hidden world</p>
-                  <h1 class="display-1 fw-bolder text-capitalize">The Aurora Tours</h1>
-                  <button class="btn btn-primary px-4 py-2 fs-5 mt-5">Book a tour</button>
+            <div className="carousel-inner">
+              <div className="carousel-item active c-item">
+                <img src="https://elise.vn/media/wysiwyg/ECOM/cv-1604.png" className="d-block w-100 c-img" alt="Slide 1"/>
+                {/* <div className="carousel-caption top-0 mt-4">
+                  <p className="mt-5 fs-3 text-uppercase">Discover the hidden world</p>
+                  <h1 className="display-1 fw-bolder text-capitalize">The Aurora Tours</h1>
+                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5">Book a tour</button>
                 </div> */}
               </div>
-              <div class="carousel-item c-item">
-                <img src="https://daotaodigitalmarketing.vn/wp-content/uploads/2021/11/le-Giang-sinh-1024x419.jpg" class="d-block w-100 c-img" alt="Slide 2"/>
-                <div class="carousel-caption top-0 mt-4">
-                  <p class="text-uppercase fs-3 mt-5">The season has arrived</p>
-                  <p class="display-1 fw-bolder text-capitalize">3 available tours</p>
-                  <button class="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
+              <div className="carousel-item c-item">
+                <img src="https://daotaodigitalmarketing.vn/wp-content/uploads/2021/11/le-Giang-sinh-1024x419.jpg" className="d-block w-100 c-img" alt="Slide 2"/>
+                <div className="carousel-caption top-0 mt-4">
+                  <p className="text-uppercase fs-3 mt-5">The season has arrived</p>
+                  <p className="display-1 fw-bolder text-capitalize">3 available tours</p>
+                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
                     data-bs-target="#booking-modal">Book a tour</button>
                 </div>
               </div>
-              <div class="carousel-item c-item">
-                <img src="https://images.unsplash.com/photo-1612686635542-2244ed9f8ddc?fit=crop&w=2070&q=100" class="d-block w-100 c-img" alt="Slide 3"/>
-                <div class="carousel-caption top-0 mt-4">
-                  <p class="text-uppercase fs-3 mt-5">Destination activities</p>
-                  <p class="display-1 fw-bolder text-capitalize">Go glacier hiking</p>
-                  <button class="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
+              <div className="carousel-item c-item">
+                <img src="https://images.unsplash.com/photo-1612686635542-2244ed9f8ddc?fit=crop&w=2070&q=100" className="d-block w-100 c-img" alt="Slide 3"/>
+                <div className="carousel-caption top-0 mt-4">
+                  <p className="text-uppercase fs-3 mt-5">Destination activities</p>
+                  <p className="display-1 fw-bolder text-capitalize">Go glacier hiking</p>
+                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
                     data-bs-target="#booking-modal">Book a tour</button>
                 </div>
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
+            <button className="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
+            <button className="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
             </button>
           </div>
           {/* Lastest Product */}
@@ -353,6 +353,127 @@ function App() {
           {/* seller box end */}
         {/* Popular Seller end */}
         </div>
+      {/* Rating and reviews */}
+      <div id="carouselExampleIndicators" className="carousel slide mt-4 border bg-dark text-white p-5" data-bs-ride="true">
+      <div className="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <figure className="text-center">
+              <blockquote className="blockquote">
+                <p>A well-known quote, contained in a blockquote element.</p>
+              </blockquote>
+              <figcaption className="blockquote-footer">
+                <i className="fa-solid fa-star text-warning"></i>
+                <i className="fa-solid fa-star text-warning"></i>
+                <i className="fa-solid fa-star text-warning"></i>
+                <i className="fa-solid fa-star text-warning"></i>
+                <cite title="Source Title">Customer Name</cite>
+              </figcaption>
+            </figure>
+          </div>
+          <div className="carousel-item ">
+          <figure className="text-center">
+              <blockquote className="blockquote">
+                <p>A well-known quote, contained in a blockquote element.</p>
+              </blockquote>
+              <figcaption className="blockquote-footer">
+                <i className="fa fa-start"></i> <cite title="Source Title">Customer Name</cite>
+              </figcaption>
+            </figure>          </div>
+          <div className="carousel-item ">
+          <figure className="text-center">
+              <blockquote className="blockquote">
+                <p>A well-known quote, contained in a blockquote element.</p>
+              </blockquote>
+              <figcaption className="blockquote-footer">
+                Someone famous in <cite title="Source Title">Source Title</cite>
+              </figcaption>
+            </figure>          </div>
+        </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+      
+      {/* Rating and reviews end */}
+
+      {/* footer */}
+      <footer className="py-5">
+    <div className="row">
+      <div className="col-6 col-md-2 mb-3">
+        <h5>Section</h5>
+        <ul className="nav flex-column">
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Home</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Features</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Pricing</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">FAQs</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">About</a></li>
+        </ul>
+      </div>
+
+      <div className="col-6 col-md-2 mb-3">
+        <h5>Section</h5>
+        <ul className="nav flex-column">
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Home</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Features</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Pricing</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">FAQs</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">About</a></li>
+        </ul>
+      </div>
+
+      <div className="col-6 col-md-2 mb-3">
+        <h5>Section</h5>
+        <ul className="nav flex-column">
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Home</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Features</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Pricing</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">FAQs</a></li>
+          <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">About</a></li>
+        </ul>
+      </div>
+
+      <div className="col-md-5 offset-md-1 mb-3">
+        <form>
+          <h5>Subscribe to our newsletter</h5>
+          <p>Monthly digest of what's new and exciting from us.</p>
+          <div className="d-flex flex-column flex-sm-row w-100 gap-2">
+            <label for="newsletter1" className="visually-hidden">Email address</label>
+            <input id="newsletter1" type="text" className="form-control" placeholder="Email address"/>
+            <button className="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+      <p>© 2024 Company, Inc. All rights reserved.</p>
+      <ul className="nav col-md-4 justify-content-end list-unstyled d-flex pt-2">
+        <li className="ms-3">
+          <a className="text-muted" href="#">
+            <i className="fa-brands fa-facebook fa-2x"></i>
+            </a></li>
+        <li className="ms-3">
+          <a className="text-muted" href="#">
+            <i className="fa-brands fa-instagram fa-2x"></i>
+            </a></li>
+        <li className="ms-3">
+          <a className="text-muted" href="#">
+            <i className="fa-brands fa-twitter fa-2x"></i>
+            </a></li>
+      </ul>
+    </div>
+  </footer>
+
         </div>
 
       </main>
