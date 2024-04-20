@@ -6,50 +6,33 @@ function Home(){
     return (
         <main className='mt-4'>
         <div className='container'>
-        <div id="hero-carousel" className="carousel slide" data-bs-ride="carousel">
-            <div className="carousel-indicators">
-              <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-
-            <div className="carousel-inner">
-              <div className="carousel-item active c-item">
-                <img src="https://elise.vn/media/wysiwyg/ECOM/cv-1604.png" className="d-block w-100 c-img" alt="Slide 1"/>
-                {/* <div className="carousel-caption top-0 mt-4">
-                  <p className="mt-5 fs-3 text-uppercase">Discover the hidden world</p>
-                  <h1 className="display-1 fw-bolder text-capitalize">The Aurora Tours</h1>
-                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5">Book a tour</button>
-                </div> */}
-              </div>
-              <div className="carousel-item c-item">
-                <img src="https://daotaodigitalmarketing.vn/wp-content/uploads/2021/11/le-Giang-sinh-1024x419.jpg" className="d-block w-100 c-img" alt="Slide 2"/>
-                <div className="carousel-caption top-0 mt-4">
-                  <p className="text-uppercase fs-3 mt-5">The season has arrived</p>
-                  <p className="display-1 fw-bolder text-capitalize">3 available tours</p>
-                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
-                    data-bs-target="#booking-modal">Book a tour</button>
-                </div>
-              </div>
-              <div className="carousel-item c-item">
-                <img src="https://images.unsplash.com/photo-1612686635542-2244ed9f8ddc?fit=crop&w=2070&q=100" className="d-block w-100 c-img" alt="Slide 3"/>
-                <div className="carousel-caption top-0 mt-4">
-                  <p className="text-uppercase fs-3 mt-5">Destination activities</p>
-                  <p className="display-1 fw-bolder text-capitalize">Go glacier hiking</p>
-                  <button className="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
-                    data-bs-target="#booking-modal">Book a tour</button>
-                </div>
-              </div>
-            </div>
-            <button className="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Next</span>
-            </button>
+        <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-interval="500">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
+
+          <div class="carousel-inner">
+            <div class="carousel-item active c-item">
+              <img src="https://elise.vn/media/wysiwyg/ECOM/cv-1604.png" class="d-block w-100 c-img" alt="Slide 1"/>
+            </div>
+            <div class="carousel-item c-item">
+              <img src="https://cdn.vjshop.vn/tin-tuc/black-friday-la-ngay-gi/black-friday-la-ngay-gi.jpg" class="d-block w-100 c-img" alt="Slide 2"/>
+            </div>
+            <div class="carousel-item c-item">
+              <img src="https://saoexpress.vn/wp-content/uploads/2020/11/anh_dangbao.jpg" class="d-block w-100 c-img" alt="Slide 3"/>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
           {/* Lastest Product */}
           <h1 className='mb-4'>Lastest Products <Link to = "/products" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
