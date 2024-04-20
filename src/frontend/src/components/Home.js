@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import logo from '../logo.svg';
+import AllProducts from './AllProducts';
 function Home(){
     return (
         <main className='mt-4'>
@@ -49,7 +50,7 @@ function Home(){
             </button>
           </div>
           {/* Lastest Product */}
-          <h1 className='mb-4'>Lastest Products <a href = "#" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></a>
+          <h1 className='mb-4'>Lastest Products <Link to = "/products" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
           {/* product box */}

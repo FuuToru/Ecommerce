@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import Categories from './components/Categories';
 import CategoryProducts from './components/CategoryProducts';
+import AllProducts from './components/AllProducts';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element ={<Home/>}/>
         <Route path='/categories' element ={<Categories/>}/>
         <Route path='/category/:category_slug/:category_id' element ={<CategoryProducts/>}/>
+        <Route path='/products' element={<AllProducts/>}/>
 
       </Routes>
       <Footer/>
