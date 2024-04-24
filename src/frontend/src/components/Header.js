@@ -7,7 +7,7 @@ function Header(){
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <i class="fa-brands fa-stripe-s ma-5"></i>
+            <i className="fa-brands fa-stripe-s ma-5"></i>
             <Link className="navbar-brand" to="/">oasis</Link>
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -21,8 +21,20 @@ function Header(){
                 <Link className="nav-link" href="#" to="/categories">Categories</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="#" to="/checkout"> <i class="fa-solid fa-cart-shopping"></i>Cart (4)</Link>
+                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>Cart (4)</Link>
               </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  My Account
+                </a>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
+                  <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
+                  <li><hr className="dropdown-divider"/></li>
+                  <li><a className="dropdown-item" href="#">Dashboard</a></li>
+                </ul>
+        </li>
+
             </ul>
           </div>
         </div>
