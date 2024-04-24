@@ -49,7 +49,7 @@ function Home(){
         </div>
         {/* Lastest Product end */}
         {/* Popular Category */}
-        <h1 className='mb-4'>Popular Categories <a href = "#" className='float-end btn btn-sm btn-dark m-2'>View All Categories<i className="fa-solid fa-arrow-right"></i></a>
+        <h1 className='mb-4'>Popular Categories <Link to = "/categories" className='float-end btn btn-sm btn-dark m-2'>View All Categories<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
           {/* category box */}
