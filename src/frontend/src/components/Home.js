@@ -15,10 +15,10 @@ function Home(){
 
           <div class="carousel-inner">
             <div class="carousel-item active c-item">
-              <img src="https://elise.vn/media/wysiwyg/ECOM/cv-1604.png" class="d-block w-100 c-img" alt="Slide 1"/>
+              <img src="https://elise.vn/media/wysiwyg/ECOM/cv-2304.jpg" class="d-block w-100 c-img" alt="Slide 1"/>
             </div>
             <div class="carousel-item c-item">
-              <img src="https://cdn.vjshop.vn/tin-tuc/black-friday-la-ngay-gi/black-friday-la-ngay-gi.jpg" class="d-block w-100 c-img" alt="Slide 2"/>
+              <img src="https://vuakhuyenmai.vn/wp-content/uploads/elise-khuyen-mai-thang12-1-12-2021-768x402.jpg" class="d-block w-100 c-img" alt="Slide 2"/>
             </div>
             <div class="carousel-item c-item">
               <img src="https://saoexpress.vn/wp-content/uploads/2020/11/anh_dangbao.jpg" class="d-block w-100 c-img" alt="Slide 3"/>
@@ -49,7 +49,7 @@ function Home(){
         </div>
         {/* Lastest Product end */}
         {/* Popular Category */}
-        <h1 className='mb-4'>Popular Categories <a href = "#" className='float-end btn btn-sm btn-dark m-2'>View All Categories<i className="fa-solid fa-arrow-right"></i></a>
+        <h1 className='mb-4'>Popular Categories <Link to = "/categories" className='float-end btn btn-sm btn-dark m-2'>View All Categories<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
           {/* category box */}

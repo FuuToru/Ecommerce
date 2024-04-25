@@ -7,7 +7,7 @@ function Header(){
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <i class="fa-brands fa-stripe-s ma-5"></i>
+            <i className="fa-brands fa-stripe-s ma-5"></i>
             <Link className="navbar-brand" to="/">oasis</Link>
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -34,6 +34,9 @@ function Header(){
               </li>
               <li className="nav-item">
                 <Link className="nav-link" href="#" to="/checkout">My Cart</Link>
+              </li>
+              <li>
+                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>Cart (4)</Link>
               </li>
             </ul>
           </div>
