@@ -4,8 +4,7 @@ function Categories(){
     return (
         <section className="container mt-4">
             {/* Categories */}
-        <h1 className='mb-4'>All Categories
-          </h1>
+        <h1 className='mb-4'>All Categories</h1>
         <div className='row mb-4'>
           {/* category box */}
           <div className='col-12 col-md-3 mb-2'>
