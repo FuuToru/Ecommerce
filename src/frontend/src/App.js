@@ -14,6 +14,7 @@ import ProductDetail from './components/ProductDetail';
 import Checkout from './components/Checkout';
 import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
+import Dashboard from './components/Customer/Dashboard';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path='/checkout' element={<Checkout/>}></Route>
         <Route path='/customer/register' element={<Register/>}></Route>
         <Route path='/customer/login' element={<Login/>}></Route>
+        <Route path='/customer/dashboard' element={<Dashboard/>}></Route>
 
       </Routes>
       <Footer/>
