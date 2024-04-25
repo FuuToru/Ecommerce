@@ -1,0 +1,21 @@
+//Packages
+import { Link } from 'react-router-dom';
+//Assets
+import logo from '../../logo.svg';
+import ProductDetail from '../ProductDetail';
+function Sidebar(props){
+    return(
+        <div className="list-group">
+            <Link to="/customer/dashboard" className="list-group-item list-group-item-action active">Dashboard</Link>
+            <Link to="/customer/orders" className="list-group-item list-group-item-action">Orders</Link>
+            <Link href="#" className="list-group-item list-group-item-action">Wishlist</Link>
+            <a className="list-group-item list-group-item-action ">Profile</a>
+            <a className="list-group-item list-group-item-action ">Addresses</a>
+            <a className="list-group-item list-group-item-action text-danger ">Logout</a>
+        </div>
+
+
+    );
+}
+
+export default Sidebar;
