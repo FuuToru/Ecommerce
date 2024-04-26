@@ -30,6 +30,12 @@ import AddressList from './components/Customer/AddressList';
 import AddAddress from './components/Customer/AddAddress';
 
 
+//Vendo
+import VendorDashboard from './components/Vendor/VendorDashboard';
+import VendorLogin from './components/Vendor/VendorLogin';
+import VendorRegister from './components/Vendor/VendorRegister';
+
+
 function App() {
   return (
     <>
@@ -52,6 +58,11 @@ function App() {
         <Route path='/customer/changepassword' element={<ChangePassword/>}></Route>
         <Route path='/customer/address' element={<AddressList/>}></Route>
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
+        {/* Vendor Route  */}
+        <Route path='/vendor/register' element={<VendorRegister/>}></Route>
+        <Route path='/vendor/login' element={<VendorLogin/>}></Route>
+        <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
+
 
       </Routes>
       <Footer/>
