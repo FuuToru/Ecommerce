@@ -39,7 +39,9 @@ function VendorCustomers(props){
                             </td>
                             <td>12233445</td>
                             <td>
+                            <button className='btn btn-primary btn-sm me-1'>Orders</button>
                                 <button className='btn btn-danger btn-sm'>Remove from list</button>
+
                             </td>
                         </tr>
                         <tr>
@@ -54,7 +56,9 @@ function VendorCustomers(props){
                             </td>
                             <td>12233445</td>
                             <td>
+                            <button className='btn btn-primary btn-sm me-1'>Orders</button>
                                 <button className='btn btn-danger btn-sm'>Remove from list</button>
+
                             </td>
                         </tr>
 

@@ -36,7 +36,11 @@ import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
 import VendorProducts from './components/Vendor/VendorProducts';
 import VendorAddProduct from './components/Vendor/VendorAddProduct';
-
+import VendorOrders from './components/Vendor/VendorOrders';
+import VendorCustomers from './components/Vendor/VendorCustomers';
+import VendorReports from './components/Vendor/VendorReports';
+import VendorProfile from './components/Vendor/VendorProfile';
+import VendorChangePassword from './components/Vendor/VendorChangePassword';
 
 function App() {
   return (
@@ -66,6 +70,12 @@ function App() {
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
         <Route path='/vendor/products' element={<VendorProducts/>}></Route>
         <Route path='/vendor/add-product' element={<VendorAddProduct/>}></Route>
+        <Route path='/vendor/orders' element={<VendorOrders/>}></Route>
+        <Route path='/vendor/customers' element={<VendorCustomers/>}></Route>
+        <Route path='/vendor/reports' element={<VendorReports/>}></Route>
+        <Route path='/vendor/profile' element={<VendorProfile/>}></Route>
+        <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
+        
 
 
 
