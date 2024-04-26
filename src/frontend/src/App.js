@@ -23,6 +23,11 @@ import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
 import Dashboard from './components/Customer/Dashboard';
 import Orders from './components/Customer/Orders';
+import Wishlist from './components/Customer/Wishlist';
+import Profile from './components/Customer/Profile';
+import ChangePassword from './components/Customer/ChangePassword';
+import AddressList from './components/Customer/AddressList';
+import AddAddress from './components/Customer/AddAddress';
 
 
 function App() {
@@ -42,6 +47,11 @@ function App() {
         <Route path='/customer/login' element={<Login/>}></Route>
         <Route path='/customer/dashboard' element={<Dashboard/>}></Route>
         <Route path='/customer/orders' element={<Orders/>}></Route>
+        <Route path='/customer/wishlist' element={<Wishlist/>}></Route>
+        <Route path='/customer/profile' element={<Profile/>}></Route>
+        <Route path='/customer/changepassword' element={<ChangePassword/>}></Route>
+        <Route path='/customer/address' element={<AddressList/>}></Route>
+        <Route path='/customer/add-address' element={<AddAddress/>}></Route>
 
       </Routes>
       <Footer/>
