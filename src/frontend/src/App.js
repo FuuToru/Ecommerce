@@ -30,10 +30,12 @@ import AddressList from './components/Customer/AddressList';
 import AddAddress from './components/Customer/AddAddress';
 
 
-//Vendo
+//Vendor
 import VendorDashboard from './components/Vendor/VendorDashboard';
 import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
+import VendorProducts from './components/Vendor/VendorProducts';
+import VendorAddProduct from './components/Vendor/VendorAddProduct';
 
 
 function App() {
@@ -62,6 +64,9 @@ function App() {
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
+        <Route path='/vendor/products' element={<VendorProducts/>}></Route>
+        <Route path='/vendor/add-product' element={<VendorAddProduct/>}></Route>
+
 
 
       </Routes>
