@@ -1,23 +1,32 @@
 import logo from '../logo.svg';
 import SingleProduct from './SingleProduct';
 function AllProducts(){
+  const products = [
+    {
+      'title': 'Python',
+      'price': 100
+    },
+    {
+      'title': 'Django',
+      'price': 200
+    },
+    {
+      'title': 'Flask',
+      'price': 300
+    },
+  ]
+  fetch('http://127.0.0.1:8000/api/products/',{mode:'no-cors'})
+  .then((response) => response.json())
+  .then((data) => console.log(data));
     return (
         <section className='container mt-4'>
         <h1 className='mb-4'> All Products
         </h1>
       <div className='row mb-4'>
-        <SingleProduct title="Django Project 1"/>
-        <SingleProduct title="Django Project 2"/>
-        <SingleProduct title="Django Project 3"/>
-        <SingleProduct title="Django Project 4"/>
-        <SingleProduct title="Django Project 5"/>
-        <SingleProduct title="Django Project 6"/>
-        <SingleProduct title="Django Project 7"/>
-        <SingleProduct title="Django Project 8"/>
-        <SingleProduct title="Django Project 9"/>
-        <SingleProduct title="Django Project 10"/>
+        {
+          products.map((product)=> <SingleProduct product={product}/> )
+        }
 
- 
       </div>
         <nav aria-label="Page navigation example">
     <ul className="pagination">
