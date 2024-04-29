@@ -16,7 +16,7 @@ function AllProducts(){
     fetch(baseurl)
     .then((response) => response.json())
     .then((data) => {
-      setProducts(data.data);
+      setProducts(data.results);
       setTotalResults(data.count);
       
     });

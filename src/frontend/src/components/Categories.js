@@ -15,7 +15,7 @@ function Categories(){
     fetch(baseurl)
     .then((response) => response.json())
     .then((data) => {
-      setCategories(data.data);
+      setCategories(data.results);
       setTotalResults(data.count);
       
     });
