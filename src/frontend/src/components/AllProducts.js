@@ -4,7 +4,7 @@ import {useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 function AllProducts(){
   const baseUrl = 'http://127.0.0.1:8000/api';
-  const [Products,setProducts] = useState([]);
+  const [products,setProducts] = useState([]);
   const [totalResult,setTotalResults]= useState(0);
 
 
@@ -37,7 +37,7 @@ function AllProducts(){
         </h1>
       <div className='row mb-4'>
         {
-          Products.map((product)=> <SingleProduct product={product}/> )
+          products.map((product)=> <SingleProduct product={product}/> )
         }
 
       </div>

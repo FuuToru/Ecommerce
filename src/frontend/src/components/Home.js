@@ -3,7 +3,26 @@ import logo from '../logo.svg';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
 function Home(){
-    return (
+  const products = [
+    {
+      'title': 'Product 1',
+      'price': 100
+    },
+    {
+      'title': 'Product 2',
+      'price': 200
+    },
+    {
+      'title': 'Product 3',
+      'price': 300
+    },
+    {
+      'title': 'Product 4',
+      'price': 400
+    },
+  ]
+
+  return (
         <main className='mt-4'>
         <div className='container'>
         <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-interval="500">
@@ -37,14 +56,9 @@ function Home(){
           <h1 className='mb-4'>Lastest Products <Link to = "/products" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
-            <SingleProduct title="Django Project 1"/>
+        {
+          products.map((product)=> <SingleProduct product={product}/> )
+        }
 
         </div>
         {/* Lastest Product end */}
