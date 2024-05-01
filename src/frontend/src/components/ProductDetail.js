@@ -1,7 +1,7 @@
 import logo from '../logo.svg';
 import bg from '../bg-1.avif';
 import { Link } from 'react-router-dom';
-import SingleProduct from './SingleProduct';
+import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
 import {useState,useEffect} from 'react';
 
@@ -10,10 +10,12 @@ function ProductDetail(){
     const [productData,setproductData] = useState([]);
     const [productImgs, setproductImgs] = useState([]);
     const [productTags, setproductTags] = useState([]);
+    const [relatedProducts, setrelatedProducts]=useState([]);
     const {product_slug,product_id} = useParams();
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');
+        fetchRelatedData(baseUrl+'/related-products/'+product_id);
     },[]);
     
     function fetchData(baseurl){
@@ -26,6 +28,22 @@ function ProductDetail(){
         
         });
     
+    }
+    function changeUrl(baseurl){
+        fetchData(baseurl);
+    }
+
+    function fetchRelatedData(baseurl){
+        fetch(baseurl)
+        .then((response) => response.json())
+        .then((data) => {
+            setrelatedProducts(data.results);
+        
+        });
+    
+    }
+    function changerelatedUrl(baseurl){
+        fetchRelatedData(baseurl);
     }
 
     const tagsLinks = []
@@ -101,43 +119,49 @@ function ProductDetail(){
                 </div>
             </div>
             {/* Related product */}
-            <h5 className='mt-5 mb-3'>Related Products</h5>
+            <h5 className='mt-5 mb-3 text-center'>Related Products</h5>
             <div id="relatedProductsSlider" className="carousel
             carousel-dark slide " data-bs-ride="true">
                 <div className="carousel-indicators">
-                    <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                {relatedProducts.map((product,index)=>{
+                        if(index == 0){
+                            return <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
+
+                            </button>
+                        }else{
+                            return <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
+
+                            </button>
+                        }
+                    })}
                 </div>
                 <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <div className='row mb-5'>
-                            {/* <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/> */}
-
-                        </div>
-                    </div>
-                    <div className="carousel-item">
-                    <div className='row mb-5'>
-                            {/* <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/> */}
-
-                        </div>
-                    </div>
-                    <div className="carousel-item">
-                    <div className='row mb-5'>
-                            {/* <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/>
-                            <SingleProduct title="Django Project 1"/> */}
-
-                        </div>
-                    </div>
+    {/* Sử dụng dấu ngoặc nhọn thay vì dấu ngoặc vuông */}
+    {relatedProducts && relatedProducts.map((product, index) => {
+        if (index === 0) {
+            // Thêm class 'active' vào div của carousel-item đầu tiên
+            return (
+                <div className='carousel-item active' key={index} onClick={() => {
+                    changeUrl(baseUrl + `/product/${product.id}/`);
+                    changerelatedUrl(baseUrl + `/related-products/${product.id}`);
+                }}>
+                    <SingleTagProduct product={product} />
                 </div>
+            );
+        } else {
+            // Không cần thêm 'active' cho các carousel-item còn lại
+            return (
+                <div className='carousel-item' key={index} onClick={() => {
+                    changeUrl(baseUrl + `/product/${product.id}/`);
+                    changerelatedUrl(baseUrl + `/related-products/${product.id}`);
+                }}>
+                    <SingleTagProduct product={product} />
+                </div>
+            );
+        }
+    })}
+</div>
+
                 {/* <button className="carousel-control-prev" type="button" data-bs-target="#relatedProductsSlider" data-bs-slide="prev">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span className="visually-hidden">Previous</span>

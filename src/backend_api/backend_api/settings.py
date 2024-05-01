@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
     # #     'rest_framework.permissions.IsAuthenticated',
     # # ],
     'DEFAULT_PAGINATION_CLASS': 'main.pagination.CustomPagination',
-    'PAGE_SIZE': 1
+    'PAGE_SIZE': 12
 }
 
 CORS_ALLOWED_ORIGINS = [
