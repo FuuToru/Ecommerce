@@ -9,6 +9,7 @@ function ProductDetail(){
     const baseUrl = 'http://127.0.0.1:8000/api';
     const [productData,setproductData] = useState([]);
     const [productImgs, setproductImgs] = useState([]);
+    const [productTags, setproductTags] = useState([]);
     const {product_slug,product_id} = useParams();
 
     useEffect ( () =>{
@@ -21,9 +22,16 @@ function ProductDetail(){
         .then((data) => {
         setproductData(data);
         setproductImgs(data.product_imgs);
+        setproductTags(data.tag_list);
         
         });
     
+    }
+
+    const tagsLinks = []
+    for(let i=0; i<productTags.length; i++){
+        let tag=productTags[i].trim();
+        tagsLinks.push(<Link className='badge bg-secondary text-white me-1' to={`/products/${tag}`}>{tag}</Link>)
     }
     return(
         <section className="container mt-4">
@@ -85,9 +93,7 @@ function ProductDetail(){
                     <div className='producttags mt-4'>
                         <h5>Tags</h5>
                         <p >
-                            <Link to="#" className='badge bg-secondary text-white me-1'>python</Link>
-                            <Link to="#" className='badge bg-secondary text-white me-1'>django</Link>
-                            <Link to="#" className='badge bg-secondary text-white me-1'>web scripts</Link>
+                            {tagsLinks}
 
                         </p>
                     </div>

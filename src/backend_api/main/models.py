@@ -38,11 +38,17 @@ class Product(models.Model):
     price = models.FloatField(null=True)
     tags = models.TextField(null=True)
     slug = models.SlugField(unique=True, blank=True)
+    image = models.ImageField(upload_to='product_imgs/', null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+    
+    def tag_list(self):
+        tagList = self.tags.split('.')
+        return tagList
+
 
     def __str__(self):
         return self.title
