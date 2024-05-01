@@ -30,6 +30,22 @@ class CustomerAddressViewSet(viewsets.ModelViewSet):
 class ProductList(generics.ListCreateAPIView):
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductListSerializer
+    pagination_class = pagination.PageNumberPagination
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        category_id = self.request.GET.get('category')
+        if category_id is not None:
+            try:
+                category = models.ProductCategory.objects.get(id=category_id)
+                qs = qs.filter(category=category)
+            except models.ProductCategory.DoesNotExist:
+                # Xử lý khi không tìm thấy category với id được cung cấp
+                pass
+        return qs
+
+    
+    
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Product.objects.all()
