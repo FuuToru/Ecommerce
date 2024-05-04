@@ -9,5 +9,5 @@ class CustomPagination(pagination.PageNumberPagination):
                 'previous': self.get_previous_link()
             },
             'count': self.page.paginator.count,
-            'data': data
+            'results': data
         })
