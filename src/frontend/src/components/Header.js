@@ -4,6 +4,11 @@ import { UserContext, CartContext } from '../Context';
 function Header(){
     const userContext = useContext(UserContext);
     const {cartData, setCartData} = useContext(CartContext);
+    if (cartData == null){
+      var carItems = 0;
+    }else{
+      var carItems = cartData.length;
+    }
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container">
@@ -52,7 +57,7 @@ function Header(){
                       <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>New Orders (4)</Link>
               </li>
               <li className="nav-item">
-                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData.length})</Link>
+                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({carItems})</Link>
               </li>
             </ul>
           </div>
