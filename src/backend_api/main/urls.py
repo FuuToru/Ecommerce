@@ -10,6 +10,7 @@ urlpatterns = [
     # Vendors
     path('vendors/', views.VendorList.as_view()),
     path('vendor/<int:pk>/', views.VendorDetail.as_view()),
+    path('vendor/register/', views.vendor_register, name='vendor-register'),
     # Products
     path('products/', views.ProductList.as_view()),
     path('product/<int:pk>/', views.ProductDetail.as_view()),
@@ -23,6 +24,7 @@ urlpatterns = [
     path('customer/<int:pk>/', views.CustomerDetail.as_view()),
     path('orders/', views.OrderList.as_view()),
     path('order/<int:pk>/', views.OrderDetail.as_view()),
+    path('customer/register/', views.customer_register, name='customer-register'),
 ]
 
 urlpatterns == router.urls
