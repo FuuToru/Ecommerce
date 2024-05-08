@@ -52,7 +52,7 @@ function Header(){
                       <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>New Orders (4)</Link>
               </li>
               <li className="nav-item">
-                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData.length})</Link>
+                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData!=null && cartData.length})</Link>
               </li>
             </ul>
           </div>

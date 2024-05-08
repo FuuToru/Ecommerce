@@ -2,16 +2,22 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 # Vendor
+
 class Vendor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mobile = models.PositiveBigIntegerField(unique=True, null=True)
+    profile_img = models.ImageField(upload_to='vendor_imgs/', null=True)
     address = models.TextField(null=True)
+    
     def __str__(self):
         return self.user.username
 
 # Customer
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    mobile = models.PositiveBigIntegerField()
+    mobile = models.PositiveBigIntegerField(unique=True)
+    profile_img = models.ImageField(upload_to='customer_imgs/', null=True)
+    # address
     def __str__(self):
         return self.user.username
 
