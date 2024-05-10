@@ -39,7 +39,7 @@ function Checkout(props){
         <div className='container mt-4'>
             <h1 className='mb-4'>All Items {carItems}</h1>
                 <div className='row'>
-                    <div className='col-md-8 col-12'>
+                    <div className='col-12'>
                     <div className='table-responsive'>
                     <table className='table table-bordered'>
                         <thead>
@@ -87,7 +87,7 @@ function Checkout(props){
                             <tr>
                                     <td colSpan='3' align="center" >
                                         <Link to='/' className='btn btn-secondary'>  Continue Shopping</Link>
-                                        <Link className='btn btn-primary ms-1'>Proceed to Payment</Link>
+                                        <Link to='/confirm-order' className='btn btn-primary ms-1'>Proceed to Payment</Link>
 
 
                                     </td>
