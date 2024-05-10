@@ -130,40 +130,7 @@ function VendorRegister(props){
         setFormData({...formData, [e.target.id]: e.target.value});
     };
 
-    // const submitHandler = () => {
-    //     const formDataToSend = new FormData();
-    //     formDataToSend.append('first_name', formData.firstName);
-    //     formDataToSend.append('last_name', formData.lastName);
-    //     formDataToSend.append('username', formData.username);
-    //     formDataToSend.append('email', formData.email);
-    //     formDataToSend.append('mobile', formData.mobile);
-    //     formDataToSend.append('address', formData.address);
-    //     formDataToSend.append('password', formData.password);
-        
-    //     axios.post(baseUrl+'vendor/register/', formDataToSend)
-    //         .then(function(response){
-    //             if (response.data.bool==false){
-    //                 setErrorMsg(response.data.msg);
-    //                 setSuccessMsg('');
-    //             }
-    //             else{
-    //                 setFormData({
-    //                     'firstName': '',
-    //                     'lastName': '',
-    //                     'username': '',
-    //                     'email': '',
-    //                     'mobile': '',
-    //                     'address': '',
-    //                     'password': ''
-    //                 });
-    //                 setSuccessMsg(response.data.msg);
-    //                 setErrorMsg('');
-    //             }
-    //         })
-    //         .catch(function(error){
-    //             console.log(error);
-    //         });
-    // };
+    
     const submitHandler = () => {
         const formDataToSend = new FormData();
         formDataToSend.append('first_name', formData.firstName);

@@ -154,48 +154,40 @@ def vendor_register(request):
 
 @csrf_exempt
 def customer_register(request):
-    # first_name = request.POST.get('first_name')
-    # last_name = request.POST.get('last_name')
-    # email = request.POST.get('email')
-    # mobile = request.POST.get('mobile')
-    # username = request.POST.get('username')
-    # password = request.POST.get('password')
-    # try:
-    #     user = User.objects.create(
-    #         first_name=first_name,
-    #         last_name=last_name,
-    #         email=email,
-    #         username=username,
-    #         password=password,
-    #     )
-    #     print(user)
-    #     if user:
-    #         try:
-    #             customer = models.Customer.objects.create(
-    #                 user=user, 
-    #                 mobile=mobile
-    #             )
-    #             msg={
-    #                 'bool':True,
-    #                 'user':user.id,
-    #                 'customer':customer.id,
-    #                 'msg':'Thank you for registration. You can login now.'
-    #             }
-    #         except IntegrityError:
-    #             msg={
-    #                 'bool':False,
-    #                 'msg':'Mobile number already registered.'
-    #             }
-    #     else:
-    #         msg={
-    #             'bool':False,
-    #             'msg':'Something went wrong.'
-    #         }
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user = User.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                username=username,
+                password=password,
+            )
             
-    # except IntegrityError:
-    msg={
-        'bool':False,
-        'msg':'Username already exists.'
-    }
-    return JsonResponse(msg)
+            user.save()
+            customer = models.Customer.objects.create(
+                user=user,
+                mobile=mobile
+            )
+            return JsonResponse({
+                'bool': True,
+                'user': user.id,
+                'customer': customer.id,
+                'msg': 'Thank you for registration. You can login now.'
+            }, status=201)
+        except IntegrityError as e:
+            if 'username' in str(e):
+                return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
+            elif 'mobile' in str(e):
+                return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
+            else:
+                return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
     
