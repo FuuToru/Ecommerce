@@ -15,6 +15,7 @@ import CategoryProducts from './components/CategoryProducts';
 import AllProducts from './components/AllProducts';
 import ProductDetail from './components/ProductDetail';
 import Checkout from './components/Checkout';
+import ConfirmOrder from './components/ConfirmOrder';
 import OrderSuccess from './components/OrderSuccess';
 import OrderFailure from './components/OrderFailure';
 import TagProducts from './components/TagProducts';
@@ -61,6 +62,7 @@ function App() {
         <Route path='/products' element={<AllProducts/>}/>
         <Route path='/product/:product_slug/:product_id' element ={<ProductDetail/>}/>
         <Route path='/checkout' element={<Checkout/>}></Route>
+        <Route path='/confirm-order' element={<ConfirmOrder/>}></Route>
         <Route path='/order/success' element={<OrderSuccess/>}></Route>
         <Route path='/order/failure' element={<OrderFailure/>}></Route>
         {/* Customer Route */}
