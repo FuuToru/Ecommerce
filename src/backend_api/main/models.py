@@ -5,7 +5,7 @@ from django.utils.text import slugify
 
 class Vendor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    mobile = models.PositiveBigIntegerField(unique=True, null=True)
+    mobile = models.PositiveBigIntegerField(unique=True)
     profile_img = models.ImageField(upload_to='vendor_imgs/', null=True)
     address = models.TextField(null=True)
     

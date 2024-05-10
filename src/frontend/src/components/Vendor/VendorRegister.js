@@ -130,6 +130,40 @@ function VendorRegister(props){
         setFormData({...formData, [e.target.id]: e.target.value});
     };
 
+    // const submitHandler = () => {
+    //     const formDataToSend = new FormData();
+    //     formDataToSend.append('first_name', formData.firstName);
+    //     formDataToSend.append('last_name', formData.lastName);
+    //     formDataToSend.append('username', formData.username);
+    //     formDataToSend.append('email', formData.email);
+    //     formDataToSend.append('mobile', formData.mobile);
+    //     formDataToSend.append('address', formData.address);
+    //     formDataToSend.append('password', formData.password);
+        
+    //     axios.post(baseUrl+'vendor/register/', formDataToSend)
+    //         .then(function(response){
+    //             if (response.data.bool==false){
+    //                 setErrorMsg(response.data.msg);
+    //                 setSuccessMsg('');
+    //             }
+    //             else{
+    //                 setFormData({
+    //                     'firstName': '',
+    //                     'lastName': '',
+    //                     'username': '',
+    //                     'email': '',
+    //                     'mobile': '',
+    //                     'address': '',
+    //                     'password': ''
+    //                 });
+    //                 setSuccessMsg(response.data.msg);
+    //                 setErrorMsg('');
+    //             }
+    //         })
+    //         .catch(function(error){
+    //             console.log(error);
+    //         });
+    // };
     const submitHandler = () => {
         const formDataToSend = new FormData();
         formDataToSend.append('first_name', formData.firstName);
@@ -139,14 +173,13 @@ function VendorRegister(props){
         formDataToSend.append('mobile', formData.mobile);
         formDataToSend.append('address', formData.address);
         formDataToSend.append('password', formData.password);
-        
-        axios.post(baseUrl+'vendor/register/', formDataToSend)
+    
+        axios.post(baseUrl + 'vendor/register/', formDataToSend)
             .then(function(response){
-                if (response.data.bool){
+                if (response.data.bool === false) {
                     setErrorMsg(response.data.msg);
                     setSuccessMsg('');
-                }
-                else{
+                } else {
                     setFormData({
                         'firstName': '',
                         'lastName': '',
@@ -161,10 +194,19 @@ function VendorRegister(props){
                 }
             })
             .catch(function(error){
-                console.log(error);
+                if (error.response) {
+                    // Có phản hồi từ server và server trả về mã lỗi
+                    setErrorMsg(error.response.data.msg || "An error occurred on the server.");
+                } else if (error.request) {
+                    // Yêu cầu đã được gửi nhưng không nhận được phản hồi
+                    setErrorMsg("No response was received.");
+                } else {
+                    // Lỗi khi thiết lập yêu cầu
+                    setErrorMsg("Error setting up the request.");
+                }
+                console.log(error.config);
             });
     };
-
     const buttonDisabled = !(formData.firstName && formData.lastName && formData.username && formData.email && formData.mobile && formData.password && formData.address);
 
     return(

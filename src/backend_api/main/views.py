@@ -107,100 +107,95 @@ class OrderDetail(generics.ListAPIView):
 
 @csrf_exempt
 def vendor_register(request):
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
-    email = request.POST.get('email')
-    mobile = request.POST.get('mobile')
-    address = request.POST.get('address')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    try:
-        user = User.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            username=username,
-            password=password,
-        )
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        address = request.POST.get('address')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        if user is not None:
-            try:
-                vendor = models.Vendor.objects.create(
-                    user=user, 
-                    mobile=mobile,
-                    address=address,
-                )
-                msg={
-                    'bool':True,
-                    'user':user.id,
-                    'vendor':vendor.id,
-                    'msg':'Thank you for registration. You can login now.'
-                }
-            except IntegrityError:
-                msg={
-                    'bool':False,
-                    'msg':'Mobile number already registered.'
-                }
-        else:
-            msg={
-                'bool':False,
-                'msg':'Something went wrong.'
-            }
-            
-    except IntegrityError:
-        msg={
-            'bool':False,
-            'msg':'Username already exists.'
-        }
-        
-        
-    return JsonResponse(msg)
+        # if not (first_name and last_name and email and mobile and address and username and password):
+        #     return JsonResponse({'bool': False, 'msg': 'All fields are required.'}, status=400)
+
+        try:
+            user = User.objects.create_user(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                username=username,
+                password=password
+            )
+            user.save()
+            vendor = models.Vendor.objects.create(
+                user=user, 
+                mobile=mobile,
+                address=address,
+            )
+            return JsonResponse({
+                'bool': True,
+                'user': user.id,
+                'vendor': vendor.id,
+                'msg': 'Thank you for registration. You can login now.'
+            }, status=201)
+
+        except IntegrityError as e:
+            if 'username' in str(e):
+                return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
+            elif 'mobile' in str(e):
+                return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
+            else:
+                return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
     
 
 
 @csrf_exempt
 def customer_register(request):
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
-    email = request.POST.get('email')
-    mobile = request.POST.get('mobile')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    try:
-        user = User.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            username=username,
-            password=password,
-        )
-        if user:
-            try:
-                customer = models.Customer.objects.create(
-                    user=user, 
-                    mobile=mobile
-                )
-                msg={
-                    'bool':True,
-                    'user':user.id,
-                    'customer':customer.id,
-                    'msg':'Thank you for registration. You can login now.'
-                }
-            except IntegrityError:
-                msg={
-                    'bool':False,
-                    'msg':'Mobile number already registered.'
-                }
-        else:
-            msg={
-                'bool':False,
-                'msg':'Something went wrong.'
-            }
+    # first_name = request.POST.get('first_name')
+    # last_name = request.POST.get('last_name')
+    # email = request.POST.get('email')
+    # mobile = request.POST.get('mobile')
+    # username = request.POST.get('username')
+    # password = request.POST.get('password')
+    # try:
+    #     user = User.objects.create(
+    #         first_name=first_name,
+    #         last_name=last_name,
+    #         email=email,
+    #         username=username,
+    #         password=password,
+    #     )
+    #     print(user)
+    #     if user:
+    #         try:
+    #             customer = models.Customer.objects.create(
+    #                 user=user, 
+    #                 mobile=mobile
+    #             )
+    #             msg={
+    #                 'bool':True,
+    #                 'user':user.id,
+    #                 'customer':customer.id,
+    #                 'msg':'Thank you for registration. You can login now.'
+    #             }
+    #         except IntegrityError:
+    #             msg={
+    #                 'bool':False,
+    #                 'msg':'Mobile number already registered.'
+    #             }
+    #     else:
+    #         msg={
+    #             'bool':False,
+    #             'msg':'Something went wrong.'
+    #         }
             
-    except IntegrityError:
-        msg={
-            'bool':False,
-            'msg':'Username already exists.'
-        }
+    # except IntegrityError:
+    msg={
+        'bool':False,
+        'msg':'Username already exists.'
+    }
     return JsonResponse(msg)
     
