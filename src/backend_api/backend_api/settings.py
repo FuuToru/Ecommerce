@@ -142,10 +142,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 12
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.1.4:3000",
-]
+CORS_ORIGIN_ALLOW_ALL = True  # Cho phép truy cập từ tất cả các nguồn
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')

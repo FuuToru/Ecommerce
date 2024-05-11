@@ -4,7 +4,28 @@ import { Link } from 'react-router-dom';
 import logo from '../../logo.svg';
 import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
+import {useState,useEffect} from 'react';
+
 function Orders(props){
+    const baseUrl = 'http://127.0.0.1:8000/api';
+    const customerId = localStorage.getItem('customer_id');
+    const [OrderItems, setOrderItems] = useState([]);
+
+    useEffect ( () =>{
+        fetchData(baseUrl+'/customer/'+customerId+'/orderitems/');
+    },[]);
+    
+
+    function fetchData(baseurl){
+        fetch(baseurl)
+        .then((response) => response.json())
+        .then((data) => {
+            setOrderItems(data.results);
+        });
+    
+    }
+    console.log(OrderItems);
+
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -26,69 +47,36 @@ function Orders(props){
                                 </tr>
 
                                 </thead>
-                                <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Django</p></Link>
+                    <tbody>
+                        {
+                            OrderItems.map((item,index)=>{
+                                return <tr>
+                                    <td>
+                                        {index +1}
+                                    </td>
+                                    <td>
+                                        <Link to={`/product/${item.product.slug}/${item.product.id}`}>
+                                            <img src={item.product.image} className='img-thumbnail' width='80' alt="..."></img>
+                                        </Link>
+                                        <p><Link to={`/product/${item.product.slug}/${item.product.id}`}>{item.product.title}</Link></p>
+                                    </td>
+                                    <td>
+                                        {item.product.price}
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {
+                                                item.order.order_status==true && <i className='fa fa-check-circle text-success'></i>
+                                            }
+                                                                                                            {
+                                                item.order.order_status==false && <i className='fa fa-spinner fa-spin text-dark'></i>
+                                            }
+                                        </span>
+                                    </td>
 
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td><span className='text-success'><i className='fa fa-check-circle'></i>Completed</span></td>
-                            <td>
-                                <button className='btn btn-primary btn-sm'>Download</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Flask</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td><span className='text-success'><i className='fa fa-check-circle'></i>Completed</span></td>
-                            <td>
-                                <button className='btn btn-primary btn-sm'>Download</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Python</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td><span className='text-danger'><i className='fa fa-times-circle'></i>Cancelled</span></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>C++</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td><span className='text-secondary'><i className='fa fa-spin fa-spinner'></i>Processing</span></td>
-                        </tr>
+                                </tr>
+                            })
+                        }
 
                     </tbody>
                                 
