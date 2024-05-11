@@ -106,14 +106,13 @@ class ProductList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        category_id = self.request.GET.get('category')
-        if category_id is not None:
-            try:
-                category = models.ProductCategory.objects.get(id=category_id)
-                qs = qs.filter(category=category)
-            except models.ProductCategory.DoesNotExist:
-                # Xử lý khi không tìm thấy category với id được cung cấp
-                pass
+        if 'category' in self.request.GET:
+            category=self.request.GET['category']
+            category = models.ProductCategory.objects.get(id=category)
+            qs = qs.filter(category=category)
+        if 'fetch_limit' in self.request.GET:
+            limit =int(self.request.GET['fetch_limit'])
+            qs =qs[:limit]
         return qs
 
 class TagProductList(generics.ListCreateAPIView):
@@ -208,3 +207,44 @@ def update_order_status(request, order_id):
     return JsonResponse(msg)
     
     
+class WishList(generics.ListCreateAPIView):
+    queryset = models.Wishlist.objects.all()
+    serializer_class = serializers.WishListSerializer
+
+@csrf_exempt
+def check_in_wishlist(request):
+    if request.method =='POST':
+        product_id = request.POST.get('product')
+        customer_id = request.POST.get('customer')
+        checkWishlist = models.Wishlist.objects.filter(product__id=product_id, customer__id=customer_id).count()
+        msg={
+            'bool': False
+        }
+        if checkWishlist >0:
+            msg={
+                'bool': True,
+            }
+    return JsonResponse(msg)
+
+class CustomerWishItemList(generics.ListAPIView):
+    queryset = models.Wishlist.objects.all()
+    serializer_class = serializers.WishListSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        customer_id = self.kwargs['pk']
+        qs = qs.filter(customer__id=customer_id)
+        return qs 
+@csrf_exempt
+def remove_from_wishlist(request):
+    if request.method =='POST':
+        wishlist_id = request.POST.get('wishlist_id')
+        res = models.Wishlist.objects.filter(id=wishlist_id).delete()
+        msg={
+            'bool': False
+        }
+        if res:
+            msg={
+                'bool': True,
+            }
+    return JsonResponse(msg)

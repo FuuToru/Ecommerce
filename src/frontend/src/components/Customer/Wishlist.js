@@ -4,7 +4,39 @@ import { Link } from 'react-router-dom';
 import logo from '../../logo.svg';
 import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
+import {useState,useEffect, useContext} from 'react';
+import { UserContext, CartContext, CurrencyContext } from '../../Context';
+import axios from 'axios';
 function Wishlist(props){
+    const baseUrl = 'http://127.0.0.1:8000/api';
+    const customerId = localStorage.getItem('customer_id');
+    const [WishItems, setWishItems] = useState([]);
+    const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
+
+    useEffect ( () =>{
+        fetchData(baseUrl+'/customer/'+customerId+'/wishitems/');
+    },[]);
+    
+
+    function fetchData(baseurl){
+        fetch(baseurl)
+        .then((response) => response.json())
+        .then((data) => {
+            setWishItems(data.results);
+        });
+    
+    }
+    function removeFromWishList(wishlist_id){
+        const formData = new FormData();
+        formData.append('wishlist_id', wishlist_id);
+        axios.post(baseUrl+'/remove-from-wishlist/',formData).then(function(response){
+            if(response.data.bool == true){
+                document.getElementById('row'+wishlist_id).remove();
+            }
+        }).catch(function(error){
+            console.log(error);
+        });
+    }
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -25,71 +57,33 @@ function Wishlist(props){
                                 </tr>
 
                                 </thead>
-                                <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Django</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td>
-                                <button className='btn btn-danger btn-sm'>Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Flask</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td>
-                                <button className='btn btn-danger btn-sm'>Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>Python</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td>
-                                <button className='btn btn-danger btn-sm'>Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <Link>
-                                <img src={logo} className='img-thumbnail' width ='80' alt='...'></img>
-                                <p>C++</p></Link>
-
-
-                            </td>
-                            <td>
-                                Rs. 500
-                            </td>
-                            <td>
-                                <button className='btn btn-danger btn-sm'>Remove</button>
-                            </td>
-                        </tr>
+                        <tbody>
+                            {
+                                WishItems.map((item,index)=>{
+                                    return <tr id={`row${item.id}`}>
+                                        <td>
+                                            {index +1}
+                                        </td>
+                                        <td>
+                                            <Link to={`/product/${item.product.slug}/${item.product.id}`}>
+                                            <img src={item.product.image} className='img-thumbnail' width='80' alt="..."></img>
+                                            <p>{item.product.title}</p>
+                                            </Link>
+                                            </td>
+                                                {
+                        CurrencyData!='usd' &&                    <td>{item.product.price} VND</td>
+                    }
+                    {
+                        CurrencyData =='usd' &&                    
+                        <td>${item.product.usd_price}</td> 
+                    }
+            
+                    <td>
+                        <button className='btn btn-danger btn-sm' onClick={()=>removeFromWishList(item.id)}>Remove</button>
+                    </td>
+                                            </tr>
+                                        })
+                                    }
 
                     </tbody>
                                 

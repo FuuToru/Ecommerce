@@ -5,6 +5,8 @@ import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
 import {useState,useEffect, useContext} from 'react';
 import { UserContext, CartContext, CurrencyContext } from '../Context';
+import axios from "axios";
+
 
 function ProductDetail(){
     const baseUrl = 'http://127.0.0.1:8000/api';
@@ -14,14 +16,17 @@ function ProductDetail(){
     const [relatedProducts, setrelatedProducts]=useState([]);
     const {product_slug,product_id} = useParams();
     const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
+    const [ProductInWishlist,setProductInWishlist] = useState(false);
     const {cartData, setCartData}= useContext(CartContext);
     const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
-    console.log(CurrencyData)
+    const userContext = useContext(UserContext);
+
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');
         fetchRelatedData(baseUrl+'/related-products/'+product_id);
         checkProductIncart(product_id);
+        checkProductWishList(baseUrl+'/check-in-wishlist/', product_id);
     },[]);
 
     function checkProductIncart(product_id){
@@ -122,6 +127,39 @@ function ProductDetail(){
         setCartData(cartJson);
 
     }
+
+    function saveInWishList(){
+        const customerId = localStorage.getItem('customer_id');
+        const formData = new FormData();
+        formData.append('customer', customerId);
+        formData.append('product', productData.id);
+        console.log(formData);
+        axios.post(baseUrl+'/wishlist/',formData).then(function(response){
+            if(response.data.id){
+                setProductInWishlist(true);
+            }
+        }).catch(function(error){
+            console.log(error);
+        });
+    }
+
+    function checkProductWishList(baseurl, product_id){
+        const customerId = localStorage.getItem('customer_id');
+        const formData = new FormData();
+        formData.append('customer', customerId);
+        formData.append('product', product_id);
+        console.log(formData);
+        axios.post(baseurl,formData).then(function(response){
+            if(response.data.bool == true){
+                setProductInWishlist(true);
+            }else{
+                setProductInWishlist(false);
+            }
+        }).catch(function(error){
+            console.log(error);
+        });
+    
+    }
     return(
         <section className="container mt-4">
             <div className="row">
@@ -189,7 +227,16 @@ function ProductDetail(){
                         <button title = "Add to Cart" type ="button" onClick={cartRemoveButtonHandler}className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
                         }
                         <button title = "Buy Now" className='btn btn-warning btn-sm ms-1'><i className="fa-solid fa-bag-shopping"></i> Buy Now</button>
-                        <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
+                        {
+                            (userContext && !ProductInWishlist) &&                        <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
+                        }
+                                                {
+                            userContext == null &&                         <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
+                        }
+                        {
+                            (userContext && ProductInWishlist) &&                        <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
+                        }
+
                     </p>
                     <div className='producttags mt-4'>
                         <h5>Tags</h5>
