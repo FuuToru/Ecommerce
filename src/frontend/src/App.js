@@ -45,13 +45,16 @@ import VendorReports from './components/Vendor/VendorReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 
-import { CartContext } from './Context';
+import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
+const currentCurrency = localStorage.getItem('currency');
 
 function App() {
   const [cartData, setCartData] = useState(JSON.parse(checkCart));
+  const [CurrencyData, setCurrencyData] = useState(currentCurrency);
   return (
+    <CurrencyContext.Provider value = {{CurrencyData, setCurrencyData}}>
     <CartContext.Provider value={{cartData,setCartData}}>
       <Header/>
       <Routes>
@@ -94,6 +97,7 @@ function App() {
       </Routes>
       <Footer/>
     </CartContext.Provider>  
+    </CurrencyContext.Provider>
     );
 }
 export default App;

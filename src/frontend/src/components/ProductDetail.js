@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
 import {useState,useEffect, useContext} from 'react';
-import { UserContext, CartContext } from '../Context';
+import { UserContext, CartContext, CurrencyContext } from '../Context';
 
 function ProductDetail(){
     const baseUrl = 'http://127.0.0.1:8000/api';
@@ -15,6 +15,8 @@ function ProductDetail(){
     const {product_slug,product_id} = useParams();
     const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
     const {cartData, setCartData}= useContext(CartContext);
+    const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
+    console.log(CurrencyData)
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');
@@ -76,6 +78,7 @@ function ProductDetail(){
                 'product':{
                     'id': productData.id,
                     'price':productData.price,
+                    'usd_price':productData.usd_price,
                     'title': productData.title,
                     'image':productData.image
                 
@@ -170,7 +173,14 @@ function ProductDetail(){
                 <div className="col-8">
                     <h3>{productData.title}</h3>
                     <p>{productData.detail}</p>
-                    <h5 className="card-title">Price: {productData.price}</h5>
+                    {
+                        CurrencyData!='usd' &&                    <h5 className="card-title">Price:  {productData.price} VND</h5>
+                    }
+                    {
+                        CurrencyData =='usd' &&                    
+                        <h5 className="card-title">Price: ${productData.usd_price}</h5>
+                    }
+
                     <p className='mt-3'>
                         {!cartButtonClickStatus  && 
                         <button title = "Add to Cart" type ="button" onClick={cartAddButtonHandler}className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>

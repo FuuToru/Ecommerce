@@ -1,4 +1,4 @@
-import { UserContext, CartContext } from '../Context';
+import { UserContext, CartContext, CurrencyContext } from '../Context';
 import {useContext} from 'react';
 import axios from "axios";
 import {useState} from 'react';
@@ -9,12 +9,15 @@ const baseUrl='http://127.0.0.1:8000/api';
 function ConfirmOrder(){
     const [ConfirmOrder, SetConfirmOrder] = useState(false);
     const [orderId, SetorderId] = useState('');
+    const [orderAmount, setorderAmount] = useState(0);
+
     const [OrderStatus, SetOrderStatus] = useState(false);
     const [PayMethod, SetPayMethod] = useState('');
     const userContext = useContext(UserContext);
     const {cartData, setCartData}= useContext(CartContext);
+    const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
 
-    console.log(userContext)
+    // console.log(userContext)
     if(!userContext){
         window.location.href="/customer/login"
     }else{
@@ -27,14 +30,35 @@ function ConfirmOrder(){
 
     function addOrderInTable(){
         const customerId = localStorage.getItem('customer_id');
+
+        var total_amount = 0;
+        var total_usd_amount = 0;
+        var previousCart= localStorage.getItem('cartData');
+        var cartJson = JSON.parse(previousCart);
+        cartJson.map((cart, index)=>{
+            total_amount +=parseFloat(cart.product.price)
+            total_usd_amount +=parseFloat(cart.product.usd_price)
+
+        })
         
         const formData = new FormData();
         formData.append('customer',customerId);
+        formData.append('order_status', true);
+        formData.append('total_amount',total_amount);
+        formData.append('total_usd_amount',total_usd_amount);
         console.log(formData);
 
         axios.post(baseUrl+'/orders/',formData).then(function(response){
             var orderId = response.data.id;
             SetorderId(orderId);
+            if(CurrencyData == 'usd'){
+                setorderAmount(response.data.total_usd_amount);
+
+            }else{
+                setorderAmount(response.data.total_amount);
+
+
+            }
             orderItems(orderId);
             SetConfirmOrder(true);
         }).catch(function(error){
@@ -45,9 +69,9 @@ function ConfirmOrder(){
 
     function updateOrderStatus(order_status){
         axios.post(baseUrl+'/update-order-status/'+orderId).then(function(response){
-            window.location.href='/customer/orders';
+            window.location.href='/order/success';
         }).catch(function(error){
-            console.log(error);
+            window.location.href='/order/failure';
         });
 
     }
@@ -64,9 +88,11 @@ function ConfirmOrder(){
                 formData.append('product',cart.product.id);
                 formData.append('qty',1);
                 formData.append('price', cart.product.price);
+                formData.append('usd_price', cart.product.usd_price);
+
         
                 axios.post(baseUrl+'/orderitems/',formData).then(function(response){
-                    cartJson.splice(index,1);
+                    cartJson.splice(index);
                     localStorage.setItem('cartData', JSON.stringify(cartJson));
                     setCartData(cartJson);
                 }).catch(function(error){
@@ -103,16 +129,24 @@ function ConfirmOrder(){
             </div>
             <div className='card py-3 mt-4'>
                 <form>
-                    <div className='form-group'>
+                    {
+                        CurrencyData == 'usd' && 
+                        <div className='form-group'>
                         <label>
                             <input type='radio' name='paymethod' onChange={()=>changePaymentMethod('paypal')} value='Paypal' /> Paypal
                         </label>
                     </div>
-                    <div className='form-group'>
+                    }
+                    {
+                        CurrencyData !='usd' && 
+                        <div className='form-group'>
                         <label>
                             <input type='radio' name='paymethod' onChange={()=>changePaymentMethod('credit')} value='Credit Card' /> Credit Card
                         </label>
                     </div>
+                    }
+
+
                     <button type='button' onClick={PayNowButton} className='btn btn-sm btn-success mt-3'>Next</button>
                 </form>
                 {PayMethod == 'paypal' &&
@@ -124,7 +158,7 @@ function ConfirmOrder(){
                             {
                                 amount:{
                                     currency_code:"USD",
-                                    value:"3",
+                                    value:{orderAmount},
                                 },
                             },
                         ],

@@ -4,15 +4,29 @@ import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import ProductDetail from './ProductDetail';
 import {useState,useContext} from 'react';
-import { CartContext } from '../Context';
+import { CartContext, CurrencyContext } from '../Context';
 function Checkout(props){
     const {cartData, setCartData}= useContext(CartContext);
     const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
     const [productData,setproductData] = useState([]);
-    if(cartData == null){
+    const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
+    if(cartData == null || cartData.length == 0){
         var cartItems = 0;
     }else{
         var cartItems = cartData.length;
+    }
+    var sum=0;
+    if(cartItems>0){
+        cartData.map((item,index)=>{
+            if(CurrencyData == 'vnd' || CurrencyData == undefined){
+                sum+= parseFloat(item.product.price);
+
+            }else if (CurrencyData == 'usd'){
+                sum+= parseFloat(item.product.usd_price);
+
+            }
+            
+        });
     }
 
     const cartRemoveButtonHandler= (product_id) =>{
@@ -30,10 +44,7 @@ function Checkout(props){
         setCartData(cartJson);
 
     }
-    var sum=0;
-    cartData.map((item,index)=>{
-        sum+=parseFloat(item.product.price);
-    });
+
     return(
         <div className='container mt-4'>
             <h1 className='mb-4'>All Items ({cartItems})</h1>
@@ -66,7 +77,13 @@ function Checkout(props){
     
                                 </td>
                                 <td>
-                                    {item.product.price}
+                                {
+                                    (CurrencyData=='vnd' || CurrencyData == undefined) && <td>{item.product.price} VND</td>
+                                }
+                                {
+                                    CurrencyData =='usd' &&     
+                                    <td>${item.product.usd_price}</td>
+                                }
                                 </td>
                                 <td>
                         
@@ -93,7 +110,13 @@ function Checkout(props){
                                 Total
                             </th>
                             <th>
-                                {sum}
+                            {
+                                    (CurrencyData=='vnd' || CurrencyData == undefined) && <td>{sum} VND</td>
+                                }
+                                {
+                                    CurrencyData =='usd' &&     
+                                    <td>${sum}</td>
+                                }
                             </th>
 
                         </tr>

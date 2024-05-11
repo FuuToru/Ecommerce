@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import models
 
 # Vendor
+
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Vendor
@@ -56,7 +57,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = models.Product
-        fields = ['id','category', 'vendor', 'title','slug','tag_list', 'detail', 'price','product_ratings','image']
+        fields = ['id','category', 'vendor', 'title','slug','tag_list', 'detail', 'price', 'usd_price','product_ratings','image']
     def __init__(self, *args, **kwargs):
         super(ProductListSerializer, self).__init__(*args, **kwargs)
         self.Meta.depth = 1
@@ -67,11 +68,13 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     product_ratings = serializers.StringRelatedField(many=True, read_only=True)
     product_imgs = ProductImageSerializer(many=True, read_only=True)
     class Meta:
+        many = True
         model = models.Product
-        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'product_ratings', 'product_imgs', 'image']
+        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'usd_price', 'product_ratings', 'product_imgs', 'image']
     def __init__(self, *args, **kwargs):
         super(ProductDetailSerializer, self).__init__(*args, **kwargs)
         # self.Meta.depth = 1
+
 
 class ProductRatingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -104,17 +107,25 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
-        fields = ['id','customer','order_status']
+        fields = ['id','customer','order_status','order_time', 'total_amount', 'total_usd_amount']
     # def __init__(self, *args, **kwargs):
     #     super(OrderSerializer, self).__init__(*args, **kwargs)
     #     self.Meta.depth = 1
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class CustomerOrderItemSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
     product = ProductDetailSerializer()
     class Meta:
         model = models.OrderItems
-        fields = ['id','order', 'product','qty', 'price']
+        fields = ['id', 'order', 'product', 'qty', 'price', 'usd_price']
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.OrderItems
+        fields = ['id', 'order', 'product', 'qty', 'price','usd_price']
+
+
+
 
 
 
