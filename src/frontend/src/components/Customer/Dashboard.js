@@ -4,7 +4,36 @@ import { Link } from 'react-router-dom';
 import logo from '../../logo.svg';
 import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext, CartContext, CurrencyContext } from '../../Context';
+import axios from 'axios';
 function Dashboard(props){
+    const baseUrl = 'http://127.0.0.1:8000/api';
+    const customer_id = localStorage.getItem('customer_id');
+    const [CountList, setCountList] = useState({
+        'totalAddress':0,
+        'totalOrder':0,
+        'totalWishlist':0
+    });
+
+    useEffect(() => {
+        fetchData(baseUrl + '/customer/dashboard/' + customer_id + '/');
+    }, []);
+
+    function fetchData(baseUrl) {
+        fetch(baseUrl)
+            .then((response) => response.json())
+            .then((data) => {
+                setCountList({
+                    'totalAddress':data.totalAddress,
+                    'totalOrder':data.totalOrder,
+                    'totalWishlist':data.totalWishlist,
+                })
+            });
+    }
+    console.log(CountList)
+
+    
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -18,7 +47,7 @@ function Dashboard(props){
                             <div className='card'>
                                 <div className='card-body text-center'>
                                     <h4>Total Orders</h4>
-                                    <h4><a href="#">123</a></h4>
+                                    <h4><Link to="/customer/orders">{CountList.totalOrder}</Link></h4>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +55,7 @@ function Dashboard(props){
                             <div className='card'>
                                 <div className='card-body text-center'>
                                     <h4>Total Wishlist</h4>
-                                    <h4><a href="#">123</a></h4>
+                                    <h4><Link to="/customer/wishlist">{CountList.totalWishlist}</Link></h4>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +63,7 @@ function Dashboard(props){
                             <div className='card'>
                                 <div className='card-body text-center'>
                                     <h4>Total Addresses</h4>
-                                    <h4><a href="#">5</a></h4>
+                                    <h4><Link to="/customer/address">{CountList.totalAddress}</Link></h4>
                                 </div>
                             </div>
                         </div>

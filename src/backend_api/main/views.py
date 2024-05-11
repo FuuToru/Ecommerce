@@ -364,3 +364,16 @@ def mark_default_address(request,pk):
             }
     return JsonResponse(msg)
 
+@csrf_exempt
+def customer_dashboard(request,pk):
+    customer_id = pk
+    totalAddress = models.CustomerAddress.objects.filter(customer__id=customer_id).count()
+    totalOrder = models.Order.objects.filter(customer__id=customer_id).count()
+    totalWishlist = models.Wishlist.objects.filter(customer__id=customer_id).count()
+    msg = {
+        'totalAddress': totalAddress,
+        'totalOrder': totalOrder,
+        'totalWishlist': totalWishlist,
+    }
+    return JsonResponse(msg)
+
