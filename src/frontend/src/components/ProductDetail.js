@@ -3,11 +3,8 @@ import bg from '../bg-1.avif';
 import { Link } from 'react-router-dom';
 import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
-<<<<<<< HEAD
 import {useState, useEffect, useContext} from 'react';
-=======
-import {useState,useEffect, useContext} from 'react';
->>>>>>> tri-dev
+
 import { UserContext, CartContext } from '../Context';
 
 function ProductDetail(){
@@ -17,27 +14,12 @@ function ProductDetail(){
     const [productTags, setproductTags] = useState([]);
     const [relatedProducts, setrelatedProducts]=useState([]);
     const {product_slug,product_id} = useParams();
-<<<<<<< HEAD
     const [cartButtonClickStatus, setcartButtonClickStatus] = useState(false);
     const {cartData, setCartData} = useContext(CartContext);
-=======
-    const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
-    const {cartData, setCartData}= useContext(CartContext);
->>>>>>> tri-dev
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');
         fetchRelatedData(baseUrl+'/related-products/'+product_id);
-<<<<<<< HEAD
-        checkProductInCart(product_id);
-    },[]);
-
-    function checkProductInCart(product_id){
-        var previousCart = localStorage.getItem('cartData');
-        var cartJson = JSON.parse(previousCart);
-        if (cartJson != null){
-            cartJson.map((cart)=>{
-=======
         checkProductIncart(product_id);
     },[]);
 
@@ -46,7 +28,6 @@ function ProductDetail(){
         var cartJson = JSON.parse(previousCart);
         if(cartJson!=null){
             cartJson.map((cart) =>{
->>>>>>> tri-dev
                 if(cart!=null && cart.product.id == product_id){
                     setcartButtonClickStatus(true);
                 }
