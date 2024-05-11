@@ -1,5 +1,10 @@
 import {Link} from 'react-router-dom';
-function Header(){
+import {React} from 'react';
+import {useContext} from 'react';
+import { UserContext, CartContext } from '../Context';
+function Header(props){
+  const userContext = useContext(UserContext);
+  const {cartData, setcartData} = useContext(CartContext);
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container">
@@ -21,18 +26,32 @@ function Header(){
                 <Link className="nav-link" href="#" to="/categories">Categories</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>Cart (4)</Link>
+                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>Cart ({cartData!=null && cartData.length})</Link>
               </li>
               <li className="nav-item dropdown">
+              {userContext != 'true' &&
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Become a Customer ?
+                </a>
+              }
+              {userContext == 'true' &&
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   My Account
                 </a>
+              }
                 <ul className="dropdown-menu">
+                {userContext != 'true' &&
+                  <>
                   <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
                   <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
-                  <li><hr className="dropdown-divider"/></li>
+                  </>
+                }
+                {userContext == 'true'  && 
+                  <>
                   <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
                   <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
+                  </>
+                }
                 </ul>
         </li>
         <li className="nav-item dropdown">

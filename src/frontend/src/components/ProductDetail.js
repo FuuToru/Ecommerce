@@ -3,7 +3,8 @@ import bg from '../bg-1.avif';
 import { Link } from 'react-router-dom';
 import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
-import {useState,useEffect} from 'react';
+import {useState,useEffect, useContext} from 'react';
+import { UserContext, CartContext } from '../Context';
 
 function ProductDetail(){
     const baseUrl = 'http://127.0.0.1:8000/api';
@@ -12,11 +13,26 @@ function ProductDetail(){
     const [productTags, setproductTags] = useState([]);
     const [relatedProducts, setrelatedProducts]=useState([]);
     const {product_slug,product_id} = useParams();
+    const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
+    const {cartData, setCartData}= useContext(CartContext);
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');
         fetchRelatedData(baseUrl+'/related-products/'+product_id);
+        checkProductIncart(product_id);
     },[]);
+
+    function checkProductIncart(product_id){
+        var previousCart = localStorage.getItem('cartData');
+        var cartJson = JSON.parse(previousCart);
+        if(cartJson!=null){
+            cartJson.map((cart) =>{
+                if(cart!=null && cart.product.id == product_id){
+                    setcartButtonClickStatus(true);
+                }
+            });
+        }
+    }
     
     function fetchData(baseurl){
         fetch(baseurl)
@@ -50,6 +66,58 @@ function ProductDetail(){
     for(let i=0; i<productTags.length; i++){
         let tag=productTags[i].trim();
         tagsLinks.push(<Link className='badge bg-secondary text-white me-1' to={`/products/${tag}`}>{tag}</Link>)
+    }
+
+    const cartAddButtonHandler = () =>{
+        var previousCart = localStorage.getItem('cartData');
+        var cartJson = JSON.parse(previousCart);
+        
+        var cartData={
+                'product':{
+                    'id': productData.id,
+                    'price':productData.price,
+                    'title': productData.title,
+                    'image':productData.image
+                
+                },
+                'user':{
+                    'id':1
+                }
+
+        }
+        if(cartJson!=null){
+            cartJson.push(cartData);
+            var cartString = JSON.stringify(cartJson);
+            localStorage.setItem('cartData',cartString);
+            setCartData(cartJson);
+
+        }
+        else{
+            var newCartList=[];
+            newCartList.push(cartData);
+            var cartString = JSON.stringify(newCartList);
+            localStorage.setItem('cartData',cartString);
+
+        }
+
+        setcartButtonClickStatus(true);
+
+    }
+
+    const cartRemoveButtonHandler= () =>{
+        var previousCart = localStorage.getItem('cartData');
+        var cartJson = JSON.parse(previousCart);
+        cartJson.map((cart,index)=>{
+            if(cart!=null && cart.product.id == productData.id){
+                // delete cartJson[index];
+                cartJson.splice(index,1);
+            }
+        });
+        var cartString = JSON.stringify(cartJson);
+        localStorage.setItem('cartData', cartString);
+        setcartButtonClickStatus(false);
+        setCartData(cartJson);
+
     }
     return(
         <section className="container mt-4">
@@ -104,7 +172,12 @@ function ProductDetail(){
                     <p>{productData.detail}</p>
                     <h5 className="card-title">Price: {productData.price}</h5>
                     <p className='mt-3'>
-                        <button title = "Add to Cart" className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                        {!cartButtonClickStatus  && 
+                        <button title = "Add to Cart" type ="button" onClick={cartAddButtonHandler}className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                        }
+                        {cartButtonClickStatus && 
+                        <button title = "Add to Cart" type ="button" onClick={cartRemoveButtonHandler}className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
+                        }
                         <button title = "Buy Now" className='btn btn-warning btn-sm ms-1'><i className="fa-solid fa-bag-shopping"></i> Buy Now</button>
                         <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
                     </p>

@@ -68,7 +68,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     product_imgs = ProductImageSerializer(many=True, read_only=True)
     class Meta:
         model = models.Product
-        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'product_ratings', 'product_imgs']
+        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'product_ratings', 'product_imgs', 'image']
     def __init__(self, *args, **kwargs):
         super(ProductDetailSerializer, self).__init__(*args, **kwargs)
         # self.Meta.depth = 1
@@ -105,9 +105,14 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ['id','customer']
-    def __init__(self, *args, **kwargs):
-        super(OrderSerializer, self).__init__(*args, **kwargs)
-        self.Meta.depth = 1
+    # def __init__(self, *args, **kwargs):
+    #     super(OrderSerializer, self).__init__(*args, **kwargs)
+    #     self.Meta.depth = 1
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.OrderItems
+        fields = ['id','order', 'product','qty', 'price']
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     class Meta:

@@ -12,7 +12,7 @@ function Sidebar(props){
             <Link to="/customer/profile" className="list-group-item list-group-item-action ">Profile</Link>
             <Link to="/customer/changepassword" className="list-group-item list-group-item-action ">Change Password</Link>
             <Link to="/customer/address" className="list-group-item list-group-item-action ">Addresses</Link>
-            <a className="list-group-item list-group-item-action text-danger ">Logout</a>
+            <Link to="/customer/logout" className="list-group-item list-group-item-action text-danger ">Logout</Link>
         </div>
 
 

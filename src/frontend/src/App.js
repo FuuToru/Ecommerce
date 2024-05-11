@@ -15,6 +15,7 @@ import CategoryProducts from './components/CategoryProducts';
 import AllProducts from './components/AllProducts';
 import ProductDetail from './components/ProductDetail';
 import Checkout from './components/Checkout';
+import ConfirmOrder from './components/ConfirmOrder';
 import OrderSuccess from './components/OrderSuccess';
 import OrderFailure from './components/OrderFailure';
 import TagProducts from './components/TagProducts';
@@ -22,6 +23,7 @@ import TagProducts from './components/TagProducts';
 //Customer Panel
 import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
+import CustomerLogout from './components/Customer/CustomerLogout';
 import Dashboard from './components/Customer/Dashboard';
 import Orders from './components/Customer/Orders';
 import Wishlist from './components/Customer/Wishlist';
@@ -43,9 +45,14 @@ import VendorReports from './components/Vendor/VendorReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 
+import { CartContext } from './Context';
+import {useState} from 'react';
+const checkCart=localStorage.getItem('cartData');
+
 function App() {
+  const [cartData, setCartData] = useState(JSON.parse(checkCart));
   return (
-    <>
+    <CartContext.Provider value={{cartData,setCartData}}>
       <Header/>
       <Routes>
         <Route path='/' element ={<Home/>}/>
@@ -55,10 +62,13 @@ function App() {
         <Route path='/products' element={<AllProducts/>}/>
         <Route path='/product/:product_slug/:product_id' element ={<ProductDetail/>}/>
         <Route path='/checkout' element={<Checkout/>}></Route>
+        <Route path='/confirm-order' element={<ConfirmOrder/>}></Route>
         <Route path='/order/success' element={<OrderSuccess/>}></Route>
         <Route path='/order/failure' element={<OrderFailure/>}></Route>
+        {/* Customer */}
         <Route path='/customer/register' element={<Register/>}></Route>
         <Route path='/customer/login' element={<Login/>}></Route>
+        <Route path='/customer/logout' element={<CustomerLogout/>}></Route>
         <Route path='/customer/dashboard' element={<Dashboard/>}></Route>
         <Route path='/customer/orders' element={<Orders/>}></Route>
         <Route path='/customer/wishlist' element={<Wishlist/>}></Route>
@@ -83,7 +93,7 @@ function App() {
 
       </Routes>
       <Footer/>
-    </>  
+    </CartContext.Provider>  
     );
 }
 export default App;
