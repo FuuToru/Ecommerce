@@ -162,22 +162,22 @@ class OrderList(generics.ListCreateAPIView):
     queryset = models.Order.objects.all()
     serializer_class = serializers.OrderSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     print(request.POST)
-    #     return super().post(request,*args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        return super().post(request,*args, **kwargs)
 
 class OrderItemList(generics.ListCreateAPIView):
     queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     print(request.POST)
-    #     return super().post(request,*args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        return super().post(request,*args, **kwargs)
 
 
 class CustomerOrderItemList(generics.ListAPIView):
     queryset = models.OrderItems.objects.all()
-    serializer_class = serializers.OrderItemSerializer
+    serializer_class = serializers.CustomerOrderItemSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -194,6 +194,7 @@ class OrderDetail(generics.ListAPIView):
         order_items = models.OrderItems.objects.filter(order=order)
         return order_items
 
+@csrf_exempt
 def update_order_status(request, order_id):
     if request.method == 'POST':
         updateRes = models.Order.objects.filter(id=order_id).update(order_status=True)

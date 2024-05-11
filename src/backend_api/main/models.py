@@ -41,7 +41,8 @@ class Product(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null = True)
     title = models.CharField(max_length=200)
     detail = models.TextField(null=True)
-    price = models.FloatField(null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    usd_price = models.DecimalField(max_digits=10, decimal_places=2, default = 80)
     tags = models.TextField(null=True)
     slug = models.SlugField(unique=True, blank=True)
     image = models.ImageField(upload_to='product_imgs/', null=True)
@@ -83,6 +84,9 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name = 'customer_orders')
     order_time = models.DateTimeField(auto_now_add=True)
     order_status = models.BooleanField(default= False)
+    total_amount = models.DecimalField(max_digits =10, decimal_places =2, default = 0)
+    total_usd_amount = models.DecimalField(max_digits =10, decimal_places =2, default = 0)
+
 
     def __str__(self):
         return '%s' % (self.order_time)
@@ -90,9 +94,10 @@ class Order(models.Model):
 
 class OrderItems(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_items")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_items")
     qty = models.IntegerField(default = 1)
     price = models.DecimalField(max_digits =10, decimal_places=2, default=0)
+    usd_price = models.DecimalField(max_digits =10, decimal_places=2, default=0)
 
     def __str__(self):
         return self.product.title

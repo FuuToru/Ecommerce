@@ -1,10 +1,28 @@
 import {Link} from 'react-router-dom';
 import {React} from 'react';
 import {useContext} from 'react';
-import { UserContext, CartContext } from '../Context';
+import { UserContext, CartContext, CurrencyContext } from '../Context';
+import {useState} from 'react';
+
 function Header(props){
   const userContext = useContext(UserContext);
   const {cartData, setcartData} = useContext(CartContext);
+  const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
+
+  if(cartData == null){
+    var cartItems = 0;
+  }else{
+    var cartItems = cartData.length;
+  }
+
+
+  const changeCurrency = (e)=>{
+    var _currency = e.target.value;
+    localStorage.setItem('currency',_currency);
+    setCurrencyData(_currency);
+    }
+
+ 
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container">
@@ -54,6 +72,7 @@ function Header(props){
                 }
                 </ul>
               </li>
+<<<<<<< HEAD
               <li className="nav-item dropdown">
                       <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Vendor Panel
@@ -72,6 +91,29 @@ function Header(props){
               <li className="nav-item">
                       <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData!=null && cartData.length})</Link>
               </li>
+=======
+        <li className='nav-item'>
+          <div className='nav-link'>
+          <select onChange={changeCurrency}>
+            {
+              CurrencyData != 'usd' && <>
+              <option value='usd'>USD</option>
+              <option value='vnd' selected>VND</option>
+              </>
+            }
+            {
+              CurrencyData == 'usd' && <>
+              <option value='usd' selected>USD</option>
+              <option value='vnd'>VND</option>
+              </>
+            }
+            </select>
+          </div>
+
+        </li>
+
+
+>>>>>>> tri-dev
             </ul>
           </div>
         </div>

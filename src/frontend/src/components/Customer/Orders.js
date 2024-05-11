@@ -25,6 +25,7 @@ function Orders(props){
     
     }
     console.log(OrderItems);
+    
 
     return(
         <div className='container mt-4'>
@@ -43,7 +44,7 @@ function Orders(props){
                                     <th>Product</th>
                                     <th>Price</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Time</th>
                                 </tr>
 
                                 </thead>
@@ -72,6 +73,9 @@ function Orders(props){
                                                 item.order.order_status==false && <i className='fa fa-spinner fa-spin text-dark'></i>
                                             }
                                         </span>
+                                    </td>
+                                    <td>
+                                        <p>{item.order.order_time}</p>
                                     </td>
 
                                 </tr>
