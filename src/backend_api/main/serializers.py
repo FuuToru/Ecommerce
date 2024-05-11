@@ -1,8 +1,13 @@
 from rest_framework import serializers
 from . import models
+from django.contrib.auth.models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ['id','first_name','last_name','username', 'email']
 
 # Vendor
-
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Vendor
@@ -30,14 +35,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         # self.Meta.depth = 1
 
 
-class CustomerDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Customer
-        fields = ['id','user', 'mobile']
-    def __init__(self, *args, **kwargs):
-        super(CustomerDetailSerializer, self).__init__(*args, **kwargs)
-        # self.Meta.depth = 1
-
 class CustomerAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomerAddress
@@ -45,6 +42,18 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super(CustomerAddressSerializer, self).__init__(*args, **kwargs)
         self.Meta.depth = 1
+
+class CustomerDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Customer
+        fields = ['id','user', 'mobile', 'profile_img','customer_orders']
+    # def __init__(self, *args, **kwargs):
+    #     super(CustomerDetailSerializer, self).__init__(*args, **kwargs)
+        # self.Meta.depth = 1
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data
+        return response
 
 #Product
 
@@ -126,9 +135,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 
-
-
-
 class OrderDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderItems 
@@ -150,6 +156,5 @@ class WishListSerializer(serializers.ModelSerializer):
         response['customer'] = CustomerSerializer(instance.customer).data
         response['product'] = ProductDetailSerializer(instance.product).data
         return response
-
 
 
