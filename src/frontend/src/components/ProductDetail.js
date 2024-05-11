@@ -3,14 +3,8 @@ import bg from '../bg-1.avif';
 import { Link } from 'react-router-dom';
 import SingleTagProduct from './SingleTagProduct';
 import { useParams } from "react-router-dom";
-<<<<<<< HEAD
-import {useState, useEffect, useContext} from 'react';
-
-import { UserContext, CartContext } from '../Context';
-=======
 import {useState,useEffect, useContext} from 'react';
 import { UserContext, CartContext, CurrencyContext } from '../Context';
->>>>>>> tri-dev
 
 function ProductDetail(){
     const baseUrl = 'http://127.0.0.1:8000/api';
@@ -19,15 +13,10 @@ function ProductDetail(){
     const [productTags, setproductTags] = useState([]);
     const [relatedProducts, setrelatedProducts]=useState([]);
     const {product_slug,product_id} = useParams();
-<<<<<<< HEAD
-    const [cartButtonClickStatus, setcartButtonClickStatus] = useState(false);
-    const {cartData, setCartData} = useContext(CartContext);
-=======
     const [cartButtonClickStatus,setcartButtonClickStatus] = useState(false);
     const {cartData, setCartData}= useContext(CartContext);
     const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
     console.log(CurrencyData)
->>>>>>> tri-dev
 
     useEffect ( () =>{
         fetchData(baseUrl+'/product/'+product_id+'/');

@@ -22,7 +22,6 @@ function Header(props){
     setCurrencyData(_currency);
     }
 
- 
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container">
@@ -72,26 +71,7 @@ function Header(props){
                 }
                 </ul>
               </li>
-<<<<<<< HEAD
-              <li className="nav-item dropdown">
-                      <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Vendor Panel
-                      </a>
-                      <ul className="dropdown-menu">
-                        <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
-                        <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
-                        <li><hr className="dropdown-divider"/></li>
-                        <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
-                        <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
-                      </ul>
-              </li>
-              <li className="nav-item">
-                      <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>New Orders (4)</Link>
-              </li>
-              <li className="nav-item">
-                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData!=null && cartData.length})</Link>
-              </li>
-=======
+
         <li className='nav-item'>
           <div className='nav-link'>
           <select onChange={changeCurrency}>
@@ -113,7 +93,6 @@ function Header(props){
         </li>
 
 
->>>>>>> tri-dev
             </ul>
           </div>
         </div>

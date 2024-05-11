@@ -46,29 +46,17 @@ import VendorReports from './components/Vendor/VendorReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 
-<<<<<<< HEAD
-import {CartContext} from './Context';
-import {useState} from 'react';
-const checkCart = localStorage.getItem('cartData');
-
-=======
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
 const currentCurrency = localStorage.getItem('currency');
->>>>>>> tri-dev
 
 function App() {
   const [cartData, setCartData] = useState(JSON.parse(checkCart));
   const [CurrencyData, setCurrencyData] = useState(currentCurrency);
   return (
-<<<<<<< HEAD
-    <CartContext.Provider value={{cartData, setCartData}}>
-
-=======
     <CurrencyContext.Provider value = {{CurrencyData, setCurrencyData}}>
     <CartContext.Provider value={{cartData,setCartData}}>
->>>>>>> tri-dev
       <Header/>
       <Routes>
         <Route path='/' element ={<Home/>}/>
