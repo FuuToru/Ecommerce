@@ -41,7 +41,7 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
         fields = ['id','customer', 'address', 'default_address']
     def __init__(self, *args, **kwargs):
         super(CustomerAddressSerializer, self).__init__(*args, **kwargs)
-        self.Meta.depth = 1
+        # self.Meta.depth = 1
 
 class CustomerDetailSerializer(serializers.ModelSerializer):
     class Meta:

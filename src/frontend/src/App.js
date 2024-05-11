@@ -31,6 +31,7 @@ import Profile from './components/Customer/Profile';
 import ChangePassword from './components/Customer/ChangePassword';
 import AddressList from './components/Customer/AddressList';
 import AddAddress from './components/Customer/AddAddress';
+import UpdateAddress from './components/Customer/UpdateAddress';
 
 
 //Vendor
@@ -79,6 +80,7 @@ function App() {
         <Route path='/customer/changepassword' element={<ChangePassword/>}></Route>
         <Route path='/customer/address' element={<AddressList/>}></Route>
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
+        <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
         {/* Vendor Route  */}
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>

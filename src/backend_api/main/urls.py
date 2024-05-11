@@ -35,8 +35,11 @@ urlpatterns = [
     path('check-in-wishlist/', views.check_in_wishlist, name='check-in-wishlist'),
     path('customer/<int:pk>/wishitems/', views.CustomerWishItemList.as_view()),
     path('remove-from-wishlist/', views.remove_from_wishlist, name='remove-from-wishlist'),
+    path('customer/<int:pk>/address-list/', views.CustomerAddressList.as_view()),
+
+    path('mark-default-address/<int:pk>/', views.mark_default_address, name='mark-default-address'),
 
 
 ]
 
-urlpatterns == router.urls
+urlpatterns += router.urls

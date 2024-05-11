@@ -3,17 +3,37 @@ import { Link } from 'react-router-dom';
 //Assets
 import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
-import {useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
-function AddAddress(props){
+function UpdateAddress(props){
     const baseUrl = 'http://127.0.0.1:8000/api';
+    const {address_id} = useParams();
     const [SuccessMsg, setSuccessMsg] = useState('');
     const [ErrorMsg, setErrorMsg] = useState('');
     var customer_id = localStorage.getItem('customer_id');
     const [AddressFormData, setAddressFormData] = useState({
         'address':'',
-        'customer':customer_id,
+        'customer':'',
     });
+
+    useEffect ( () =>{
+        fetchData(baseUrl+'/address/'+address_id+'/');
+    },[]);
+    
+
+    function fetchData(baseurl){
+        fetch(baseurl)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            setAddressFormData({
+                'address':data.address,
+                'customer':data.customer,
+            });
+        });
+    
+    }
 
     const inputHandler = (event) =>{
         setAddressFormData({
@@ -22,23 +42,21 @@ function AddAddress(props){
         });
     };
 
-    const submitHandler = (event) =>{
+    const submitHandler = () =>{
         const formData = new FormData();
         formData.append('address',AddressFormData.address);
         formData.append('customer',AddressFormData.customer);
 
         // Submit Data
-        axios.post(baseUrl +'/address/', formData
+        axios.put(baseUrl +'/address/'+parseInt(address_id)+'/', formData
         ).then(function (response){
-            if(response.status != 201){
+            console.log(response);
+            if(response.status != 200){
                 setErrorMsg('Data not saved');
                 setSuccessMsg('');
             }else{
                 setErrorMsg('');
                 setSuccessMsg('Data saved');
-                setAddressFormData({
-                    'address':''
-                });
             }
         })
         .catch(function (error){
@@ -46,6 +64,7 @@ function AddAddress(props){
         });
 
     };
+    console.log(AddressFormData)
     const disableBtn = (AddressFormData.address == '');
     return(
         <div className='container mt-4'>
@@ -57,7 +76,7 @@ function AddAddress(props){
             {/* <div className='row'> */}
                 <div className='col-md-9 col-12 mb-2'>
                     <div className='card'>
-                        <h4 className='card-header'>Add Address</h4>
+                        <h4 className='card-header'>Update Address</h4>
                     <div className='card-body'>
                         {ErrorMsg && <p className='alert alert-danger'>{ErrorMsg}</p>}
                         {SuccessMsg && <p className='alert alert-success'>{SuccessMsg}</p>}
@@ -84,4 +103,4 @@ function AddAddress(props){
     );
 }
 
-export default AddAddress;
+export default UpdateAddress;
