@@ -2,12 +2,14 @@ import { UserContext, CartContext } from '../Context';
 import {useContext} from 'react';
 import axios from "axios";
 import {useState} from 'react';
+import{PayPalScriptProvider, PayPalButtons} from '@paypal/react-paypal-js';
 
 const baseUrl='http://127.0.0.1:8000/api';
 
 function ConfirmOrder(){
     const [ConfirmOrder, SetConfirmOrder] = useState(false);
     const [orderId, SetorderId] = useState('');
+    const [OrderStatus, SetOrderStatus] = useState(false);
     const [PayMethod, SetPayMethod] = useState('');
     const userContext = useContext(UserContext);
     const {cartData, setCartData}= useContext(CartContext);
@@ -35,6 +37,15 @@ function ConfirmOrder(){
             SetorderId(orderId);
             orderItems(orderId);
             SetConfirmOrder(true);
+        }).catch(function(error){
+            console.log(error);
+        });
+
+    }
+
+    function updateOrderStatus(order_status){
+        axios.post(baseUrl+'/update-order-status/'+orderId).then(function(response){
+            window.location.href='/customer/orders';
         }).catch(function(error){
             console.log(error);
         });
@@ -104,6 +115,34 @@ function ConfirmOrder(){
                     </div>
                     <button type='button' onClick={PayNowButton} className='btn btn-sm btn-success mt-3'>Next</button>
                 </form>
+                {PayMethod == 'paypal' &&
+                <PayPalScriptProvider options={{"client-id":"AefouazOUhSIQcaDwt1DtRA4aUlyzJBt_FgKvJxN5EiKVZI9SXPDALUUYx6vgTvV_la7WienpoeU7NIe"}}>
+                <PayPalButtons className="mt-3">
+                createOrder = {(data,actions)=>{
+                    return actions.order.create({
+                        purchase_units:[
+                            {
+                                amount:{
+                                    currency_code:"USD",
+                                    value:"3",
+                                },
+                            },
+                        ],
+                    });
+                }}
+                onApprove={(data,actions)=>{
+                    return actions.order.capture().then((details)=>{
+                        const name = details.payer.name.given_name;
+                        // alert(`Transaction completed by ${name}`);
+                        // SetOrderStatus(true);
+                        updateOrderStatus(true);
+                        
+                    });
+                }}
+                </PayPalButtons>
+                </PayPalScriptProvider>
+
+                }
             </div>
         </div>
     </div>
