@@ -30,8 +30,8 @@ function Profile(props){
         .then((data) => {
             setProfileData({
                 'user_id': data.user.id,
-                'firstName': data.user.first_name,
-                'lastName': data.user.last_name,
+                'first_name': data.user.first_name,
+                'last_name': data.user.last_name,
                 'username': data.user.username,
                 'email': data.user.email,
                 'mobile': data.mobile,
@@ -57,6 +57,7 @@ function Profile(props){
         });
 
     }
+    console.log(ProfileData);
 
     const submitHandler = (event) =>{
         const formData = new FormData();
