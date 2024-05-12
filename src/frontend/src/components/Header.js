@@ -4,6 +4,8 @@ import { UserContext, CartContext } from '../Context';
 function Header(){
     const userContext = useContext(UserContext);
     const {cartData, setCartData} = useContext(CartContext);
+    const checkCustomer = localStorage.getItem('customer_login');
+    const checkVendor = localStorage.getItem('vendor_login');
     if (cartData == null){
       var carItems = 0;
     }else{
@@ -34,23 +36,38 @@ function Header(){
                   My Account
                 </a>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
-                  <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
-                  <li><hr className="dropdown-divider"/></li>
-                  <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
-                  <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
+                {
+                  checkCustomer && <>
+                                      <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
+                                      <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
+                                </>
+                }
+                {
+                  !checkCustomer && <>
+                                      <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
+                                      <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
+                                </>
+                }
                 </ul>
+
               </li>
               <li className="nav-item dropdown">
                       <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Vendor Panel
                       </a>
                       <ul className="dropdown-menu">
-                        <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
-                        <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
-                        <li><hr className="dropdown-divider"/></li>
-                        <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
-                        <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+                      {
+                        checkVendor && <>
+                                          <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
+                                          <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+                                      </>
+                      }
+                      {
+                        !checkVendor && <>
+                                          <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
+                                          <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
+                                      </>
+                      }
                       </ul>
               </li>
               <li className="nav-item">

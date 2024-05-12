@@ -6,7 +6,8 @@ from . import models
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login
+# from django.contrib.auth.hashers import make_password
 from django.db.utils import IntegrityError
 # Create your views here.
 
@@ -162,7 +163,7 @@ def customer_register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         try:
-            user = User.objects.create(
+            user = User.objects.create_user(
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
@@ -190,4 +191,43 @@ def customer_register(request):
                 return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
     else:
         return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
+
+
+@csrf_exempt
+def customer_login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    if user:
+        msg = {
+            'bool': True,
+            'msg': user.username,
+        }
+    else:
+        msg = {
+            'bool': False,
+            'msg': 'Invalid username or password.',
+        }
     
+    print(msg)
+    return JsonResponse(msg)
+
+@csrf_exempt
+def vendor_login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    print(user)
+    if user:
+        msg = {
+            'bool': True,
+            'msg': user.username,
+        }
+    else:
+        msg = {
+            'bool': False,
+            'msg': 'Invalid username or password.',
+        }
+    
+    print(msg)
+    return JsonResponse(msg)

@@ -11,6 +11,7 @@ urlpatterns = [
     path('vendors/', views.VendorList.as_view()),
     path('vendor/<int:pk>/', views.VendorDetail.as_view()),
     path('vendor/register/', views.vendor_register, name='vendor-register'),
+    path('vendor/login/', views.vendor_login, name='vendor-login'),
     # Products
     path('products/', views.ProductList.as_view()),
     path('product/<int:pk>/', views.ProductDetail.as_view()),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('orders/', views.OrderList.as_view()),
     path('order/<int:pk>/', views.OrderDetail.as_view()),
     path('customer/register/', views.customer_register, name='customer-register'),
+    path('customer/login/', views.customer_login, name='customer-login'),
 ]
 
 urlpatterns == router.urls
