@@ -13,6 +13,7 @@ function Sidebar(props){
             <Link to="/customer/changepassword" className="list-group-item list-group-item-action ">Change Password</Link>
             <Link to="/customer/address" className="list-group-item list-group-item-action ">Addresses</Link>
             <Link to='/customer/logout' className="list-group-item list-group-item-action text-danger ">Logout</Link>
+
         </div>
 
 

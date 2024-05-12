@@ -24,6 +24,7 @@ import TagProducts from './components/TagProducts';
 import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
 import Logout from './components/Customer/Logout';
+import CustomerLogout from './components/Customer/CustomerLogout';
 import Dashboard from './components/Customer/Dashboard';
 import Orders from './components/Customer/Orders';
 import Wishlist from './components/Customer/Wishlist';
@@ -31,6 +32,7 @@ import Profile from './components/Customer/Profile';
 import ChangePassword from './components/Customer/ChangePassword';
 import AddressList from './components/Customer/AddressList';
 import AddAddress from './components/Customer/AddAddress';
+import UpdateAddress from './components/Customer/UpdateAddress';
 
 
 //Vendor
@@ -46,14 +48,17 @@ import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
 
-import {CartContext} from './Context';
+import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
-const checkCart = localStorage.getItem('cartData');
+const checkCart=localStorage.getItem('cartData');
+const currentCurrency = localStorage.getItem('currency');
 
 function App() {
   const [cartData, setCartData] = useState(JSON.parse(checkCart));
+  const [CurrencyData, setCurrencyData] = useState(currentCurrency);
   return (
-    <CartContext.Provider value={{cartData, setCartData}}>
+    <CurrencyContext.Provider value = {{CurrencyData, setCurrencyData}}>
+    <CartContext.Provider value={{cartData,setCartData}}>
       <Header/>
       <Routes>
         <Route path='/' element ={<Home/>}/>
@@ -70,6 +75,7 @@ function App() {
         <Route path='/customer/register' element={<Register/>}></Route>
         <Route path='/customer/login' element={<Login/>}></Route>
         <Route path='/customer/logout' element={<Logout/>}></Route>
+
         <Route path='/customer/dashboard' element={<Dashboard/>}></Route>
         <Route path='/customer/orders' element={<Orders/>}></Route>
         <Route path='/customer/wishlist' element={<Wishlist/>}></Route>
@@ -77,6 +83,7 @@ function App() {
         <Route path='/customer/changepassword' element={<ChangePassword/>}></Route>
         <Route path='/customer/address' element={<AddressList/>}></Route>
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
+        <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
         {/* Vendor Route  */}
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>
@@ -92,6 +99,7 @@ function App() {
       </Routes>
       <Footer/>
     </CartContext.Provider>  
+    </CurrencyContext.Provider>
     );
 }
 export default App;

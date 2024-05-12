@@ -2,6 +2,7 @@ import logo from '../logo.svg';
 import SingleProduct from './SingleProduct';
 import {useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import {CurrencyContext } from '../Context';
 function AllProducts(){
   const baseUrl = 'http://127.0.0.1:8000/api';
   const [products,setProducts] = useState([]);
