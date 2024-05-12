@@ -30,11 +30,9 @@ urlpatterns = [
     path('orders/', views.OrderList.as_view()),
     path('order/<int:pk>/', views.OrderDetail.as_view()),
     path('customer/register/', views.customer_register, name='customer-register'),
-<<<<<<< HEAD
-    path('customer/login/', views.customer_login, name='customer-login'),
-=======
     path('orderitems/', views.OrderItemList.as_view()),
     path('customer/<int:pk>/orderitems/', views.CustomerOrderItemList.as_view()),
+
 
     path('update-order-status/<int:order_id>', views.update_order_status, name='update-order-status'),
     path('wishlist/', views.WishList.as_view()),
@@ -47,7 +45,6 @@ urlpatterns = [
     path('customer/dashboard/<int:pk>/', views.customer_dashboard, name='customer_dashboard'),
 
 
->>>>>>> 86eb5b708c673c4728eb3b00f8828c115e1f4486
 ]
 
 urlpatterns += router.urls
