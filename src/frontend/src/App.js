@@ -41,6 +41,7 @@ import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
 import VendorProducts from './components/Vendor/VendorProducts';
 import VendorAddProduct from './components/Vendor/VendorAddProduct';
+import VendorUpdateProduct from './components/Vendor/VendorUpdateProduct';
 import VendorOrders from './components/Vendor/VendorOrders';
 import VendorCustomers from './components/Vendor/VendorCustomers';
 import VendorReports from './components/Vendor/VendorReports';
@@ -89,6 +90,7 @@ function App() {
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
         <Route path='/vendor/products' element={<VendorProducts/>}></Route>
         <Route path='/vendor/add-product' element={<VendorAddProduct/>}></Route>
+        <Route path='/vendor/update-product/:product_id' element={<VendorUpdateProduct/>}></Route>
         <Route path='/vendor/orders' element={<VendorOrders/>}></Route>
         <Route path='/vendor/customers' element={<VendorCustomers/>}></Route>
         <Route path='/vendor/reports' element={<VendorReports/>}></Route>

@@ -17,7 +17,7 @@ function SingleProduct(props){
                 <div className="card-body">
                     <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`}>{props.product.title}</Link></h4>
                     {
-                        CurrencyData!='usd' &&                    <h5 className="card-title">Price:  {props.product.price} VND</h5>
+                        CurrencyData!='usd' && <h5 className="card-title">Price:  {props.product.price} VND</h5>
                     }
                     {
                         CurrencyData =='usd' &&                    

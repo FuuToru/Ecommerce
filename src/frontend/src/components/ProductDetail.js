@@ -221,13 +221,16 @@ function ProductDetail(){
                         }
                         <button title = "Buy Now" className='btn btn-warning btn-sm ms-1'><i className="fa-solid fa-bag-shopping"></i> Buy Now</button>
                         {
-                            (userContext && !ProductInWishlist) &&                        <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
+                            (userContext && !ProductInWishlist) &&                        
+                            <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
                         }
                                                 {
-                            userContext == null &&                         <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
+                            userContext == null &&                         
+                            <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
                         }
                         {
-                            (userContext && ProductInWishlist) &&                        <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
+                            (userContext && ProductInWishlist) &&                        
+                            <button onClick={saveInWishList} title = "Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
                         }
 
                     </p>

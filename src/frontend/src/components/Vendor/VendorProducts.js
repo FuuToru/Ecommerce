@@ -1,10 +1,31 @@
 //Packages
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 //Assets
 import logo from '../../logo.svg';
 import ProductDetail from '../ProductDetail';
 import VendorSidebar from '../Vendor/VendorSidebar';
+const baseUrl = "http://127.0.0.1:8000/api";
+
 function VendorProducts(props){
+
+    const [productData, setProductData] = useState([]);
+
+    useEffect ( () =>{
+        fetchData(baseUrl+'/products/');
+    },[]);
+
+    function fetchData(baseurl){
+        fetch(baseurl)
+        .then((response) => response.json())
+        .then((data) => {
+            setProductData(data.results);
+        });
+    }
+
+    console.log(productData);
+
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -13,38 +34,49 @@ function VendorProducts(props){
 
                 </div>
                 <div className='col-md-9 col-12 mb-2'>
-                    <div className='row'>
-                        <div className='col-12'>
-                        <h3 className='float-end'>
-                    <Link to="/vendor/add-product" className="btn btn-primary mb-2 " ><i className='fa fa-plus-circle'></i>Add Product</Link>
-                    </h3>
-                        </div>
-                    </div>
-
                     <div className='table-responsive'>
-                        <table className='table table-bordered'>
+                        <table className='table table-hover'>
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Products</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <td colSpan="6">
+                                        <Link to="/vendor/add-product" className="btn btn-primary mb-2 " ><i className='fa fa-plus-circle'></i>Add Product</Link>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Products</th>
+                                    <th>Price</th>
+                                    <th>USD Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Product Title</td>
-                                <td>500</td>
-                                <td>Published</td>
-                                <td>
-                                    <a href="#" className='btn btn-info'>View</a>
-                                    <a href="#" className='btn btn-primary ms-1'>Edit</a>
-                                    <a href="#" className='btn btn-danger ms-1'>Delete</a>
-
-                                </td>
-                            </tr>
+                                {
+                                    productData.map((product, index)=>
+                                        <tr>
+                                            <td>{product.id}</td>
+                                            <td>
+                                                <Link to={`/vendor/update-product/${product.id}`} >{product.title}</Link>
+                                            </td>
+                                            <td>{product.price} VND</td>
+                                            <td>${product.usd_price}</td>
+                                            <td>
+                                                {
+                                                    !product.published_status && 'Pending'
+                                                }
+                                                {
+                                                    product.published_status && <span class='text-success'>Published</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="#" className='btn btn-primary ms-1'>Edit</a>
+                                                <a href="#" className='btn btn-danger ms-1'>Delete</a>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            
                             </tbody>
                         </table>
                     </div>
