@@ -40,7 +40,6 @@ function VendorAddProduct(props){
     };
 
     const multipleFileHandler = (event) => {
-        console.log(event.target.files);
         var files = event.target.files;
         if (files.length > 0) {
             setProductImg(files);
@@ -50,75 +49,77 @@ function VendorAddProduct(props){
 
     const submitHandler = () => {
         const formData = new FormData();
-        formData.append('category', formData.category);
-        formData.append('vendor', formData.vendor);
-        formData.append('title', formData.title);
-        formData.append('detail', formData.detail);
-        formData.append('price', formData.price);
-        formData.append('usd_price', formData.usd_price);
-        formData.append('tag_list', formData.tag_list);
-        formData.append('slug', formData.slug);
-        formData.append('image', formData.image);
-        formData.append('demo_url', formData.demo_url);
-        formData.append('product_file', formData.product_file);
+        formData.append('category', productData.category);
+        formData.append('vendor', productData.vendor);
+        formData.append('title', productData.title);
+        formData.append('detail', productData.detail);
+        formData.append('price', productData.price);
+        formData.append('usd_price', productData.usd_price);
+        formData.append('tag_list', productData.tag_list);
+        formData.append('slug', productData.slug);
+        formData.append('image', productData.image);
+        formData.append('demo_url', productData.demo_url);
+        formData.append('product_file', productData.product_file);
+
+        
 
         axios.post(baseUrl + '/products/', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'content-Type': 'multipart/form-data'
             }
         })
-            .then(function(response){
-                console.log(response);
-                if (response.status == 201) {
-                    setProductData({
-                        'category':'',
-                        'vendor':'',
-                        'title':'',
-                        'detail': '',
-                        'price':'',
-                        'usd_price':'',
-                        'tag_list':'',
-                        'slug':'',
-                        'image':'',
-                        'demo_url':'',
-                        'product_file':'',
-                        'product_img':''
+        .then(function(response){
+            console.log(response);
+            if (response.status == 201) {
+                setProductData({
+                    'category':'',
+                    'vendor':'',
+                    'title':'',
+                    'detail': '',
+                    'price':'',
+                    'usd_price':'',
+                    'tag_list':'',
+                    'slug':'',
+                    'image':'',
+                    'demo_url':'',
+                    'product_file':'',
+                    'product_img':''
+                });
+                setErrorMsg("");
+                setSuccessMsg(response.statusText);
+
+                // Upload Product Images
+                for (let i = 0; i < productImg.length; i++) {
+                    const ImgFormData = new FormData();
+                    ImgFormData.append('product', response.data.id);
+                    ImgFormData.append('image', productImg[i]);
+                    axios.post(baseUrl + '/product-imgs/', ImgFormData)
+                    .then(function(response){
+                        console.log(response);
+                    })
+                    .catch(function(error){
+                        console.log(error);    
                     });
-                    setErrorMsg("");
-                    setSuccessMsg(response.statusText);
-
-                    // Upload Product Images
-                    for (let i = 0; i < productImg.length; i++) {
-                        const ImgFormData = new FormData();
-                        ImgFormData.append('product', response.data.id);
-                        ImgFormData.append('image', productImg[i]);
-                        axios.post(baseUrl + '/product-imgs/', ImgFormData)
-                        .then(function(response){
-                            console.log(response);
-                        })
-                        .catch(function(error){
-                            console.log(error);    
-                        });
-                    }
-
-                    setProductImg('');
-
-                    //End Upload Product Images
-
-                } else {
-                    setSuccessMsg('');  
-                    setErrorMsg(response.statusText);
                 }
-            })
-            .catch(function(error){
-                console.log(error);
-            });
+
+                setProductImg('');
+
+                //End Upload Product Images
+
+            } else {
+                setSuccessMsg('');  
+                setErrorMsg(response.statusText);
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
     }
     
     useEffect ( () =>{
         setProductData({
             ...productData,
-            'vendor': vendor_id
+            'vendor':vendor_id
         });
         fetchData(baseUrl+'/categories/');
     },[]);
@@ -130,8 +131,6 @@ function VendorAddProduct(props){
             setCategoryData(data.results);
         });
     }
-
-    console.log(categoryData);
 
     return(
         <div className='container mt-4'>
@@ -198,7 +197,7 @@ function VendorAddProduct(props){
                         <input type="file" name='product_file' className="form-control" onChange={fileHandler} id="Product_File" />
                     </div>
                     
-                    <button type="buttom" onChange={submitHandler} className="btn btn-primary">Submit</button>
+                    <button type="buttom" onClick={submitHandler} className="btn btn-primary">Submit</button>
                     </form>
 
                         </div>

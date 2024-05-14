@@ -47,6 +47,7 @@ import VendorCustomers from './components/Vendor/VendorCustomers';
 import VendorReports from './components/Vendor/VendorReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
+import VendorLogout from './components/Vendor/VendorLogout';
 
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
@@ -96,6 +97,7 @@ function App() {
         <Route path='/vendor/reports' element={<VendorReports/>}></Route>
         <Route path='/vendor/profile' element={<VendorProfile/>}></Route>
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
+        <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
       </Routes>
       <Footer/>
     </CartContext.Provider>  

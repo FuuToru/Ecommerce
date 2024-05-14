@@ -1,28 +1,16 @@
 import {Link} from 'react-router-dom';
-import {React} from 'react';
 import {useContext} from 'react';
-import { UserContext, CartContext, CurrencyContext } from '../Context';
-import {useState} from 'react';
-
-function Header(props){
-  const userContext = useContext(UserContext);
-  const {cartData, setcartData} = useContext(CartContext);
-  const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
-
-  if(cartData == null){
-    var cartItems = 0;
-  }else{
-    var cartItems = cartData.length;
-  }
-
-
-  const changeCurrency = (e)=>{
-    var _currency = e.target.value;
-    localStorage.setItem('currency',_currency);
-    setCurrencyData(_currency);
+import { UserContext, CartContext } from '../Context';
+function Header(){
+    const userContext = useContext(UserContext);
+    const {cartData, setCartData} = useContext(CartContext);
+    const checkCustomer = localStorage.getItem('customer_login');
+    const checkVendor = localStorage.getItem('vendor_login');
+    if (cartData == null){
+      var carItems = 0;
+    }else{
+      var carItems = cartData.length;
     }
-
- 
     return (
         <nav className="navbar navbar-expand-lg bg-light">
         <div className="container">
@@ -43,71 +31,51 @@ function Header(props){
               <li className="nav-item">
                 <Link className="nav-link" href="#" to="/categories">Categories</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>Cart ({cartData!=null && cartData.length})</Link>
-              </li>
               <li className="nav-item dropdown">
-              {userContext != 'true' &&
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Become a Customer ?
-                </a>
-              }
-              {userContext == 'true' &&
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   My Account
                 </a>
-              }
                 <ul className="dropdown-menu">
-                {userContext != 'true' &&
-                  <>
-                  <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
-                  <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
-                  </>
+                {
+                  checkCustomer && <>
+                                      <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
+                                      <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
+                                </>
                 }
-                {userContext == 'true'  && 
-                  <>
-                  <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
-                  <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
-                  </>
+                {
+                  !checkCustomer && <>
+                                      <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
+                                      <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
+                                </>
                 }
                 </ul>
-        </li>
-        <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Vendor Panel
-                </a>
-                <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
-                  <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
-                  <li><hr className="dropdown-divider"/></li>
-                  <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
-                  <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
-                </ul>
-        </li>
-        <li className="nav-item">
-                <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>New Orders (4)</Link>
+
               </li>
-        <li className='nav-item'>
-          <div className='nav-link'>
-          <select onChange={changeCurrency}>
-            {
-              CurrencyData != 'usd' && <>
-              <option value='usd'>USD</option>
-              <option value='vnd' selected>VND</option>
-              </>
-            }
-            {
-              CurrencyData == 'usd' && <>
-              <option value='usd' selected>USD</option>
-              <option value='vnd'>VND</option>
-              </>
-            }
-            </select>
-          </div>
-
-        </li>
-
-
+              <li className="nav-item dropdown">
+                      <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vendor Panel
+                      </a>
+                      <ul className="dropdown-menu">
+                      {
+                        checkVendor && <>
+                                          <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
+                                          <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+                                      </>
+                      }
+                      {
+                        !checkVendor && <>
+                                          <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
+                                          <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
+                                      </>
+                      }
+                      </ul>
+              </li>
+              <li className="nav-item">
+                      <Link className="nav-link" href="#" to="/checkout"> <i className="fa-solid fa-cart-shopping"></i>New Orders (4)</Link>
+              </li>
+              <li className="nav-item">
+                      <Link className="nav-link" aria-current='page' to="/checkout">My Cart ({cartData!=null && cartData.length})</Link>
+              </li>
             </ul>
           </div>
         </div>

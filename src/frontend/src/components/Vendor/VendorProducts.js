@@ -12,6 +12,9 @@ function VendorProducts(props){
 
     const [productData, setProductData] = useState([]);
 
+    // const vendorData = localStorage.getItem('vendor');
+    // const vendor = JSON.parse(vendorData);
+
     useEffect ( () =>{
         fetchData(baseUrl+'/products/');
     },[]);
@@ -23,6 +26,22 @@ function VendorProducts(props){
             setProductData(data.results);
         });
     }
+
+    // useEffect(() => {
+    //     // Lấy thông tin về vendor đang đăng nhập (ví dụ: vendorId)
+    //     // const vendorId = getVendorId(); // Hàm getVendorId() phải được thay thế bằng cách lấy thông tin vendor thực tế
+    
+    //     // Gọi API chỉ lấy các sản phẩm của vendor đó
+    //     fetchData(`${baseUrl}/products/?vendor=${vendor.id}`);
+    // }, []);
+    
+    // function fetchData(url) {
+    //     fetch(url)
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setProductData(data.results);
+    //         });
+    // }
 
     console.log(productData);
 

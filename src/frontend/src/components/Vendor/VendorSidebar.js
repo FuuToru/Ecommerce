@@ -14,7 +14,7 @@ function VendorSidebar(props){
             <Link to="/vendor/reports" className="list-group-item list-group-item-action ">Reports</Link>
             <Link to="/vendor/profile" className="list-group-item list-group-item-action ">Profile</Link>
             <Link to="/vendor/changepassword" className="list-group-item list-group-item-action ">Change Password</Link>
-            <a className="list-group-item list-group-item-action text-danger ">Logout</a>
+            <Link to='/vendor/logout' className="list-group-item list-group-item-action text-danger ">Logout</Link>
         </div>
 
 

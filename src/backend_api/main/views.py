@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db import transaction
 # Create your views here.
 
 # Vendor
@@ -35,72 +36,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class CustomerAddressViewSet(viewsets.ModelViewSet):
     queryset = models.CustomerAddress.objects.all()
     serializer_class = serializers.CustomerAddressSerializer
-
-@csrf_exempt
-def customer_login(request):
-    username = request.POST.get('username')
-    password=request.POST.get('password')
-    user=authenticate(username=username,password=password)
-    if user:
-        customer = models.Customer.objects.get(user=user)
-        msg={
-            'bool':True,
-            'user':user.username,
-            'id':customer.id,
-        }
-    else:
-        msg={
-            'bool':False,
-            'msg':'Invalid Username/Password!!'
-        }
-    return JsonResponse(msg)
-
-@csrf_exempt
-def customer_register(request):
-    first_name=request.POST.get('first_name')
-    last_name=request.POST.get('last_name')
-    email=request.POST.get('email')
-    mobile=request.POST.get('mobile')
-    username = request.POST.get('username')
-    password=request.POST.get('password')
-    try:
-        user=User.objects.create(
-            first_name = first_name,
-            last_name = last_name,
-            email=email,
-            username=username,
-            password=password,
-        )
-        if user:
-            try:
-                customer = models.Customer.objects.create(
-                    user=user,
-                    mobile=mobile
-                )
-                msg={
-                    'bool':True,
-                    'user':user.id,
-                    'customer':customer.id,
-                    'msg':'Thank you for your registration. You can login now'
-                }
-            except IntegrityError:
-                    msg={
-                        'bool':False,
-                        'msg':'Mobile already exist!!'
-                    }
-
-        else:
-            msg={
-                'bool':False,
-                'msg':'Oops...Something went wrong!!'
-            }
-    except IntegrityError:
-        msg={
-            'bool':False,
-            'msg':'Username already exist!!'
-        }
-
-    return JsonResponse(msg)
 
 
 # Product
@@ -215,92 +150,7 @@ def update_order_status(request, order_id):
                 }
     return JsonResponse(msg)
 
-@csrf_exempt
-def vendor_register(request):
-    if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        mobile = request.POST.get('mobile')
-        address = request.POST.get('address')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
 
-        # if not (first_name and last_name and email and mobile and address and username and password):
-        #     return JsonResponse({'bool': False, 'msg': 'All fields are required.'}, status=400)
-
-        try:
-            user = User.objects.create_user(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                username=username,
-                password=password
-            )
-            user.save()
-            vendor = models.Vendor.objects.create(
-                user=user, 
-                mobile=mobile,
-                address=address,
-            )
-            return JsonResponse({
-                'bool': True,
-                'user': user.id,
-                'vendor': vendor.id,
-                'msg': 'Thank you for registration. You can login now.'
-            }, status=201)
-
-        except IntegrityError as e:
-            if 'username' in str(e):
-                return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
-            elif 'mobile' in str(e):
-                return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
-            else:
-                return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
-    else:
-        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
-    
-
-
-@csrf_exempt
-def customer_register(request):
-    if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        mobile = request.POST.get('mobile')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        try:
-            user = User.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                username=username,
-                password=password,
-            )
-            
-            user.save()
-            customer = models.Customer.objects.create(
-                user=user,
-                mobile=mobile
-            )
-            return JsonResponse({
-                'bool': True,
-                'user': user.id,
-                'customer': customer.id,
-                'msg': 'Thank you for registration. You can login now.'
-            }, status=201)
-        except IntegrityError as e:
-            if 'username' in str(e):
-                return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
-            elif 'mobile' in str(e):
-                return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
-            else:
-                return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
-    else:
-        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
-    
     
 class WishList(generics.ListCreateAPIView):
     queryset = models.Wishlist.objects.all()
@@ -382,3 +232,137 @@ def customer_dashboard(request,pk):
     }
     return JsonResponse(msg)
 
+
+@csrf_exempt
+def vendor_register(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        address = request.POST.get('address')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not (first_name and last_name and email and mobile and address and username and password):
+            return JsonResponse({'bool': False, 'msg': 'All fields are required.'}, status=400)
+
+        with transaction.atomic():  
+            try:
+                user = User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    username=username,
+                    password=password
+                )
+                vendor = models.Vendor.objects.create(
+                    user=user, 
+                    mobile=mobile,
+                    address=address,
+                )
+                return JsonResponse({
+                    'bool': True,
+                    'user': user.id,
+                    'vendor': vendor.id,
+                    'msg': 'Thank you for registration. You can login now.'
+                }, status=201)
+
+            except IntegrityError as e:
+                if 'username' in str(e):
+                    return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
+                elif 'mobile' in str(e):
+                    return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
+                else:
+                    return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
+
+
+@csrf_exempt
+def customer_register(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        with transaction.atomic():
+            try:
+                user = User.objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    username=username,
+                    password=password,
+                )
+                
+                user.save()
+                customer = models.Customer.objects.create(
+                    user=user,
+                    mobile=mobile
+                )
+                return JsonResponse({
+                    'bool': True,
+                    'user': user.id,
+                    'customer': customer.id,
+                    'msg': 'Thank you for registration. You can login now.'
+                }, status=201)
+            except IntegrityError as e:
+                if 'username' in str(e):
+                    return JsonResponse({'bool': False, 'msg': 'Username already exists.'}, status=409)
+                elif 'mobile' in str(e):
+                    return JsonResponse({'bool': False, 'msg': 'Mobile number already registered.'}, status=409)
+                else:
+                    return JsonResponse({'bool': False, 'msg': 'Database error.'}, status=500)
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
+
+
+@csrf_exempt
+def customer_login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    if user:
+        msg = {
+            'bool': True,
+            'msg': user.username,
+        }
+    else:
+        msg = {
+            'bool': False,
+            'msg': 'Invalid username or password.',
+        }
+    
+    print(msg)
+    return JsonResponse(msg)
+
+@csrf_exempt
+def vendor_login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    
+    if user:
+        try:
+            vendor = models.Vendor.objects.filter(user=user).first()            
+            msg = {
+                'bool': True,
+                'user': user.username,
+                'id': vendor.id,
+            }
+        except models.Vendor.DoesNotExist:
+            msg = {
+                'bool': False,
+                'msg': 'Vendor not found for the authenticated user.',
+            }
+    else:
+        msg = {
+            'bool': False,
+            'msg': 'Invalid username or password.',
+        }
+    
+    print(msg)
+    return JsonResponse(msg)
