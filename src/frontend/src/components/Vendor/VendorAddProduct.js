@@ -3,11 +3,11 @@ import VendorSidebar from './VendorSidebar';
 import axios from 'axios';
 const baseUrl = "http://127.0.0.1:8000/api";
 function VendorAddProduct(props){
-    const vendor_id = localStorage.getItem('vendor_id');
+    // const vendor_id = localStorage.getItem('vendor_id');
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
-    const [imgUploaderrorMsg, setImgUploadeErrorMsg] = useState('');
-    const [imgUploadesuccessMsg, setImgUploadeSuccessMsg] = useState('');
+    // const [imgUploaderrorMsg, setImgUploadeErrorMsg] = useState('');
+    // const [imgUploadesuccessMsg, setImgUploadeSuccessMsg] = useState('');
     const [categoryData, setCategoryData] = useState([]);
     const [productImg, setProductImg] = useState([]);
     const [productData, setProductData] = useState({
@@ -17,7 +17,7 @@ function VendorAddProduct(props){
         'detail': '',
         'price':'',
         'usd_price':'',
-        'tag_list':'',
+        'tags':'',
         'slug':'',
         'image':'',
         'demo_url':'',
@@ -29,14 +29,14 @@ function VendorAddProduct(props){
         setProductData({
             ...productData,
             [event.target.name]: event.target.value
-        })
+        });
     };
-
+    
     const fileHandler = (event) => {
         setProductData({
             ...productData,
             [event.target.name]: event.target.files[0]
-        })
+        });
     };
 
     const multipleFileHandler = (event) => {
@@ -47,25 +47,30 @@ function VendorAddProduct(props){
     };
 
 
-    const submitHandler = () => {
+    const submitHandler = (event) => {
+        event.preventDefault();
+        
         const formData = new FormData();
         formData.append('category', productData.category);
-        formData.append('vendor', productData.vendor);
+        formData.append('vendor', productData.vendor.id);
         formData.append('title', productData.title);
         formData.append('detail', productData.detail);
         formData.append('price', productData.price);
         formData.append('usd_price', productData.usd_price);
-        formData.append('tag_list', productData.tag_list);
+        formData.append('tags', productData.tags);
         formData.append('slug', productData.slug);
         formData.append('image', productData.image);
         formData.append('demo_url', productData.demo_url);
         formData.append('product_file', productData.product_file);
+        // formData.append('product_img', productData.product_img);
 
-        
+        // console.log(productData);
+        console.log([...formData.entries()]);
 
-        axios.post(baseUrl + '/products/', formData, {
+        // Submit data
+        axios.post(`${baseUrl}/add-products/`, formData, {
             headers: {
-                'content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         })
         .then(function(response){
@@ -78,7 +83,7 @@ function VendorAddProduct(props){
                     'detail': '',
                     'price':'',
                     'usd_price':'',
-                    'tag_list':'',
+                    'tags':'',
                     'slug':'',
                     'image':'',
                     'demo_url':'',
@@ -93,7 +98,7 @@ function VendorAddProduct(props){
                     const ImgFormData = new FormData();
                     ImgFormData.append('product', response.data.id);
                     ImgFormData.append('image', productImg[i]);
-                    axios.post(baseUrl + '/product-imgs/', ImgFormData)
+                    axios.post(`${baseUrl}/product-imgs/`, ImgFormData)
                     .then(function(response){
                         console.log(response);
                     })
@@ -112,17 +117,31 @@ function VendorAddProduct(props){
             }
         })
         .catch(function(error){
-            console.log(error);
+            console.log(error.response.data);
         });
     }
     
-    useEffect ( () =>{
-        setProductData({
-            ...productData,
-            'vendor':vendor_id
-        });
-        fetchData(baseUrl+'/categories/');
-    },[]);
+    useEffect(() => {
+        const vendor_id = localStorage.getItem('vendor_id');
+        const vendor_username = localStorage.getItem('vendor_username');
+        const vendor_profileImg = localStorage.getItem('vendor_profileImg');
+        const vendor_address = localStorage.getItem('vendor_address');
+        const vendor_mobile = localStorage.getItem('vendor_mobile');
+
+        if (vendor_id) {
+            setProductData(prevState => ({
+                ...prevState,
+                'vendor': {
+                    'id': vendor_id,
+                    'username': vendor_username,
+                    'profile_img': vendor_profileImg,
+                    'address': vendor_address,
+                    'mobile': vendor_mobile
+                }
+            }));
+        }
+        fetchData(baseUrl + '/categories/');
+    }, []);
 
     function fetchData(baseurl){
         fetch(baseurl)
@@ -131,6 +150,8 @@ function VendorAddProduct(props){
             setCategoryData(data.results);
         });
     }
+
+    // console.log(productData);
 
     return(
         <div className='container mt-4'>
@@ -150,8 +171,9 @@ function VendorAddProduct(props){
                     <div className="mb-3">
                         <label for="Category" className="form-label">Category</label>
                         <select className='form-control' name='category' onChange={inputHandler}>
+                            <option value=''>Select Category</option>
                             {
-                                categoryData.map((item,index)=><option key={item.id} value={item.id}>{item.title}</option>)
+                                categoryData.map((item,index)=><option key={index} value={item.id}>{item.title}</option>)
                             }
                         </select>
                     </div>
@@ -177,16 +199,16 @@ function VendorAddProduct(props){
                         <textarea className="form-control" name='detail' value={productData.detail} onChange={inputHandler} rows="8" id="Detail"></textarea>
                     </div>
                     <div className="mb-3">
-                        <label for="Tag_list" className="form-label">Tag List</label>
-                        <textarea className="form-control" name='tag_list' value={productData.tag_list} onChange={inputHandler} rows="8" id="Tag_list"></textarea>
+                        <label for="Tags" className="form-label">Tags</label>
+                        <textarea className="form-control" name='tags' value={productData.tags} onChange={inputHandler} rows="8" id="Tags"></textarea>
                     </div>
                     <div className="mb-3">
                         <label for="Demo_URL" className="form-label">Demo URL</label>
                         <input type="url" name='demo_url' value={productData.demo_url} onChange={inputHandler} className="form-control" id="Demo_URL" />
                     </div>
                     <div className="mb-3">
-                        <label for="Feqatured_Images" className="form-label">Feqatured Images</label>
-                        <input type="file" name='image' className="form-control" onChange={fileHandler} id="Feqatured_Images" />
+                        <label for="ProductImg" className="form-label">Feqatured Images</label>
+                        <input type="file" name='image' className="form-control" onChange={fileHandler} id="ProductImg" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="Product_Images" className="form-label">Product Images</label>
@@ -196,7 +218,7 @@ function VendorAddProduct(props){
                         <label for="Product_File" className="form-label">Product File</label>
                         <input type="file" name='product_file' className="form-control" onChange={fileHandler} id="Product_File" />
                     </div>
-                    
+        
                     <button type="buttom" onClick={submitHandler} className="btn btn-primary">Submit</button>
                     </form>
 

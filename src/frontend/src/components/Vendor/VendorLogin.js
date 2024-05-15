@@ -38,8 +38,11 @@ function Login(props) {
                 setErrorMsg(response.data.msg);
             } else {
                 localStorage.setItem('vendor_id', response.data.id);
-                localStorage.setItem('vendor_login', true);
-                localStorage.setItem('vendor_username', response.data.username);
+                localStorage.setItem('vendor_login', response.data.bool);
+                localStorage.setItem('vendor_username', response.data.user);
+                localStorage.setItem('vendor_address', response.data.address);
+                localStorage.setItem('vendor_mobile', response.data.mobile);
+                localStorage.setItem('vendor_profileImg', response.data.profile_img);
                 setFormError(false);
                 setErrorMsg('');
                 // window.location.href = '/vendor/dashboard'; 
@@ -49,6 +52,8 @@ function Login(props) {
             console.log(error);
         });
     };
+
+    // console.log(localStorage);
 
     const buttonEnable = (loginFormData.username !== '') && (loginFormData.password !== '');
     const checkVendor = localStorage.getItem('vendor_login');

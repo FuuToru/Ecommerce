@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from . import serializers
-from rest_framework import generics, permissions, pagination,viewsets
+from rest_framework import generics, permissions, pagination,viewsets, status
 from . import serializers
 from . import models
+from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
@@ -54,6 +55,14 @@ class ProductList(generics.ListCreateAPIView):
             limit =int(self.request.GET['fetch_limit'])
             qs =qs[:limit]
         return qs
+
+class addProduct(generics.ListCreateAPIView):
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductListSerializer
+
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        return super().post(request,*args, **kwargs)
     
 class ProductImgsList(generics.ListCreateAPIView):
     queryset = models.ProductImage.objects.all()
@@ -158,13 +167,13 @@ class WishList(generics.ListCreateAPIView):
 
 @csrf_exempt
 def check_in_wishlist(request):
+    msg={
+            'bool': False
+        }
     if request.method =='POST':
         product_id = request.POST.get('product')
         customer_id = request.POST.get('customer')
         checkWishlist = models.Wishlist.objects.filter(product__id=product_id, customer__id=customer_id).count()
-        msg={
-            'bool': False
-        }
         if checkWishlist >0:
             msg={
                 'bool': True,
@@ -352,6 +361,9 @@ def vendor_login(request):
                 'bool': True,
                 'user': user.username,
                 'id': vendor.id,
+                'address': vendor.address,
+                'mobile': vendor.mobile,
+                'profile_img': vendor.profile_img.url if vendor.profile_img else ''
             }
         except models.Vendor.DoesNotExist:
             msg = {
