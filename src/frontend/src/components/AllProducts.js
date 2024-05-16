@@ -31,25 +31,25 @@ function AllProducts(){
   var links = [];
   var limit = 12;
   var totalLinks = totalResult/limit;
-  for(let i=1; i<=totalLinks; i++){
+  console.log(totalLinks);
+  for(let i=1; i<=totalLinks+1; i++){
     links.push(<li class='page-item'><Link onClick={()=>changeUrl(baseUrl+`/products/?page=${i}`)} to={`/products/?page=${i}`} class='page-link'>{i}</Link></li>)
   }
     return (
         <section className='container mt-4'>
-        <h1 className='mb-4'> All Products
-        </h1>
-      <div className='row mb-4'>
-        {
-          products.map((product)=> <SingleProduct product={product}/> )
-        }
+        <h1 className='mb-4'> All Products</h1>
+          <div className='row mb-4'>
+            {
+              products.map((product)=> <SingleProduct product={product}/> )
+            }
 
-      </div>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            {links}
-          </ul>
-    </nav>
-      </section>
+          </div>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                {links}
+              </ul>
+            </nav>
+        </section>
 
     );
 

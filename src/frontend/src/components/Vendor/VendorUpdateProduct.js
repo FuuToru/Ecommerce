@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import VendorSidebar from './VendorSidebar';
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 const baseUrl = "http://127.0.0.1:8000/api";
 function VendorUpdateProduct(props){
@@ -8,12 +8,13 @@ function VendorUpdateProduct(props){
     const vendor_id = localStorage.getItem('vendor_id');
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
-    const [imgUploaderrorMsg, setImgUploadeErrorMsg] = useState('');
-    const [imgUploadesuccessMsg, setImgUploadeSuccessMsg] = useState('');
+    // const [imgUploaderrorMsg, setImgUploadeErrorMsg] = useState('');
+    // const [imgUploadesuccessMsg, setImgUploadeSuccessMsg] = useState('');
     const [categoryData, setCategoryData] = useState([]);
     const [productImgs, setProductImgs] = useState([]);
     const [isFeatureImagesSelected, setIsFeatureImagesSelected] = useState(false);
     const [isFeatureFilesSelected, setIsFeatureFilesSelected] = useState(false);
+    const [isMultipleImagesSelected, setIsMultipleImagesSelected] = useState(false);
     const [productData, setProductData] = useState({
         'category':'',
         'vendor':'',
@@ -25,8 +26,7 @@ function VendorUpdateProduct(props){
         'slug':'',
         'image':'',
         'demo_url':'',
-        'product_file':'',
-        'product_imgs':''
+        'product_imgs':'', 
         
     });
 
@@ -52,64 +52,60 @@ function VendorUpdateProduct(props){
     };
 
     const multipleFileHandler = (event) => {
-        console.log(event.target.files);
         var files = event.target.files;
         if (files.length > 0) {
+            setIsMultipleImagesSelected(true);
             setProductImgs(files);
         }
     };
 
 
-    const submitHandler = () => {
-        const formData = new FormData();
-        formData.append('category', formData.category);
-        formData.append('vendor', formData.vendor);
-        formData.append('title', formData.title);
-        formData.append('detail', formData.detail);
-        formData.append('price', formData.price);
-        formData.append('usd_price', formData.usd_price);
-        formData.append('tag_list', formData.tag_list);
-        formData.append('slug', formData.slug);
-        formData.append('image', formData.image);
-        formData.append('demo_url', formData.demo_url);
+    const submitHandler = (event) => {
+        event.preventDefault();
 
-        axios.patch(baseUrl + '/product/'+product_id, formData, {
+        const formData = new FormData();
+        formData.append('category', productData.category);
+        formData.append('vendor', productData.vendor);
+        formData.append('title', productData.title);
+        formData.append('detail', productData.detail);
+        formData.append('price', productData.price);
+        formData.append('usd_price', productData.usd_price);
+        formData.append('tag_list', productData.tag_list);
+        formData.append('slug', productData.slug);
+        formData.append('demo_url', productData.demo_url);
+        if (isFeatureImagesSelected) {
+            formData.append('image', productData.image);
+        }
+        if (isFeatureFilesSelected) {
+            formData.append('product_file', productData.product_file);
+        }
+
+        axios.patch(`${baseUrl}/product/${product_id}/`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(function(response){
                 console.log(response);
-                if (response.status == 201) {
-                    setProductData({
-                        'category':'',
-                        'vendor':'',
-                        'title':'',
-                        'detail': '',
-                        'price':'',
-                        'usd_price':'',
-                        'tag_list':'',
-                        'slug':'',
-                        'demo_url':''
-                    });
+                if (response.status == 200) {
                     setErrorMsg("");
                     setSuccessMsg(response.statusText);
 
                     // Upload Product Images
-                    for (let i = 0; i < productImgs.length; i++) {
-                        const ImgFormData = new FormData();
-                        ImgFormData.append('product', response.data.id);
-                        ImgFormData.append('image', productImgs[i]);
-                        axios.post(baseUrl + '/product-imgs/', ImgFormData)
-                        .then(function(response){
-                            console.log(response);
-                        })
-                        .catch(function(error){
-                            console.log(error);    
-                        });
+                    if (isMultipleImagesSelected) {
+                        for (let i = 0; i < productImgs.length; i++) {
+                            const ImgFormData = new FormData();
+                            ImgFormData.append('product', response.data.id);
+                            ImgFormData.append('image', productImgs[i]);
+                            axios.post(baseUrl + '/product-imgs/', ImgFormData)
+                            .then(function(response){
+                                console.log(response);
+                            })
+                            .catch(function(error){
+                                console.log(error);    
+                            });
+                        }
                     }
-
-                    setProductImgs('');
 
                     //End Upload Product Images
 
@@ -129,7 +125,6 @@ function VendorUpdateProduct(props){
             'vendor': vendor_id
         });
         fetchData(baseUrl+'/categories/');
-        console.log(product_id);
         fetchProductData(baseUrl+'/product/'+product_id+'/');
     },[]);
 
@@ -141,10 +136,13 @@ function VendorUpdateProduct(props){
         });
     }
 
+    
+
     function fetchProductData(baseurl){
         fetch(baseurl)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             setProductData({
                 'category':data.category,
                 'vendor':data.vendor,
@@ -232,9 +230,8 @@ function VendorUpdateProduct(props){
                     <div className="mb-3">
                         <label for="Product_File" className="form-label">Product File</label>
                         <input type="file" name='product_file' className="form-control" onChange={fileHandler} id="Product_File" />
-                        <a href={productData.product_file}>{productData.product_file}</a>
                     </div>
-                    <button type="buttom" onChange={submitHandler} className="btn btn-primary">Submit</button>
+                    <button type="buttom" onClick={submitHandler} className="btn btn-primary">Submit</button>
                     </form>
 
                         </div>

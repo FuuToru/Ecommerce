@@ -64,6 +64,8 @@ class ProductImageSerializer(serializers.ModelSerializer):
         
         
 class ProductListSerializer(serializers.ModelSerializer):
+    category = serializers.PrimaryKeyRelatedField(queryset=models.ProductCategory.objects.all())
+    vendor = serializers.PrimaryKeyRelatedField(queryset=models.Vendor.objects.all())
     product_ratings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
@@ -81,7 +83,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         many = True
         model = models.Product
-        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'usd_price', 'product_ratings', 'product_imgs', 'demo_url', 'image', 'product_file', 'downloads', 'published_status']
+        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'usd_price', 'product_ratings', 'product_imgs', 'demo_url', 'image', 'product_file', 'tags', 'published_status']
     def __init__(self, *args, **kwargs):
         super(ProductDetailSerializer, self).__init__(*args, **kwargs)
         # self.Meta.depth = 1

@@ -1,56 +1,81 @@
-//Packages
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import { useState, useEffect } from 'react';
-//Assets
-import logo from '../../logo.svg';
-import ProductDetail from '../ProductDetail';
 import VendorSidebar from '../Vendor/VendorSidebar';
+
 const baseUrl = "http://127.0.0.1:8000/api";
 
-function VendorProducts(props){
-
+function VendorProducts(props) {
     const [productData, setProductData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    // const vendorData = localStorage.getItem('vendor');
-    // const vendor = JSON.parse(vendorData);
+    useEffect(() => {
+        fetchData(currentPage);
+    }, [currentPage]);
 
-    useEffect ( () =>{
-        fetchData(baseUrl+'/products/');
-    },[]);
-
-    function fetchData(baseurl){
-        fetch(baseurl)
-        .then((response) => response.json())
-        .then((data) => {
-            setProductData(data.results);
-        });
+    function fetchData(page) {
+        fetch(`${baseUrl}/products/?page=${page}&limit=${12}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setProductData(data.results);
+                setTotalPages(Math.ceil(data.count / 12));
+                console.log(data.results);
+            })
+            .catch((error) => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     }
 
-    // useEffect(() => {
-    //     // Lấy thông tin về vendor đang đăng nhập (ví dụ: vendorId)
-    //     // const vendorId = getVendorId(); // Hàm getVendorId() phải được thay thế bằng cách lấy thông tin vendor thực tế
-    
-    //     // Gọi API chỉ lấy các sản phẩm của vendor đó
-    //     fetchData(`${baseUrl}/products/?vendor=${vendor.id}`);
-    // }, []);
-    
-    // function fetchData(url) {
-    //     fetch(url)
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setProductData(data.results);
-    //         });
-    // }
+    function showConfirm(product_id) {
+        var _confirm = window.confirm('Are you sure you want to delete this product?');
+        if (_confirm) {
+            fetch(baseUrl + '/product/' + product_id + '/', {
+                method: 'DELETE',
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                setProductData((prevProductData) => prevProductData.filter(product => product.id !== product_id));
+                console.log('Product deleted');
+            })
+            .catch((error) => {
+                console.error('There was a problem with the delete operation:', error);
+            });
+        }
+    }
 
-    console.log(productData);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
-    return(
+    const renderPagination = () => {
+        let pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(
+                <button 
+                    key={i} 
+                    className={`btn ${i === currentPage ? 'btn-primary' : 'btn-secondary'}`} 
+                    onClick={() => handlePageChange(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+        return pages;
+    };
+
+    return (
         <div className='container mt-4'>
             <div className='row'>
                 <div className='col-md-3 col-12 mb-2'>
-                    <VendorSidebar/>
-
+                    <VendorSidebar />
                 </div>
                 <div className='col-md-9 col-12 mb-2'>
                     <div className='table-responsive'>
@@ -58,7 +83,9 @@ function VendorProducts(props){
                             <thead>
                                 <tr>
                                     <td colSpan="6">
-                                        <Link to="/vendor/add-product" className="btn btn-primary mb-2 " ><i className='fa fa-plus-circle'></i>Add Product</Link>
+                                        <Link to="/vendor/add-product" className="btn btn-primary mb-2">
+                                            <i className='fa fa-plus-circle'></i> Add Product
+                                        </Link>
                                     </td>
                                 </tr>
                                 <tr>
@@ -72,39 +99,34 @@ function VendorProducts(props){
                             </thead>
                             <tbody>
                                 {
-                                    productData.map((product, index)=>
-                                        <tr>
+                                    productData.map((product, index) => (
+                                        <tr key={index}>
                                             <td>{product.id}</td>
                                             <td>
-                                                <Link to={`/vendor/update-product/${product.id}`} >{product.title}</Link>
+                                                <Link to={`/vendor/update-product/${product.id}`}>{product.title}</Link>
                                             </td>
                                             <td>{product.price} VND</td>
                                             <td>${product.usd_price}</td>
                                             <td>
-                                                {
-                                                    !product.published_status && 'Pending'
-                                                }
-                                                {
-                                                    product.published_status && <span class='text-success'>Published</span>
-                                                }
+                                                {!product.published_status && 'Pending'}
+                                                {product.published_status && <span className='text-success'>Published</span>}
                                             </td>
                                             <td>
-                                                <a href="#" className='btn btn-primary ms-1'>Edit</a>
-                                                <a href="#" className='btn btn-danger ms-1'>Delete</a>
+                                                <Link to={`/vendor/update-product/${product.id}`} className='btn btn-primary ms-1'>Edit</Link>
+                                                <button onClick={() => showConfirm(product.id)} className='btn btn-danger ms-1'>Delete</button>
                                             </td>
                                         </tr>
-                                    )
+                                    ))
                                 }
-                            
                             </tbody>
                         </table>
+                        <div className='pagination'>
+                            {renderPagination()}
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
-
     );
 }
 

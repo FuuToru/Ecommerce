@@ -117,7 +117,7 @@ function VendorAddProduct(props){
             }
         })
         .catch(function(error){
-            console.log(error.response.data);
+            console.log(error);
         });
     }
     
