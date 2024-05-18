@@ -121,9 +121,9 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ['id','customer','order_status','order_time', 'total_amount', 'total_usd_amount']
-    # def __init__(self, *args, **kwargs):
-    #     super(OrderSerializer, self).__init__(*args, **kwargs)
-    #     self.Meta.depth = 1
+    def __init__(self, *args, **kwargs):
+        super(OrderSerializer, self).__init__(*args, **kwargs)
+        self.Meta.depth = 1
 
 class CustomerOrderItemSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
@@ -136,6 +136,14 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderItems
         fields = ['id', 'order', 'product', 'qty', 'price','usd_price']
+    
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['order'] = OrderSerializer(instance.order).data
+        response['customer'] = CustomerSerializer(instance.order.customer).data
+        response['user'] = UserSerializer(instance.order.customer.user).data
+        response['product'] = ProductDetailSerializer(instance.product).data
+        return response
 
 
 

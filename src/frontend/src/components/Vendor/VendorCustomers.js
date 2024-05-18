@@ -1,10 +1,23 @@
-//Packages
-import { Link } from 'react-router-dom';
-//Assets
-import logo from '../../logo.svg';
-import ProductDetail from '../ProductDetail';
+import { useState, useEffect } from 'react';
 import VendorSidebar from './VendorSidebar';
+const baseUrl = "http://127.0.0.1:8000/api";
 function VendorCustomers(props){
+
+    const vendor_id = localStorage.getItem('vendor_id');
+    const [customerList, setCustomerList] = useState([]);
+
+    useEffect(() => {
+        fetchData(baseUrl + '/vendor/' + vendor_id + '/customers/');
+    }, []);
+
+    function fetchData(baseUrl) {
+        fetch(baseUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            setCustomerList(data.results);
+        })
+    }
+
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -27,43 +40,27 @@ function VendorCustomers(props){
 
                                 </thead>
                                 <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                John Doe
-
-
-                            </td>
-                            <td>
-                                john@gmail.com
-                            </td>
-                            <td>12233445</td>
-                            <td>
-                            <button className='btn btn-primary btn-sm me-1'>Orders</button>
-                                <button className='btn btn-danger btn-sm'>Remove from list</button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                John Doe
-
-
-                            </td>
-                            <td>
-                                john@gmail.com
-                            </td>
-                            <td>12233445</td>
-                            <td>
-                            <button className='btn btn-primary btn-sm me-1'>Orders</button>
-                                <button className='btn btn-danger btn-sm'>Remove from list</button>
-
-                            </td>
-                        </tr>
-
-
-                    </tbody>
+                                    {
+                                        customerList.map((item, index) => 
+                                            <tr>
+                                                <td>{index+1}</td>
+                                                <td>
+                                                    {item.user.first_name} {item.user.last_name}
+                                                </td>
+                                                <td>
+                                                    {item.user.email}
+                                                </td>
+                                                <td>{item.customer.mobile}</td>
+                                                <td>
+                                                <button className='btn btn-primary btn-sm me-1'>Orders</button>
+                                                    <button className='btn btn-danger btn-sm'>Remove from list</button>
+                    
+                                                </td>
+                                            </tr>
+                                        )
+                                    
+                                    }
+                                </tbody>
                                 
 
                             </table>

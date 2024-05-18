@@ -12,6 +12,8 @@ urlpatterns = [
     path('vendor/<int:pk>/', views.VendorDetail.as_view()),
     path('vendor/register/', views.vendor_register, name='vendor-register'),
     path('vendor/login/', views.vendor_login, name='vendor-login'),
+    path('vendor/<int:pk>/orderitems/', views.VendorOrderItemList.as_view()),
+    path('vendor/<int:pk>/customers/', views.VendorCustomerList.as_view()),
     # Products
     path('products/', views.ProductList.as_view()),
     path('add-products/', views.addProduct.as_view()),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('related-products/<int:pk>', views.RelatedProductList.as_view()),
     path('product-imgs/', views.ProductImgsList.as_view()),
     path('product-imgs/<int:product_id>/', views.ProductImgsDetail.as_view()),
+    path('product-img/<int:pk>/', views.ProductImgDetail.as_view()),
     # Products Categories
     path('categories/', views.CategoryList.as_view()),
     path('category/<int:pk>/', views.CategoryDetail.as_view()),
@@ -32,6 +35,7 @@ urlpatterns = [
     path('customer/register/', views.customer_register, name='customer_register'),
     path('orders/', views.OrderList.as_view()),
     path('order/<int:pk>/', views.OrderDetail.as_view()),
+    path('order-modify/<int:pk>/', views.OrderModify.as_view()),
     path('customer/register/', views.customer_register, name='customer-register'),
     path('orderitems/', views.OrderItemList.as_view()),
     path('customer/<int:pk>/orderitems/', views.CustomerOrderItemList.as_view()),
