@@ -12,9 +12,12 @@ function VendorUpdateProduct(props){
     // const [imgUploadesuccessMsg, setImgUploadeSuccessMsg] = useState('');
     const [categoryData, setCategoryData] = useState([]);
     const [productImgs, setProductImgs] = useState([]);
+
     const [isFeatureImagesSelected, setIsFeatureImagesSelected] = useState(false);
     const [isFeatureFilesSelected, setIsFeatureFilesSelected] = useState(false);
     const [isMultipleImagesSelected, setIsMultipleImagesSelected] = useState(false);
+    const [isImageDeleted, setIsImageDeleted] = useState(false);
+
     const [productData, setProductData] = useState({
         'category':'',
         'vendor':'',
@@ -136,6 +139,17 @@ function VendorUpdateProduct(props){
         });
     }
 
+    function deleteImgs(id){
+        axios.delete(baseUrl+'/product-img/'+id+'/')
+            .then(function(response){
+                if (response.status == 204) {
+                    window.location.reload();
+                }
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+    }
     
 
     function fetchProductData(baseurl){
@@ -222,9 +236,15 @@ function VendorUpdateProduct(props){
                     </div>
                     <div className="mb-3">
                         <label htmlFor="Product_Images" className="form-label">Product Images</label>
-                        <input type="file" name='product_imgs' className="form-control" onChange={multipleFileHandler} multiple />
+                        <input type="file" name='product_imgs' className="form-control mp-3" onChange={multipleFileHandler} multiple />
                         {
-                            productData.product_imgs && productData.product_imgs.map((item,index)=><img src={item.image} className='m-2 me-2' width='200' />)
+                            productData.product_imgs && productData.product_imgs.map((item,index)=>
+                                <span class='image-box d-inline p-3 my-3' onClick={()=> deleteImgs(item .id)}>
+                                    <i class='fa fa-trash text-danger' style={styles.deleteBtn} role='button'></i>
+                                    <img src={item.image} className='my-4' width='200' />
+                                </span>
+                            )
+
                         }
                     </div>
                     <div className="mb-3">
@@ -236,16 +256,18 @@ function VendorUpdateProduct(props){
 
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
-        {/* </div> */}
         </div>
 
 
     );
 }
+
+const styles = {
+    'deleteBtn': {
+        'position': 'absolute',
+    }
+};
 
 export default VendorUpdateProduct;

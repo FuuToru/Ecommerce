@@ -78,6 +78,11 @@ class ProductImgsDetail(generics.ListCreateAPIView):
         product_id = self.kwargs['product_id']
         qs=qs.filter(product__id=product_id)
         return qs 
+    
+class ProductImgDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.ProductImage.objects.all()
+    serializer_class = serializers.ProductImageSerializer
+    
 
 
 class TagProductList(generics.ListCreateAPIView):
@@ -136,17 +141,41 @@ class OrderItemList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         print(request.POST)
         return super().post(request,*args, **kwargs)
+    
+class OrderModify(generics.RetrieveUpdateAPIView):
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
 
 
 class CustomerOrderItemList(generics.ListAPIView):
-    queryset = models.OrderItems.objects.all()
-    serializer_class = serializers.CustomerOrderItemSerializer
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()
         customer_id = self.kwargs['pk']
         qs = qs.filter(order__customer__id=customer_id)
         return qs 
+
+class VendorOrderItemList(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['pk']
+        qs = qs.filter(product__vendor_id=vendor_id)
+        return qs
+    
+class VendorCustomerList(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['pk']
+        qs = qs.filter(product__vendor_id=vendor_id)
+        return qs
 
 class OrderDetail(generics.ListAPIView):
     serializer_class = serializers.OrderDetailSerializer
