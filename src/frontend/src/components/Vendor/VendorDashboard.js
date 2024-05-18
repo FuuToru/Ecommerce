@@ -14,6 +14,7 @@ function VendorDashboard(props){
     
     });
     const vendor_id = localStorage.getItem('vendor_id');
+    
     function fetchData(baseURL){
         fetch(baseURL)
         .then(response => response.json())
@@ -22,7 +23,7 @@ function VendorDashboard(props){
         });
     }
     fetchData(baseURL+'vendor/'+vendor_id+'/dashboard/');
-    // console.log(VendorData);
+    console.log(VendorData);
     return(
         <div className='container mt-4'>
             <div className='row'>

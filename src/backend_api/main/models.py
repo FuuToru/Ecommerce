@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.db.models import Count
+import datetime
 # Vendor
 
 class Vendor(models.Model):
@@ -11,6 +13,41 @@ class Vendor(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+    @property
+    def show_chart_daily_order(self):
+        orders = OrderItems.objects.filter(product__vendor = self).values('order__order_time__date').annotate(count = Count('id'))
+        dateList = []
+        countList = []
+        if orders:
+            for order in orders:
+                dateList.append(order['order__order_time__date'])
+                countList.append(order['count'])
+        return {'date':dateList, 'data':countList}
+    
+    @property
+    def show_chart_monthly_order(self):
+        orders = OrderItems.objects.filter(product__vendor = self).values('order__order_time__month').annotate(count = Count('id'))
+        dateList = []
+        countList = []
+        if orders:
+            for order in orders:
+                monthinterger = order['order__order_time__month']
+                month = datetime.date(1900, monthinterger, 1).strftime('%B')
+                dateList.append(month)
+                countList.append(order['count'])
+        return {'date':dateList, 'data':countList}
+    
+    @property
+    def show_chart_yearly_order(self):
+        orders = OrderItems.objects.filter(product__vendor = self).values('order__order_time__year').annotate(count = Count('id'))
+        dateList = []
+        countList = []
+        if orders:
+            for order in orders:
+                dateList.append(order['order__order_time__year'])
+                countList.append(order['count'])
+        return {'date':dateList, 'data':countList}
 
 # Customer
 class Customer(models.Model):
