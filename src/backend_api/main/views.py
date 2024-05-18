@@ -281,6 +281,18 @@ def customer_dashboard(request,pk):
     }
     return JsonResponse(msg)
 
+@csrf_exempt
+def vendor_dashboard(request,pk):
+    vendor_id = pk
+    totalProducts = models.Order.objects.filter(customer__id=vendor_id).count()
+    totalOrder = models.OrderItems.objects.filter(product__vendor__id=vendor_id).count()
+    totalCustomers = models.OrderItems.objects.filter(product__vendor__id=vendor_id).values('order__customer').distinct().count()
+    msg = {
+        'totalProducts': totalProducts,
+        'totalOrder': totalOrder,
+        'totalCustomers': totalCustomers,
+    }
+    return JsonResponse(msg)
 
 @csrf_exempt
 def vendor_register(request):

@@ -14,6 +14,7 @@ urlpatterns = [
     path('vendor/login/', views.vendor_login, name='vendor-login'),
     path('vendor/<int:pk>/orderitems/', views.VendorOrderItemList.as_view()),
     path('vendor/<int:pk>/customers/', views.VendorCustomerList.as_view()),
+    path('vendor/<int:pk>/dashboard/', views.vendor_dashboard, name='customer_dashboard'),
     # Products
     path('products/', views.ProductList.as_view()),
     path('add-products/', views.addProduct.as_view()),
@@ -39,6 +40,7 @@ urlpatterns = [
     path('customer/register/', views.customer_register, name='customer-register'),
     path('orderitems/', views.OrderItemList.as_view()),
     path('customer/<int:pk>/orderitems/', views.CustomerOrderItemList.as_view()),
+    path('customer/dashboard/<int:pk>/', views.customer_dashboard, name='customer_dashboard'),
 
 
     path('update-order-status/<int:order_id>', views.update_order_status, name='update-order-status'),
@@ -49,7 +51,7 @@ urlpatterns = [
     path('customer/<int:pk>/address-list/', views.CustomerAddressList.as_view()),
 
     path('mark-default-address/<int:pk>/', views.mark_default_address, name='mark-default-address'),
-    path('customer/dashboard/<int:pk>/', views.customer_dashboard, name='customer_dashboard'),
+
 
 
 ]
