@@ -149,7 +149,7 @@ class OrderModify(generics.RetrieveUpdateAPIView):
 
 class CustomerOrderItemList(generics.ListAPIView):
     queryset = models.Order.objects.all()
-    serializer_class = serializers.OrderSerializer
+    serializer_class = serializers.OrderItemSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -158,6 +158,16 @@ class CustomerOrderItemList(generics.ListAPIView):
         return qs 
 
 class VendorOrderItemList(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['pk']
+        qs = qs.filter(product__vendor_id=vendor_id)
+        return qs
+
+class VendorDailyReport(generics.ListAPIView):
     queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
@@ -430,3 +440,28 @@ def vendor_login(request):
     
     print(msg)
     return JsonResponse(msg)
+@csrf_exempt
+def delete_customer_order(request, customer_id):
+    if request.method == 'DELETE':
+        order = models.Order.objects.filter(customer__id=customer_id).delete()
+        msg={
+            'bool':False,
+        }
+        if order:
+            msg={
+                'bool':True,
+                }
+    return JsonResponse(msg)
+
+
+class VendorCustomerOrderItemList(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['vendor_id']
+        customer_id = self.kwargs['customer_id']
+        print(vendor_id, customer_id)
+        qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
+        return qs

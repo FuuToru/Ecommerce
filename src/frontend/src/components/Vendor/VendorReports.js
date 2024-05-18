@@ -1,4 +1,5 @@
 import VendorSidebar from "./VendorSidebar";
+import { Link } from "react-router-dom";
 function VendorReports(){
     return(
         <div className='container mt-4'>
@@ -13,7 +14,7 @@ function VendorReports(){
                         <div className='card'>
                             <div className='card-body text-center'>
                                 <h4>Daily Reports</h4>
-                                <h4><a href="#" className="btn btn-info">View</a></h4>
+                                <h4><Link to="/vendor/daily-report" className="btn btn-info">View</Link></h4>
                             </div>
                         </div>
                     </div>
@@ -21,7 +22,7 @@ function VendorReports(){
                     <div className='card'>
                             <div className='card-body text-center'>
                                 <h4>Monthly Reports</h4>
-                                <h4><a href="#" className="btn btn-info">View</a></h4>
+                                <h4><Link to="#" className="btn btn-info">View</Link></h4>
                             </div>
                         </div>
                     </div>
@@ -29,7 +30,7 @@ function VendorReports(){
                     <div className='card'>
                             <div className='card-body text-center'>
                                 <h4>Yearly Reports</h4>
-                                <h4><a href="#" className="btn btn-info">View</a></h4>
+                                <h4><Link to="#" className="btn btn-info">View</Link></h4>
                             </div>
                         </div>
                     </div>

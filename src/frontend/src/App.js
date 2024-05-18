@@ -45,9 +45,11 @@ import VendorUpdateProduct from './components/Vendor/VendorUpdateProduct';
 import VendorOrders from './components/Vendor/VendorOrders';
 import VendorCustomers from './components/Vendor/VendorCustomers';
 import VendorReports from './components/Vendor/VendorReports';
+import VendorDailyReports from './components/Vendor/VendorDailyReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
+import VendorCustomerOrders from './components/Vendor/VendorCustomerOrders';
 
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
@@ -95,9 +97,11 @@ function App() {
         <Route path='/vendor/orders' element={<VendorOrders/>}></Route>
         <Route path='/vendor/customers' element={<VendorCustomers/>}></Route>
         <Route path='/vendor/reports' element={<VendorReports/>}></Route>
+        <Route path='/vendor/daily-report' element={<VendorDailyReports/>}></Route>
         <Route path='/vendor/profile' element={<VendorProfile/>}></Route>
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
         <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
+        <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
       </Routes>
       <Footer/>
     </CartContext.Provider>  

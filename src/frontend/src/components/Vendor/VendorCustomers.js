@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import VendorSidebar from './VendorSidebar';
+import { Link } from 'react-router-dom';
 const baseUrl = "http://127.0.0.1:8000/api";
 function VendorCustomers(props){
 
@@ -17,7 +18,20 @@ function VendorCustomers(props){
             setCustomerList(data.results);
         })
     }
-
+    function showConfirm(customer_id) {
+        var _confirm = window.confirm('Are you sure you want to delete this order?');
+        if (_confirm) {
+            fetch(baseUrl + '/delete-customer-order/' + customer_id + '/', {
+                method: 'DELETE',
+            })
+            .then((response) => {
+                if (response.bool == true) {
+                    fetchData(`${baseUrl}/vendor/customer/${customer_id}/orderitems/`);
+                    console.log('Order deleted');
+                }
+            });
+        }
+    }
     return(
         <div className='container mt-4'>
             <div className='row'>
@@ -52,8 +66,8 @@ function VendorCustomers(props){
                                                 </td>
                                                 <td>{item.customer.mobile}</td>
                                                 <td>
-                                                <button className='btn btn-primary btn-sm me-1'>Orders</button>
-                                                    <button className='btn btn-danger btn-sm'>Remove from list</button>
+                                                <Link to={`/vendor/customer/${item.customer.id}/orderitems/`} className='btn btn-primary btn-sm me-1'>Orders</Link>
+                                                <button onClick={()=> showConfirm(item.customer.id)} className='btn btn-danger btn-sm'>Remove from list</button>
                     
                                                 </td>
                                             </tr>
