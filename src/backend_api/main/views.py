@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db import transaction
+from django.contrib.auth.hashers import make_password
+
 # Create your views here.
 
 # Vendor
@@ -420,6 +422,18 @@ def customer_register(request):
     else:
         return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
 
+@csrf_exempt
+def vendor_change_pasword(request,vendor_id):
+    password = request.POST.get('password')
+    vendor = models.Vendor.objects.get(id=vendor_id)
+    user = vendor.user
+    user.password = make_password(password)
+    user.save()
+    msg={
+        'bool':True,
+        'msg':'Password changed successfully.'
+    }
+    return JsonResponse(msg)
 
 @csrf_exempt
 def customer_login(request):
