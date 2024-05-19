@@ -90,7 +90,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_imgs/', null=True)
     demo_url = models.URLField(null=True, blank=True)
     product_file = models.FileField(upload_to='product_files/', null=True)
-    downloads = models.CharField(max_length=200, default=0, null=True)
+    downloads = models.IntegerField(default=0)
     published_status = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

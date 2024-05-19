@@ -48,6 +48,7 @@ urlpatterns = [
     path('customer/dashboard/<int:pk>/', views.customer_dashboard, name='customer_dashboard'),
     path('delete-customer-order/<int:customer_id>/', views.delete_customer_order),
 
+    path('update_product_download_count/<int:product_id>', views.update_product_download_count, name='update_product_download_count'),
     path('update-order-status/<int:order_id>', views.update_order_status, name='update-order-status'),
     path('wishlist/', views.WishList.as_view()),
     path('check-in-wishlist/', views.check_in_wishlist, name='check-in-wishlist'),

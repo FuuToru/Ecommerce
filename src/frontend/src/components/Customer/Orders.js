@@ -1,16 +1,16 @@
 //Packages
 import { Link } from 'react-router-dom';
-//Assets
-import logo from '../../logo.svg';
-import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
 import {useState,useEffect} from 'react';
+import axios from 'axios';
+import OrderRow from './OrderRow';
 
 function Orders(props){
+    const { index, item } = props;
+
     const baseUrl = 'http://127.0.0.1:8000/api';
     const customerId = localStorage.getItem('customer_id');
     const [OrderItems, setOrderItems] = useState([]);
-
     useEffect ( () =>{
         fetchData(baseUrl+'/customer/'+customerId+'/orderitems/');
     },[]);
@@ -26,6 +26,7 @@ function Orders(props){
     }
     console.log(OrderItems);
     
+    // Thêm hàm countDownloads
 
     return(
         <div className='container mt-4'>
@@ -44,50 +45,21 @@ function Orders(props){
                                     <th>Product</th>
                                     <th>Price</th>
                                     <th>Status</th>
-                                    <th>Time</th>
+                                    <th>Action</th>
                                 </tr>
 
                                 </thead>
-                    <tbody>
-                        {
-                            OrderItems.map((item,index)=>{
-                                return <tr>
-                                    <td>
-                                        {index +1}
-                                    </td>
-                                    <td>
-                                        <Link to={`/product/${item.product.slug}/${item.product.id}`}>
-                                            <img src={item.product.image} className='img-thumbnail' width='80' alt="..."></img>
-                                        </Link>
-                                        <p><Link to={`/product/${item.product.slug}/${item.product.id}`}>{item.product.title}</Link></p>
-                                    </td>
-                                    <td>
-                                        {item.product.price}
-                                    </td>
-                                    <td>
-                                        <span>
-                                            {
-                                                item.order.order_status==true && <i className='fa fa-check-circle text-success'></i>
-                                            }
-                                                                                                            {
-                                                item.order.order_status==false && <i className='fa fa-spinner fa-spin text-dark'></i>
-                                            }
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <p>{item.order.order_time}</p>
-                                    </td>
+                                <tbody>
+                                    {OrderItems.map((item, index) => (
+                                        <OrderRow key={index} index={index} item={item} />
+                                    ))}
+                                </tbody>
 
-                                </tr>
-                            })
-                        }
-
-                    </tbody>
                                 
 
                             </table>
                         </div>
-                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -98,3 +70,9 @@ function Orders(props){
 }
 
 export default Orders;
+                                        {/* {
+                                            item.order.order_status==true && <button onClick={()=>coutDownloads(item.product.id)} className='btn btn-primary btn-sm'>Downloads <span className='badge text-dark bd-white'>{TotalDownload}</span></button>
+                                        }
+                                        {
+                                            item.order.order_status==true && <Link className='btn btn-sm btn-success ms-2' to={`/customer/add-review/${item.product.id}`}>Add Review</Link>
+                                        } */}

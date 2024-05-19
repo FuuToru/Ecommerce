@@ -107,6 +107,8 @@ function App() {
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
         <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
         <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
+        {/* Rating and review */}
+        {/* end Ratings and Reviews */}
       </Routes>
       <Footer/>
     </CartContext.Provider>  
