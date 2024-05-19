@@ -14,6 +14,7 @@ urlpatterns = [
     path('vendor/login/', views.vendor_login, name='vendor-login'),
     path('vendor/<int:pk>/orderitems/', views.VendorOrderItemList.as_view()),
     path('vendor/<int:pk>/customers/', views.VendorCustomerList.as_view()),
+    path('vendor/<int:vendor_id>/customer/<int:customer_id>/orderitems/', views.VendorCustomerOrderItemList.as_view()),
     # Products
     path('products/', views.ProductList.as_view()),
     path('add-products/', views.addProduct.as_view()),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('customer/register/', views.customer_register, name='customer_register'),
     path('orders/', views.OrderList.as_view()),
     path('order/<int:pk>/', views.OrderDetail.as_view()),
+    path('delete-customer-order/<int:customer_id>/', views.delete_customer_order),
     path('order-modify/<int:pk>/', views.OrderModify.as_view()),
     path('customer/register/', views.customer_register, name='customer-register'),
     path('orderitems/', views.OrderItemList.as_view()),
