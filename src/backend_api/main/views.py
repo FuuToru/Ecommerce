@@ -423,6 +423,19 @@ def customer_register(request):
         return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
 
 @csrf_exempt
+def customer_change_pasword(request,customer_id):
+    password = request.POST.get('password')
+    customer = models.Customer.objects.get(id=customer_id)
+    user = customer.user
+    user.password = make_password(password)
+    user.save()
+    msg={
+        'bool':True,
+        'msg':'Password changed successfully.'
+    }
+    return JsonResponse(msg)
+
+@csrf_exempt
 def vendor_change_pasword(request,vendor_id):
     password = request.POST.get('password')
     vendor = models.Vendor.objects.get(id=vendor_id)
@@ -441,10 +454,20 @@ def customer_login(request):
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
     if user:
-        msg = {
-            'bool': True,
-            'msg': user.username,
-        }
+        try:
+            customer = models.Customer.objects.get(user=user)
+            msg = {
+                'bool': True,
+                'customer_id': customer.id,  
+                'user': user.username,
+                'mobile': customer.mobile,
+                'profile_img': customer.profile_img.url if customer.profile_img else ''
+            }
+        except models.Customer.DoesNotExist:
+            msg = {
+                'bool': False,
+                'msg': 'Customer not found for the authenticated user.',
+            }
     else:
         msg = {
             'bool': False,
@@ -453,6 +476,7 @@ def customer_login(request):
     
     print(msg)
     return JsonResponse(msg)
+
 
 @csrf_exempt
 def vendor_login(request):

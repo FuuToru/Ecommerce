@@ -1,15 +1,11 @@
 //Packages
 import { Link } from 'react-router-dom';
-//Assets
-import logo from '../../logo.svg';
-import ProductDetail from '../ProductDetail';
 import Sidebar from './Sidebar';
-import { useState, useEffect, useContext } from 'react';
-import { UserContext, CartContext, CurrencyContext } from '../../Context';
-import axios from 'axios';
+import { useState, useEffect} from 'react';
+const baseUrl = 'http://127.0.0.1:8000/api';
 function Dashboard(props){
-    const baseUrl = 'http://127.0.0.1:8000/api';
     const customer_id = localStorage.getItem('customer_id');
+    console.log(localStorage);
     const [CountList, setCountList] = useState({
         'totalAddress':0,
         'totalOrder':0,
@@ -33,6 +29,9 @@ function Dashboard(props){
     }
     console.log(CountList)
 
+    
+        
+    // Kiểm tra nếu customer_id là null
     
     return(
         <div className='container mt-4'>

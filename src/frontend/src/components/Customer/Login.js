@@ -30,10 +30,15 @@ function Login(props) {
                 setFormError(true);
                 setErrorMsg(response.data.msg);
             }else{
-                localStorage.setItem('customer_login',true);
+                localStorage.setItem('customer_id',response.data.customer_id);
+                localStorage.setItem('customer_login',response.data.bool);
                 localStorage.setItem('customer_username', response.data.username);
+                localStorage.setItem('customer_email', response.data.email);
+                localStorage.setItem('customer_mobile', response.data.mobile);
+                localStorage.setItem('customer_profileImg', response.data.profile_img);
                 setFormError(false);
                 setErrorMsg('');
+                console.log(localStorage);
             }
         })
         .catch(function (error) {

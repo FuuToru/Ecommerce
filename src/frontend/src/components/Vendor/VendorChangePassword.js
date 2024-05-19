@@ -36,19 +36,6 @@ function VendorChangePassword(props){
         .catch(function (error){
             console.log(error);
         });
-
-        // const formUserData = new FormData();
-        // formUserData.append('first_name', ProfileData.first_name);
-        // formUserData.append('last_name', ProfileData.last_name);
-        // formUserData.append('username', ProfileData.username);
-        // formUserData.append('email', ProfileData.email);
-        // formUserData.append('address', ProfileData.address)
-        // axios.put(baseUrl +'/user/'+ProfileData.user_id+"/", formUserData).then(function (response){
-        //     console.log(response);
-        // })
-        // .catch(function (error){
-        //     console.log(error);
-        // });
     };
     return(
         <div className='container mt-4'>
