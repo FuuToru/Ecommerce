@@ -150,7 +150,7 @@ class OrderModify(generics.RetrieveUpdateAPIView):
 
 
 class CustomerOrderItemList(generics.ListAPIView):
-    queryset = models.Order.objects.all()
+    queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
     def get_queryset(self):
@@ -190,17 +190,7 @@ class VendorCustomerList(generics.ListAPIView):
         qs = qs.filter(product__vendor_id=vendor_id)
         return qs
 
-class VendorCustomerOrderItemList(generics.ListAPIView):
-    queryset = models.OrderItems.objects.all()
-    serializer_class = serializers.OrderItemSerializer
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        vendor_id = self.kwargs['vendor_id']
-        customer_id = self.kwargs['customer_id']
-        print(vendor_id, customer_id)
-        qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
-        return qs 
 
 class OrderDelete(generics.RetrieveDestroyAPIView):
     serializer_class = serializers.OrderDetailSerializer
@@ -474,7 +464,7 @@ def customer_login(request):
             'msg': 'Invalid username or password.',
         }
     
-    print(msg)
+    # print(msg)
     return JsonResponse(msg)
 
 
@@ -506,7 +496,7 @@ def vendor_login(request):
             'msg': 'Invalid username or password.',
         }
     
-    print(msg)
+    # print(msg)
     return JsonResponse(msg)
 @csrf_exempt
 def delete_customer_order(request, customer_id):
@@ -533,3 +523,5 @@ class VendorCustomerOrderItemList(generics.ListAPIView):
         print(vendor_id, customer_id)
         qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
         return qs
+    
+ 
