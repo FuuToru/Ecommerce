@@ -74,11 +74,10 @@ class ProductListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = models.Product
-        fields = ['id','category', 'vendor', 'title','slug','tag_list', 'detail', 'price', 'usd_price','product_ratings','image', 'product_file', 'tags', 'published_status','downloads']
+        fields = ['id','category', 'vendor', 'title','slug','tag_list', 'detail', 'price', 'usd_price','product_ratings','image','tags']
     def __init__(self, *args, **kwargs):
         super(ProductListSerializer, self).__init__(*args, **kwargs)
         self.Meta.depth = 1
-
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -87,7 +86,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         many = True
         model = models.Product
-        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'usd_price', 'product_ratings', 'product_imgs', 'demo_url', 'image', 'product_file', 'tags', 'published_status']
+        fields = ['id','category', 'vendor', 'title', 'slug', 'tag_list', 'detail', 'price', 'usd_price', 'product_ratings', 'product_imgs', 'image', 'tags']
     def __init__(self, *args, **kwargs):
         super(ProductDetailSerializer, self).__init__(*args, **kwargs)
         # self.Meta.depth = 1

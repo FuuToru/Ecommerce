@@ -211,9 +211,6 @@ function ProductDetail(){
                         CurrencyData =='usd' && <h5 className="card-title">Price: ${productData.usd_price}</h5>
                     }
                     <p className='mt-3'>
-                        <a title='Demo' href={productData.demo_url} target='_blank' className='btn btn-dark me-1 mb-1'>
-                            <i className="fa-solid fa-card-plus"></i> Demo
-                        </a>
                         {!cartButtonClickStatus  && 
                         <button title = "Add to Cart" type ="button" onClick={cartAddButtonHandler}className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>
                         }
