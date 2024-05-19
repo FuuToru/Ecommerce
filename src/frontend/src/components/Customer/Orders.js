@@ -70,9 +70,3 @@ function Orders(props){
 }
 
 export default Orders;
-                                        {/* {
-                                            item.order.order_status==true && <button onClick={()=>coutDownloads(item.product.id)} className='btn btn-primary btn-sm'>Downloads <span className='badge text-dark bd-white'>{TotalDownload}</span></button>
-                                        }
-                                        {
-                                            item.order.order_status==true && <Link className='btn btn-sm btn-success ms-2' to={`/customer/add-review/${item.product.id}`}>Add Review</Link>
-                                        } */}

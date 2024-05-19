@@ -49,8 +49,8 @@ function OrderRow(props) {
             </td>
             <td>
                 {item.order.order_status && (
-                    <button onClick={() => countDownloads(item.product.id)} className='btn btn-primary btn-sm'>
-                        Downloads <span className='badge text-dark bg-white'>{totalDownload}</span>
+                    <button  className='btn btn-primary btn-sm'>
+                        Add Reviews 
                     </button>
                 )}
             </td>
