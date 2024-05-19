@@ -1,4 +1,7 @@
 import {Link} from 'react-router-dom';
+import banner1 from '../banner/banner1.jpeg';
+import banner2 from '../banner/banner2.jpeg';
+import banner3 from '../banner/banner3.jpeg';
 import logo from '../logo.svg';
 import AllProducts from './AllProducts';
 import SingleProduct from './SingleProduct';
@@ -32,13 +35,13 @@ function Home(){
 
           <div class="carousel-inner">
             <div class="carousel-item active c-item">
-              <img src="https://elise.vn/media/wysiwyg/ECOM/cv-0705-ver1.jpg" class="d-block w-100 c-img" alt="Slide 1"/>
+              <img src={banner1} class="d-block w-100 c-img" alt="Slide 1"/>
             </div>
             <div class="carousel-item c-item">
-              <img src="https://vuakhuyenmai.vn/wp-content/uploads/elise-khuyen-mai-thang12-1-12-2021-768x402.jpg" class="d-block w-100 c-img" alt="Slide 2"/>
+              <img src={banner2}class="d-block w-100 c-img" alt="Slide 2"/>
             </div>
             <div class="carousel-item c-item">
-              <img src="https://saoexpress.vn/wp-content/uploads/2020/11/anh_dangbao.jpg" class="d-block w-100 c-img" alt="Slide 3"/>
+              <img src={banner3} class="d-block w-100 c-img" alt="Slide 3"/>
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">

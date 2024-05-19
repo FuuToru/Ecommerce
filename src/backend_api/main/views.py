@@ -217,34 +217,34 @@ def update_order_status(request, order_id):
                 'bool':True,
                 }
     return JsonResponse(msg)
-@csrf_exempt
-def update_product_download_count(request, product_id):
-    if request.method == 'POST':
-        try:
-            product = models.Product.objects.get(id=product_id)
-            totalDownload = int(product.downloads)  # Chuyển đổi sang số nguyên nếu cần thiết
-            totalDownload += 1
+# @csrf_exempt
+# def update_product_download_count(request, product_id):
+#     if request.method == 'POST':
+#         try:
+#             product = models.Product.objects.get(id=product_id)
+#             totalDownload = int(product.downloads)  # Chuyển đổi sang số nguyên nếu cần thiết
+#             totalDownload += 1
             
-            if totalDownload == 0:
-                totalDownload = 1
+#             if totalDownload == 0:
+#                 totalDownload = 1
             
-            # Update the product download count
-            models.Product.objects.filter(id=product_id).update(downloads=totalDownload)
+#             # Update the product download count
+#             models.Product.objects.filter(id=product_id).update(downloads=totalDownload)
 
-            msg = {
-                'bool': True
-            }
-        except models.Product.DoesNotExist:
-            msg = {
-                'bool': False,
-                'msg': 'Product not found'
-            }
-        except ValueError:
-            msg = {
-                'bool': False,
-                'msg': 'Invalid download count'
-            }
-        return JsonResponse(msg)
+#             msg = {
+#                 'bool': True
+#             }
+#         except models.Product.DoesNotExist:
+#             msg = {
+#                 'bool': False,
+#                 'msg': 'Product not found'
+#             }
+#         except ValueError:
+#             msg = {
+#                 'bool': False,
+#                 'msg': 'Invalid download count'
+#             }
+#         return JsonResponse(msg)
 @csrf_exempt
 def delete_customer_order(request, customer_id):
     if request.method == 'DELETE':

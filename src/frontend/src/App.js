@@ -24,7 +24,6 @@ import TagProducts from './components/TagProducts';
 import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
 import Logout from './components/Customer/Logout';
-import CustomerLogout from './components/Customer/CustomerLogout';
 import Dashboard from './components/Customer/Dashboard';
 import Orders from './components/Customer/Orders';
 import Wishlist from './components/Customer/Wishlist';
