@@ -11,13 +11,21 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
-
+from django.db.models import Count
 # Create your views here.
 
 # Vendor
 class VendorList(generics.ListCreateAPIView):
     queryset = models.Vendor.objects.all()
     serializer_class = serializers.VendorSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'fetch_limit' in self.request.GET:
+            limit =int(self.request.GET['fetch_limit'])
+            qs=qs.annotate(downloads=Count('product')).order_by('-downloads', '-id')
+            qs =qs[:limit]
+        return qs
 
 class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Vendor.objects.all()

@@ -4,14 +4,18 @@ import banner2 from '../banner/banner2.jpeg';
 import banner3 from '../banner/banner3.jpeg';
 import logo from '../logo.svg';
 import AllProducts from './AllProducts';
+import SingleVendor from './Vendor/SingleVendor';
 import SingleProduct from './SingleProduct';
 import {useState,useEffect} from 'react';
 
 function Home(){
   const baseUrl = 'http://127.0.0.1:8000/api';
   const [products,setProducts] = useState([]);
+  const [vendorList,setVendorList] = useState([]);
+
   useEffect ( () =>{
     fetchData(baseUrl+'/products/?fetch_limit=4');
+    fetchPopularVendors(baseUrl+'/vendors/?fetch_limit=4');
   },[]);
 
   function fetchData(baseurl){
@@ -20,7 +24,14 @@ function Home(){
     .then((data) => {
       setProducts(data.results);      
     });
+  }
 
+  function fetchPopularVendors(baseurl){
+    fetch(baseurl)
+    .then((response) => response.json())
+    .then((data) => {
+      setVendorList(data.results);      
+    });
   }
 
   return (
@@ -213,67 +224,14 @@ function Home(){
         </div>
         {/* Popular Product end */}
         {/* Popular Seller */}
-        <h1 className='mb-4'>Popular Vendors <Link to = "/vendors" className='float-end btn btn-sm btn-dark m-2'>View All Vendors<i className="fa-solid fa-arrow-right"></i></Link>
+        <h1 className='mb-4'>Popular Sellers <Link to = "/vendors" className='float-end btn btn-sm btn-dark m-2'>View All Sellers<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
-          {/* seller box */}
-          <div className='col-12 col-md-3 mb-2'>
-            <div className="card">
-                <img src={logo} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h4 className="card-title">Seller Name</h4>
-                </div>
-                <div className='card-footer'>
-                  Categories: <a href="#">Shill</a>
-                  </div>
-
-            </div>
-          </div>
-          {/* seller box end */}
-                    {/* seller box */}
-                    <div className='col-12 col-md-3 mb-2'>
-            <div className="card">
-                <img src={logo} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h4 className="card-title">Seller Name</h4>
-                </div>
-                <div className='card-footer'>
-                  Categories: <a href="#">Shill</a>
-                  </div>
-
-            </div>
-          </div>
-          {/* seller box end */}
-                    {/* seller box */}
-                    <div className='col-12 col-md-3 mb-2'>
-            <div className="card">
-                <img src={logo} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h4 className="card-title">Seller Name</h4>
-                </div>
-                <div className='card-footer'>
-                  Categories: <a href="#">Shill</a>
-                  </div>
-
-            </div>
-          </div>
-          {/* seller box end */}
-                    {/* seller box */}
-                    <div className='col-12 col-md-3 mb-2'>
-            <div className="card">
-                <img src={logo} className="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h4 className="card-title">Seller Name</h4>
-                </div>
-                <div className='card-footer'>
-                  Categories: <a href="#">Shill</a>
-                  </div>
-
-            </div>
-          </div>
-          {/* seller box end */}
-        {/* Popular Seller end */}
+          {
+            vendorList.map((vendor)=> <SingleVendor vendor={vendor}/>)
+          }
         </div>
+        
       {/* Rating and reviews */}
       <div id="carouselExampleIndicators" className="carousel slide mt-4 border bg-dark text-white p-5" data-bs-ride="true">
       <div className="carousel-indicators">
