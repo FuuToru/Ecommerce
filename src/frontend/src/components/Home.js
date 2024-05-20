@@ -213,7 +213,7 @@ function Home(){
         </div>
         {/* Popular Product end */}
         {/* Popular Seller */}
-        <h1 className='mb-4'>Popular Sellers <a href = "#" className='float-end btn btn-sm btn-dark m-2'>View All Sellers<i className="fa-solid fa-arrow-right"></i></a>
+        <h1 className='mb-4'>Popular Vendors <Link to = "/vendors" className='float-end btn btn-sm btn-dark m-2'>View All Vendors<i className="fa-solid fa-arrow-right"></i></Link>
           </h1>
         <div className='row mb-4'>
           {/* seller box */}

@@ -35,6 +35,7 @@ import UpdateAddress from './components/Customer/UpdateAddress';
 
 
 //Vendor
+import AllVendors from './components/AllVendors';
 import VendorDashboard from './components/Vendor/VendorDashboard';
 import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
@@ -89,6 +90,7 @@ function App() {
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
         <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
         {/* Vendor Route  */}
+        <Route path='/vendors' element={<AllVendors/>}/>
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
