@@ -8,6 +8,7 @@ function Header(props) {
   const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
 
   const cartItems = cartData ? cartData.length : 0;
+  const checkVendor = localStorage.getItem('vendor_login');
 
   const changeCurrency = (e) => {
     const selectedCurrency = e.target.value;
@@ -69,11 +70,17 @@ function Header(props) {
                 Vendor Panel
               </a>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
-                <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
-                <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+                {checkVendor !== 'true' ? (
+                  <>
+                    <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
+                    <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
+                  </>
+                ) : (
+                  <>
+                    <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
+                    <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+                  </>
+                )}
               </ul>
             </li>
             <li className="nav-item">
