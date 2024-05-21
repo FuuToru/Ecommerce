@@ -1,5 +1,8 @@
 //Assets
 import {Routes,Route} from 'react-router-dom';
+
+
+
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -36,6 +39,7 @@ import UpdateAddress from './components/Customer/UpdateAddress';
 
 //Vendor
 import AllVendors from './components/AllVendors';
+import VendorDetail from './components/Vendor/VendorDetail';
 import VendorDashboard from './components/Vendor/VendorDashboard';
 import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
@@ -52,7 +56,6 @@ import VendorYearlyReports from './components/Vendor/VendorYearlyReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
-
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
@@ -91,6 +94,7 @@ function App() {
         <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
         {/* Vendor Route  */}
         <Route path='/vendors' element={<AllVendors/>}/>
+        <Route path='/vendor/:vendor_username/:vendor_id' element ={<VendorDetail/>}/>
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>

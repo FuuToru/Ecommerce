@@ -29,7 +29,16 @@ class VendorList(generics.ListCreateAPIView):
 
 class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Vendor.objects.all()
-    serializer_class = serializers.VendorSerializer
+    serializer_class = serializers.VendorDetailSerializer
+
+class VendorProductList(generics.ListCreateAPIView):
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductListSerializer
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['vendor_id']
+        qs = qs.filter(vendor__id=vendor_id).order_by('id')
+        return qs
 
 # Customer
 class CustomerList(generics.ListCreateAPIView):

@@ -37,6 +37,10 @@ class Vendor(models.Model):
                 dateList.append(month)
                 countList.append(order['count'])
         return {'date':dateList, 'data':countList}
+    @property
+    def total_products(self):
+        products_count = Product.objects.filter(vendor = self).count()
+        return products_count
     
     @property
     def show_chart_yearly_order(self):

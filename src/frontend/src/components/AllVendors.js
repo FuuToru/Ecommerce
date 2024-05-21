@@ -43,7 +43,7 @@ function AllVendors() {
     links.push(
       <li className='page-item' key={i}>
         <Link
-          onClick={() => changeUrl(baseUrl + `/vendors/?page=${i}`)}
+          onClick={() => changeUrl(baseUrl + `/vendor/?page=${i}`)}
           to={`/vendors/?page=${i}`}
           className='page-link'
         >
@@ -71,3 +71,4 @@ function AllVendors() {
 }
 
 export default AllVendors;
+
