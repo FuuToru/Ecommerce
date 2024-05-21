@@ -49,9 +49,9 @@ function OrderRow(props) {
             </td>
             <td>
                 {item.order.order_status && (
-                    <button  className='btn btn-primary btn-sm'>
-                        Add Reviews 
-                    </button>
+                    <Link  className='btn btn-success btn-sm ms-2' to={`/customer/add-review/${item.product.id}`}>
+                        Add Review
+                    </Link>
                 )}
             </td>
         </tr>
