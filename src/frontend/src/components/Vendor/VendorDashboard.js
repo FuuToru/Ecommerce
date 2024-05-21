@@ -1,11 +1,8 @@
 //Packages
 import { Link } from 'react-router-dom';
-//Assets
-import logo from '../../logo.svg';
-import ProductDetail from '../ProductDetail';
 import VendorSidebar from '../Vendor/VendorSidebar';
-import { useState } from 'react';
-const baseURL = 'http://127.0.0.1:8000/api/';
+import { useState,useEffect} from 'react';
+const baseURL = 'http://127.0.0.1:8000/api';
 function VendorDashboard(props){
     const [VendorData, setVendorData] = useState({
         'totalProducts': 0,
@@ -24,6 +21,11 @@ function VendorDashboard(props){
     }
     fetchData(baseURL+'vendor/'+vendor_id+'/dashboard/');
     console.log(VendorData);
+    
+    useEffect ( () =>{
+        fetchData(baseURL+'/vendor/'+vendor_id+"/dashboard/");
+    },[]);
+
     return(
         <div className='container mt-4'>
             <div className='row'>

@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db import transaction
+from django.contrib.auth.hashers import make_password
+from django.db.models import Count
 # Create your views here.
 
 # Vendor
@@ -17,7 +19,15 @@ class VendorList(generics.ListCreateAPIView):
     queryset = models.Vendor.objects.all()
     serializer_class = serializers.VendorSerializer
 
-class VendorDetail(generics.RetrieveAPIView):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'fetch_limit' in self.request.GET:
+            limit =int(self.request.GET['fetch_limit'])
+            qs=qs.annotate(downloads=Count('product')).order_by('-downloads', '-id')
+            qs =qs[:limit]
+        return qs
+
+class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Vendor.objects.all()
     serializer_class = serializers.VendorSerializer
 
@@ -148,7 +158,8 @@ class OrderModify(generics.RetrieveUpdateAPIView):
 
 
 class CustomerOrderItemList(generics.ListAPIView):
-    queryset = models.Order.objects.all()
+    # queryset = models.Order.objects.all()
+    queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
     def get_queryset(self):
@@ -188,17 +199,8 @@ class VendorCustomerList(generics.ListAPIView):
         qs = qs.filter(product__vendor_id=vendor_id)
         return qs
 
-class VendorCustomerOrderItemList(generics.ListAPIView):
-    queryset = models.OrderItems.objects.all()
-    serializer_class = serializers.OrderItemSerializer
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        vendor_id = self.kwargs['vendor_id']
-        customer_id = self.kwargs['customer_id']
-        print(vendor_id, customer_id)
-        qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
-        return qs 
+
 
 class OrderDelete(generics.RetrieveDestroyAPIView):
     serializer_class = serializers.OrderDetailSerializer
@@ -221,6 +223,46 @@ def update_order_status(request, order_id):
             'bool':False,
         }
         if updateRes:
+            msg={
+                'bool':True,
+                }
+    return JsonResponse(msg)
+# @csrf_exempt
+# def update_product_download_count(request, product_id):
+#     if request.method == 'POST':
+#         try:
+#             product = models.Product.objects.get(id=product_id)
+#             totalDownload = int(product.downloads)  # Chuyển đổi sang số nguyên nếu cần thiết
+#             totalDownload += 1
+            
+#             if totalDownload == 0:
+#                 totalDownload = 1
+            
+#             # Update the product download count
+#             models.Product.objects.filter(id=product_id).update(downloads=totalDownload)
+
+#             msg = {
+#                 'bool': True
+#             }
+#         except models.Product.DoesNotExist:
+#             msg = {
+#                 'bool': False,
+#                 'msg': 'Product not found'
+#             }
+#         except ValueError:
+#             msg = {
+#                 'bool': False,
+#                 'msg': 'Invalid download count'
+#             }
+#         return JsonResponse(msg)
+@csrf_exempt
+def delete_customer_order(request, customer_id):
+    if request.method == 'DELETE':
+        order = models.Order.objects.filter(customer__id=customer_id).delete()
+        msg={
+            'bool':False,
+        }
+        if order:
             msg={
                 'bool':True,
                 }
@@ -420,6 +462,31 @@ def customer_register(request):
     else:
         return JsonResponse({'bool': False, 'msg': 'Invalid request method.'}, status=405)
 
+@csrf_exempt
+def customer_change_pasword(request,customer_id):
+    password = request.POST.get('password')
+    customer = models.Customer.objects.get(id=customer_id)
+    user = customer.user
+    user.password = make_password(password)
+    user.save()
+    msg={
+        'bool':True,
+        'msg':'Password changed successfully.'
+    }
+    return JsonResponse(msg)
+
+@csrf_exempt
+def vendor_change_pasword(request,vendor_id):
+    password = request.POST.get('password')
+    vendor = models.Vendor.objects.get(id=vendor_id)
+    user = vendor.user
+    user.password = make_password(password)
+    user.save()
+    msg={
+        'bool':True,
+        'msg':'Password changed successfully.'
+    }
+    return JsonResponse(msg)
 
 @csrf_exempt
 def customer_login(request):
@@ -427,18 +494,29 @@ def customer_login(request):
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
     if user:
-        msg = {
-            'bool': True,
-            'msg': user.username,
-        }
+        try:
+            customer = models.Customer.objects.get(user=user)
+            msg = {
+                'bool': True,
+                'customer_id': customer.id,  
+                'user': user.username,
+                'mobile': customer.mobile,
+                'profile_img': customer.profile_img.url if customer.profile_img else ''
+            }
+        except models.Customer.DoesNotExist:
+            msg = {
+                'bool': False,
+                'msg': 'Customer not found for the authenticated user.',
+            }
     else:
         msg = {
             'bool': False,
             'msg': 'Invalid username or password.',
         }
     
-    print(msg)
+    # print(msg)
     return JsonResponse(msg)
+
 
 @csrf_exempt
 def vendor_login(request):
@@ -469,6 +547,7 @@ def vendor_login(request):
         }
     
     print(msg)
+    # print(msg)
     return JsonResponse(msg)
 @csrf_exempt
 def delete_customer_order(request, customer_id):
@@ -495,3 +574,6 @@ class VendorCustomerOrderItemList(generics.ListAPIView):
         print(vendor_id, customer_id)
         qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
         return qs
+
+
+ 

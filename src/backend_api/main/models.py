@@ -88,10 +88,6 @@ class Product(models.Model):
     tags = models.TextField(null=True)
     slug = models.SlugField(unique=True, blank=True)
     image = models.ImageField(upload_to='product_imgs/', null=True)
-    demo_url = models.URLField(null=True, blank=True)
-    product_file = models.FileField(upload_to='product_files/', null=True)
-    downloads = models.CharField(max_length=200, default=0, null=True)
-    published_status = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:

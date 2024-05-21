@@ -24,7 +24,6 @@ import TagProducts from './components/TagProducts';
 import Register from './components/Customer/Register';
 import Login from './components/Customer/Login';
 import Logout from './components/Customer/Logout';
-import CustomerLogout from './components/Customer/CustomerLogout';
 import Dashboard from './components/Customer/Dashboard';
 import Orders from './components/Customer/Orders';
 import Wishlist from './components/Customer/Wishlist';
@@ -36,6 +35,7 @@ import UpdateAddress from './components/Customer/UpdateAddress';
 
 
 //Vendor
+import AllVendors from './components/AllVendors';
 import VendorDashboard from './components/Vendor/VendorDashboard';
 import VendorLogin from './components/Vendor/VendorLogin';
 import VendorRegister from './components/Vendor/VendorRegister';
@@ -90,6 +90,7 @@ function App() {
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
         <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
         {/* Vendor Route  */}
+        <Route path='/vendors' element={<AllVendors/>}/>
         <Route path='/vendor/register' element={<VendorRegister/>}></Route>
         <Route path='/vendor/login' element={<VendorLogin/>}></Route>
         <Route path='/vendor/dashboard' element={<VendorDashboard/>}></Route>
@@ -107,6 +108,8 @@ function App() {
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
         <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
         <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
+        {/* Rating and review */}
+        {/* end Ratings and Reviews */}
       </Routes>
       <Footer/>
     </CartContext.Provider>  
