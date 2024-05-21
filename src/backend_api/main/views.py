@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.db.models import Count
+from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 # Vendor
@@ -73,6 +74,9 @@ class ProductList(generics.ListCreateAPIView):
         if 'fetch_limit' in self.request.GET:
             limit =int(self.request.GET['fetch_limit'])
             qs =qs[:limit]
+        if 'vendor_id' in self.request.GET:
+            vendor_id = self.request.GET['vendor_id']
+            qs = qs.filter(vendor_id=vendor_id)
         return qs
     
 
@@ -167,6 +171,7 @@ class OrderModify(generics.RetrieveUpdateAPIView):
 
 
 class CustomerOrderItemList(generics.ListAPIView):
+    # queryset = models.Order.objects.all()
     queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
@@ -206,6 +211,7 @@ class VendorCustomerList(generics.ListAPIView):
         vendor_id = self.kwargs['pk']
         qs = qs.filter(product__vendor_id=vendor_id)
         return qs
+
 
 
 
@@ -262,6 +268,19 @@ def update_order_status(request, order_id):
 #                 'msg': 'Invalid download count'
 #             }
 #         return JsonResponse(msg)
+@csrf_exempt
+def delete_customer_order(request, customer_id):
+    if request.method == 'DELETE':
+        order = models.Order.objects.filter(customer__id=customer_id).delete()
+        msg={
+            'bool':False,
+        }
+        if order:
+            msg={
+                'bool':True,
+                }
+    return JsonResponse(msg)
+
 @csrf_exempt
 def delete_customer_order(request, customer_id):
     if request.method == 'DELETE':
@@ -540,6 +559,7 @@ def vendor_login(request):
             'msg': 'Invalid username or password.',
         }
     
+    print(msg)
     # print(msg)
     return JsonResponse(msg)
 @csrf_exempt
@@ -569,4 +589,10 @@ class VendorCustomerOrderItemList(generics.ListAPIView):
         return qs
 
 
- 
+class ProductSearchList(generics.ListAPIView):
+    serializer_class = serializers.ProductListSerializer
+
+    def get_queryset(self):
+        query = self.request.query_params.get('query')
+        queryset = models.Product.objects.filter(title__icontains=query)
+        return queryset

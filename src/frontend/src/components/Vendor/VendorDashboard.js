@@ -19,6 +19,9 @@ function VendorDashboard(props){
             setVendorData(data);
         });
     }
+    fetchData(baseURL+'vendor/'+vendor_id+'/dashboard/');
+    console.log(VendorData);
+    
     useEffect ( () =>{
         fetchData(baseURL+'/vendor/'+vendor_id+"/dashboard/");
     },[]);

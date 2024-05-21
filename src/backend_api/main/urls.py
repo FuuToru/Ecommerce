@@ -15,10 +15,13 @@ urlpatterns = [
     path('vendor/<int:pk>/orderitems/', views.VendorOrderItemList.as_view()),
     path('vendor/<int:pk>/customers/', views.VendorCustomerList.as_view()),
     path('vendor/<int:pk>/dashboard/', views.vendor_dashboard, name='customer_dashboard'),
+<<<<<<< HEAD
     path('vendor/<int:pk>/daily-report/', views.VendorDailyReport.as_view(), name='vendor-daily-report'),
     path('vendor/<int:vendor_id>/customer/<int:customer_id>/orderitems/', views.VendorCustomerOrderItemList.as_view()),
     path('vendor-change-pasword/<int:vendor_id>', views.vendor_change_pasword),
     path('vendor-products/<int:vendor_id>/', views.VendorProductList.as_view()),
+=======
+>>>>>>> origin/main
     # Products
     path('products/', views.ProductList.as_view()),
     path('add-products/', views.addProduct.as_view()),
@@ -47,9 +50,8 @@ urlpatterns = [
     path('orderitems/', views.OrderItemList.as_view()),
     path('customer/<int:pk>/orderitems/', views.CustomerOrderItemList.as_view()),
     path('customer/dashboard/<int:pk>/', views.customer_dashboard, name='customer_dashboard'),
-    path('delete-customer-order/<int:customer_id>/', views.delete_customer_order),
 
-    # path('update_product_download_count/<int:product_id>', views.update_product_download_count, name='update_product_download_count'),
+
     path('update-order-status/<int:order_id>', views.update_order_status, name='update-order-status'),
     path('wishlist/', views.WishList.as_view()),
     path('check-in-wishlist/', views.check_in_wishlist, name='check-in-wishlist'),
@@ -58,6 +60,8 @@ urlpatterns = [
     path('customer/<int:pk>/address-list/', views.CustomerAddressList.as_view()),
 
     path('mark-default-address/<int:pk>/', views.mark_default_address, name='mark-default-address'),
+    
+    path('search/', views.ProductSearchList.as_view(), name='product-search'),
 
 
 

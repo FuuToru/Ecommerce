@@ -70,7 +70,7 @@ function VendorRegister(props){
             <div className='row'>
                 <div className='col-md-8 col-12 offset-2'>
                     <div className='card'>
-                        <h4 className='card-header'>Register</h4>
+                        <h4 className='card-header'>Vendor Register</h4>
                         <div className='card-body'>
                             <p className='text-muted'> <strong>Note: </strong> All fields are required </p>
                             {successMsg && <p className='text-success'>{successMsg}</p>}

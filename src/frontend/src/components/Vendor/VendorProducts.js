@@ -9,13 +9,14 @@ function VendorProducts(props) {
     const [productData, setProductData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const vendor_id = localStorage.getItem('vendor_id');
 
     useEffect(() => {
         fetchData(currentPage);
     }, [currentPage]);
 
     function fetchData(page) {
-        fetch(`${baseUrl}/products/?page=${page}&limit=${12}`)
+        fetch(`${baseUrl}/products/?page=${page}&limit=${12}&vendor_id=${vendor_id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

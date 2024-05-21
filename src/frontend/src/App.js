@@ -22,6 +22,7 @@ import ConfirmOrder from './components/ConfirmOrder';
 import OrderSuccess from './components/OrderSuccess';
 import OrderFailure from './components/OrderFailure';
 import TagProducts from './components/TagProducts';
+import Search from './components/Search';
 
 //Customer Panel
 import Register from './components/Customer/Register';
@@ -35,6 +36,7 @@ import ChangePassword from './components/Customer/ChangePassword';
 import AddressList from './components/Customer/AddressList';
 import AddAddress from './components/Customer/AddAddress';
 import UpdateAddress from './components/Customer/UpdateAddress';
+import AddReview from './components/Customer/AddReview';
 
 
 //Vendor
@@ -56,6 +58,11 @@ import VendorYearlyReports from './components/Vendor/VendorYearlyReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
@@ -79,6 +86,7 @@ function App() {
         <Route path='/confirm-order' element={<ConfirmOrder/>}></Route>
         <Route path='/order/success' element={<OrderSuccess/>}></Route>
         <Route path='/order/failure' element={<OrderFailure/>}></Route>
+        <Route path='/search' element={<Search/>}></Route>
         {/* Customer Route */}
         <Route path='/customer/register' element={<Register/>}></Route>
         <Route path='/customer/login' element={<Login/>}></Route>
@@ -92,6 +100,7 @@ function App() {
         <Route path='/customer/address' element={<AddressList/>}></Route>
         <Route path='/customer/add-address' element={<AddAddress/>}></Route>
         <Route path='/customer/update-address/:address_id' element={<UpdateAddress/>}></Route>
+        <Route path='/customer/add-review/:product_id' element={<AddReview/>}></Route>
         {/* Vendor Route  */}
         <Route path='/vendors' element={<AllVendors/>}/>
         <Route path='/vendor/:vendor_username/:vendor_id' element ={<VendorDetail/>}/>

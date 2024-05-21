@@ -7,6 +7,8 @@ function ChangePassword(props){
         'password':'',
         'c_password':'',
     });
+    const [SuccessMsg, setSuccessMsg] = useState('');
+    const [ErrorMsg, setErrorMsg] = useState('');
     const [ConfirmError, setConfirmError] = useState(false);
     var customer_id = localStorage.getItem('customer_id');
     console.log(customer_id);
@@ -30,7 +32,18 @@ function ChangePassword(props){
         // Submit Data
         axios.post(baseUrl +'/customer-change-pasword/'+customer_id, formData)
         .then(function (response){
-            console.log(response);
+            if(response.status != 200){
+                setErrorMsg('Data not saved');
+                setSuccessMsg('');
+            }else{
+                setErrorMsg('');
+                setSuccessMsg('Data saved');
+                setPasswordData({
+                    'password':'',
+                    'c_password':''
+                });
+            }
+            
         })
         .catch(function (error){
             console.log(error);
@@ -51,6 +64,8 @@ function ChangePassword(props){
                     <div className='card'>
                         <h4 className='card-header'>Change Password</h4>
                         <div className='card-body'>
+                        {ErrorMsg && <p className='alert alert-danger'>{ErrorMsg}</p>}
+                        {SuccessMsg && <p className='alert alert-success'>{SuccessMsg}</p>}
                     
                         <div className="mb-3">
                             <label for="pwd" className="form-label">New Password</label>
