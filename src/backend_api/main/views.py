@@ -164,8 +164,19 @@ class VendorOrderItemList(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         vendor_id = self.kwargs['pk']
-        qs = qs.filter(product__vendor_id=vendor_id)
+        qs = qs.filter(product__vendor__id=vendor_id)
         return qs
+
+class VendorDailyReport(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['pk']
+        qs = qs.filter(product__vendor__id=vendor_id)
+        return qs
+    
     
 class VendorCustomerList(generics.ListAPIView):
     queryset = models.OrderItems.objects.all()
@@ -310,6 +321,18 @@ def customer_dashboard(request,pk):
     }
     return JsonResponse(msg)
 
+@csrf_exempt
+def vendor_dashboard(request,pk):
+    vendor_id = pk
+    totalProducts = models.Product.objects.filter(vendor__id=vendor_id).count()
+    totalOrders = models.OrderItems.objects.filter(product__vendor__id=vendor_id).count()
+    totalCustomers = models.OrderItems.objects.filter(product__vendor__id=vendor_id).values('order__customer').distinct().count()
+    msg = {
+        'totalProducts': totalProducts,
+        'totalOrders': totalOrders,
+        'totalCustomers': totalCustomers,
+    }
+    return JsonResponse(msg)
 
 @csrf_exempt
 def vendor_register(request):
@@ -447,3 +470,28 @@ def vendor_login(request):
     
     print(msg)
     return JsonResponse(msg)
+@csrf_exempt
+def delete_customer_order(request, customer_id):
+    if request.method == 'DELETE':
+        order = models.Order.objects.filter(customer__id=customer_id).delete()
+        msg={
+            'bool':False,
+        }
+        if order:
+            msg={
+                'bool':True,
+                }
+    return JsonResponse(msg)
+
+
+class VendorCustomerOrderItemList(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        vendor_id = self.kwargs['vendor_id']
+        customer_id = self.kwargs['customer_id']
+        print(vendor_id, customer_id)
+        qs = qs.filter(order__customer__id=customer_id, product__vendor_id=vendor_id)
+        return qs

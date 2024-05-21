@@ -46,6 +46,9 @@ import VendorOrders from './components/Vendor/VendorOrders';
 import VendorCustomers from './components/Vendor/VendorCustomers';
 import VendorCustomerOrders from './components/Vendor/VendorCustomerOrders';
 import VendorReports from './components/Vendor/VendorReports';
+import VendorDailyReports from './components/Vendor/VendorDailyReports';
+import VendorMonthlyReports from './components/Vendor/VendorMonthlyReports';
+import VendorYearlyReports from './components/Vendor/VendorYearlyReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
@@ -97,9 +100,13 @@ function App() {
         <Route path='/vendor/customers' element={<VendorCustomers/>}></Route>
         <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
         <Route path='/vendor/reports' element={<VendorReports/>}></Route>
+        <Route path='/vendor/daily-report' element={<VendorDailyReports/>}></Route>
+        <Route path='/vendor/monthly-report' element={<VendorMonthlyReports/>}></Route>
+        <Route path='/vendor/yearly-report' element={<VendorYearlyReports/>}></Route>
         <Route path='/vendor/profile' element={<VendorProfile/>}></Route>
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
         <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
+        <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
       </Routes>
       <Footer/>
     </CartContext.Provider>  

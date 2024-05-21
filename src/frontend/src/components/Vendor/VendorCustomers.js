@@ -31,7 +31,6 @@ function VendorCustomers(props){
                     console.log('Order deleted');
                 }
             });
-            window.location.reload();
         }
     }
 
