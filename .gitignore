@@ -2,3 +2,5 @@
 venv/
 ..ipynb
 data.json
+.vscode
+.DS_Store

@@ -36,58 +36,82 @@ function Header(props) {
             <li className="nav-item">
               <Link className="nav-link" to="/categories">Categories</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/checkout">
-                <i className="fa-solid fa-cart-shopping"></i>Cart ({cartItems})
-              </Link>
-            </li>
-            <li className="nav-item dropdown">
-              {userContext !== 'true' ? (
+            {
+              userContext == 'true' && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/checkout">
+                    <i className="fa-solid fa-cart-shopping"></i>Cart ({cartItems})
+                  </Link>
+                </li>
+
+              )
+            }
+            {
+              checkVendor == 'true' && (
+                <li className="nav-item">
+                <Link className="nav-link" to="/checkout">
+                  <i className="fa-solid fa-cart-shopping"></i>New Orders (4)
+                </Link>
+              </li>
+              )
+            }
+
+            {
+              checkVendor !== 'true' && (
+
+
+                <li className="nav-item dropdown">
+                  {userContext !== 'true' ? (
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Become a Customer ?
+                    </a>
+                  ) : (
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      My Account
+                    </a>
+                  )}
+                  <ul className="dropdown-menu">
+                    {userContext !== 'true' ? (
+                      <>
+                        <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
+                        <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
+                      </>
+                    ) : (
+                      <>
+
+                        <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
+                        <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
+                      </>
+                    )}
+                  </ul>
+                </li>
+
+              )
+            }
+
+            {userContext !== 'true' && (
+              <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Become a Customer ?
+                  Vendor Panel
                 </a>
-              ) : (
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  My Account
-                </a>
-              )}
-              <ul className="dropdown-menu">
-                {userContext !== 'true' ? (
-                  <>
-                    <li><Link className="dropdown-item" to="/customer/register">Register</Link></li>
-                    <li><Link className="dropdown-item" to="/customer/login">Login</Link></li>
-                  </>
-                ) : (
-                  <>
-                    <li><Link className="dropdown-item" to="customer/dashboard">Dashboard</Link></li>
-                    <li><Link className="dropdown-item" to="/customer/logout">Logout</Link></li>
-                  </>
-                )}
-              </ul>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Vendor Panel
-              </a>
-              <ul className="dropdown-menu">
-                {checkVendor !== 'true' ? (
-                  <>
-                    <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
-                    <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
-                  </>
-                ) : (
-                  <>
-                    <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
-                    <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
-                  </>
-                )}
-              </ul>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/checkout">
-                <i className="fa-solid fa-cart-shopping"></i>New Orders (4)
-              </Link>
-            </li>
+                <ul className="dropdown-menu">
+                  {checkVendor !== 'true' ? (
+                    <>
+                      <li><Link className="dropdown-item" to="/vendor/register">Register</Link></li>
+                      <li><Link className="dropdown-item" to="/vendor/login">Login</Link></li>
+                    </>
+                  ) : (
+                    <>
+
+                      <li><Link className="dropdown-item" to="/vendor/dashboard">Dashboard</Link></li>
+                      <li><Link className="dropdown-item" to="/vendor/logout">Logout</Link></li>
+
+                    </>
+                  )}
+                </ul>
+              </li>
+            )}
+
             <li className='nav-item'>
               <div className='nav-link'>
                 <select onChange={changeCurrency}>
