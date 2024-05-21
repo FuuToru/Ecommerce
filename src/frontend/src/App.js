@@ -58,11 +58,8 @@ import VendorYearlyReports from './components/Vendor/VendorYearlyReports';
 import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
-<<<<<<< HEAD
-=======
 
 
->>>>>>> origin/main
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
