@@ -57,7 +57,7 @@ function Login(props) {
             <div className='row'>
                 <div className='col-md-8 col-12 offset-md-2'>
                     <div className='card'>
-                        <h4 className='card-header'>Login</h4>
+                        <h4 className='card-header'>Customer Login</h4>
                         <div className='card-body'>
                             {formError && 
                                 <p className="text-danger">{errorMsg}</p>
