@@ -1,4 +1,3 @@
-//Packages
 import { Link } from 'react-router-dom';
 import logo from '../logo.svg';
 import ProductDetail from './ProductDetail';
@@ -21,9 +20,9 @@ function Checkout(props) {
     var sum = 0;
     cartData.map((item, index) => {
         if (CurrencyData == 'vnd' || CurrencyData == undefined) {
-            sum += parseFloat(item.product.price);
+            sum += parseFloat(item.product.price) * item.product.qty;
         } else if (CurrencyData == 'usd') {
-            sum += parseFloat(item.product.usd_price);
+            sum += parseFloat(item.product.usd_price) * item.product.qty;
         }
     });
 
@@ -41,6 +40,22 @@ function Checkout(props) {
         setCartData(cartJson);
     };
 
+    const updateQuantity = (product_id, quantity) => {
+        var previousCart = localStorage.getItem('cartData');
+        var cartJson = JSON.parse(previousCart);
+        console.log(cartJson);
+        cartJson.map((cart, index) => {
+            if (cart != null && cart.product.id == product_id) {
+                cart.product.qty += quantity;
+                if (cart.product.qty < 1) cart.product.qty = 1; // Minimum quantity is 1
+            }
+        });
+        var cardString = JSON.stringify(cartJson);
+        localStorage.setItem('cartData', cardString);
+        setCartData(cartJson);
+    };
+    console.log(cartData);
+
     return (
         <div className='container mt-4'>
             <h1 className='mb-4'>All Items ({cartItems})</h1>
@@ -54,6 +69,7 @@ function Checkout(props) {
                                         <th>#</th>
                                         <th>Product</th>
                                         <th>Price</th>
+                                        <th>Quantity</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -61,10 +77,10 @@ function Checkout(props) {
                                     {cartData &&
                                         cartData.map((item, index) => {
                                             return (
-                                                <tr>
+                                                <tr key={index}>
                                                     <td>{index + 1}</td>
                                                     <td>
-                                                        <Link>
+                                                        <Link to={`/product/${item.product.title}/${item.product.id}`}>
                                                             <img src={item.product.image} className='img-thumbnail' width='80' alt='...' />
                                                             <p>{item.product.title}</p>
                                                         </Link>
@@ -74,7 +90,12 @@ function Checkout(props) {
                                                         {CurrencyData == 'usd' && <td>${item.product.usd_price}</td>}
                                                     </td>
                                                     <td>
-                                                        <button title="Add to Cart" type="button" onClick={() => cartRemoveButtonHandler(item.product.id)} className='btn btn-warning btn-sm'>
+                                                        <button onClick={() => updateQuantity(item.product.id, -1)} className='btn btn-sm btn-secondary'>-</button>
+                                                        <span className='mx-2'>{item.product.qty}</span>
+                                                        <button onClick={() => updateQuantity(item.product.id, 1)} className='btn btn-sm btn-secondary'>+</button>
+                                                    </td>
+                                                    <td>
+                                                        <button title="Remove from Cart" type="button" onClick={() => cartRemoveButtonHandler(item.product.id)} className='btn btn-warning btn-sm'>
                                                             <i className="fa-solid fa-cart-plus"></i> Remove from Cart
                                                         </button>
                                                     </td>
@@ -87,12 +108,12 @@ function Checkout(props) {
                                         <th></th>
                                         <th>Total</th>
                                         <th>
-                                            {(CurrencyData == 'vnd' || CurrencyData == undefined) && <td>{sum} VND</td>}
+                                            {(CurrencyData == 'vnd' || CurrencyData == undefined) && <td>{sum},000 VND</td>}
                                             {CurrencyData == 'usd' && <td>${sum}</td>}
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td colSpan='3' align='center'>
+                                        <td colSpan='4' align='center'>
                                             <Link to='/categories' className='btn btn-secondary'>
                                                 Continue Shopping
                                             </Link>

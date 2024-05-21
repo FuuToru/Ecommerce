@@ -94,7 +94,7 @@ function Home() {
             categories.map((category) =>
               <div className='col-12 col-md-3 mb-2'>
                 <div className="card">
-                  <img src={category.category_img} className="card-img-top" alt={category.title} />
+                  <img src={category.category_img} width={250} height={250} className="card-img-top" alt={category.title} />
                   <div className="card-body">
                     <h4 className="card-title"> <Link to={`/category/${category.title}/${category.id}`}>{category.title}</Link></h4>
                   </div>

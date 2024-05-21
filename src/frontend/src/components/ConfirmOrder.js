@@ -30,21 +30,22 @@ function ConfirmOrder() {
     function addOrderInTable() {
         const customerId = localStorage.getItem('customer_id');
 
-        var total_amount = 0;
-        var total_usd_amount = 0;
+        var total_price = 0;
+        var total_usd = 0;
         var previousCart = localStorage.getItem('cartData');
+        console.log(previousCart);
         var cartJson = JSON.parse(previousCart);
         cartJson.map((cart, index) => {
-            total_amount += parseFloat(cart.product.price)
-            total_usd_amount += parseFloat(cart.product.usd_price)
+            total_price += parseFloat(cart.product.price) * cart.product.qty;
+            total_usd += parseFloat(cart.product.usd_price) *  cart.product.qty;
 
         })
 
         const formData = new FormData();
         formData.append('customer', customerId);
         formData.append('order_status', true);
-        formData.append('total_amount', total_amount);
-        formData.append('total_usd_amount', total_usd_amount);
+        formData.append('total_amount', total_price);
+        formData.append('total_usd_amount', total_usd);
         console.log(formData);
 
         axios.post(baseUrl + '/orders/', formData).then(function (response) {
@@ -85,7 +86,7 @@ function ConfirmOrder() {
                 const formData = new FormData();
                 formData.append('order', orderId);
                 formData.append('product', cart.product.id);
-                formData.append('qty', 1);
+                formData.append('qty', cart.product.qty);
                 formData.append('price', cart.product.price);
                 formData.append('usd_price', cart.product.usd_price);
 
