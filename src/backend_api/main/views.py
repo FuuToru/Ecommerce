@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.db.models import Count
+from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 # Vendor
@@ -576,4 +577,10 @@ class VendorCustomerOrderItemList(generics.ListAPIView):
         return qs
 
 
- 
+class ProductSearchList(generics.ListAPIView):
+    serializer_class = serializers.ProductListSerializer
+
+    def get_queryset(self):
+        query = self.request.query_params.get('query')
+        queryset = models.Product.objects.filter(title__icontains=query)
+        return queryset

@@ -19,6 +19,7 @@ import ConfirmOrder from './components/ConfirmOrder';
 import OrderSuccess from './components/OrderSuccess';
 import OrderFailure from './components/OrderFailure';
 import TagProducts from './components/TagProducts';
+import Search from './components/Search';
 
 //Customer Panel
 import Register from './components/Customer/Register';
@@ -53,6 +54,7 @@ import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
 
+
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
 const checkCart=localStorage.getItem('cartData');
@@ -76,6 +78,7 @@ function App() {
         <Route path='/confirm-order' element={<ConfirmOrder/>}></Route>
         <Route path='/order/success' element={<OrderSuccess/>}></Route>
         <Route path='/order/failure' element={<OrderFailure/>}></Route>
+        <Route path='/search' element={<Search/>}></Route>
         {/* Customer Route */}
         <Route path='/customer/register' element={<Register/>}></Route>
         <Route path='/customer/login' element={<Login/>}></Route>

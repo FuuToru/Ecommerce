@@ -53,6 +53,8 @@ urlpatterns = [
     path('customer/<int:pk>/address-list/', views.CustomerAddressList.as_view()),
 
     path('mark-default-address/<int:pk>/', views.mark_default_address, name='mark-default-address'),
+    
+    path('search/', views.ProductSearchList.as_view(), name='product-search'),
 
 
 

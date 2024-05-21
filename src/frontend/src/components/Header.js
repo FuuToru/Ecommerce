@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext, CartContext, CurrencyContext } from '../Context';
 
 function Header(props) {
+  const history = useNavigate();
   const userContext = useContext(UserContext);
   const { cartData, setcartData } = useContext(CartContext);
   const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
@@ -16,6 +17,13 @@ function Header(props) {
     setCurrencyData(selectedCurrency);
   }
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    history(`/search?query=${searchTerm}`); 
+  }
+
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container">
@@ -25,8 +33,8 @@ function Header(props) {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <i className="fa-brands fa-stripe-s ma-5"></i>
           <Link className="navbar-brand" to="/">oasis</Link>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form className="d-flex" role="search" onSubmit={handleSearch}>
+            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
