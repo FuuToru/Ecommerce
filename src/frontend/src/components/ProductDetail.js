@@ -254,13 +254,6 @@ function ProductDetail() {
                         {cartButtonClickStatus &&
                             <button title="Add to Cart" type="button" onClick={cartRemoveButtonHandler} className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
                         }
-                        <button 
-                            title="Buy Now" 
-                            className='btn btn-warning btn-sm ms-1'>
-                            <i className="fa-solid fa-bag-shopping"></i> Buy Now
-                        </button>
-                        
-
 
                         
                         {
