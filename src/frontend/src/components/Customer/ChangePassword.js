@@ -30,7 +30,12 @@ function ChangePassword(props){
         // Submit Data
         axios.post(baseUrl +'/customer-change-pasword/'+customer_id, formData)
         .then(function (response){
-            console.log(response);
+            console.log(response.status);
+            if(response.status == 200){
+                alert('Password Change Successfully');
+                window.location.reload();
+            }
+            
         })
         .catch(function (error){
             console.log(error);

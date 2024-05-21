@@ -103,7 +103,6 @@ class ProductRatingSerializer(serializers.ModelSerializer):
         fields = ['id','customer', 'product', 'rating','reviews','add_time']
     def __init__(self, *args, **kwargs):
         super(ProductRatingSerializer, self).__init__(*args, **kwargs)
-        self.Meta.depth = 1
 
 
 
