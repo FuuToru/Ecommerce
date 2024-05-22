@@ -12,6 +12,7 @@ class Vendor(models.Model):
     mobile = models.PositiveBigIntegerField(unique=True)
     profile_img = models.ImageField(upload_to='vendor_imgs/', null=True)
     address = models.TextField(null=True)
+    description = models.TextField(null=True)
     
     def __str__(self):
         return self.user.username
@@ -121,7 +122,7 @@ class ProductRating(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.rating} - {self.reviews}'
+        return f' {self.rating} - {self.reviews}'
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_imgs")

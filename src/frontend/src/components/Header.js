@@ -99,9 +99,15 @@ function Header(props) {
 
             {userContext !== 'true' && (
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Vendor Panel
-                </a>
+                {checkVendor !== 'true' ? (
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Become a Vendor ?
+                  </a>
+                ) : (
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Vendor Panel
+                  </a>
+                )}
                 <ul className="dropdown-menu">
                   {checkVendor !== 'true' ? (
                     <>
