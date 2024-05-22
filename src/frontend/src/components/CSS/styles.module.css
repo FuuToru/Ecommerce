@@ -1,0 +1,8 @@
+.custom-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.custom-link:hover {
+    color: #000; /* Màu khi hover, bạn có thể thay đổi màu tùy ý */
+}

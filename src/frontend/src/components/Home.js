@@ -7,6 +7,7 @@ import AllProducts from './AllProducts';
 import SingleVendor from './Vendor/SingleVendor';
 import SingleProduct from './SingleProduct';
 import { useState, useEffect } from 'react';
+import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
 
 function Home() {
   const baseUrl = 'http://127.0.0.1:8000/api';
@@ -96,7 +97,7 @@ function Home() {
                 <div className="card">
                   <img src={category.category_img} width={250} height={250} className="card-img-top" alt={category.title} />
                   <div className="card-body">
-                    <h4 className="card-title"> <Link to={`/category/${category.title}/${category.id}`}>{category.title}</Link></h4>
+                    <h4 className="card-title"> <Link to={`/category/${category.title}/${category.id}`} className={styles['custom-link']}>{category.title} </Link></h4>
                   </div>
                   <div className='card-footer'>
                     Product: 2356

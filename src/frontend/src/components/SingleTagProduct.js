@@ -3,21 +3,25 @@ import { Link } from 'react-router-dom';
 //Assets
 import logo from '../logo.svg';
 import ProductDetail from './ProductDetail';
+import { useContext } from 'react';
+import { CurrencyContext } from '../Context';
+import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
 function SingleTagProduct(props){
+    const { CurrencyData } = useContext(CurrencyContext);
     return(
         <>
         {/* product box */}
         <div className="col-4 offset-4 mb-4"  >
             <div className="card">
-                <Link to={`/product/${props.product.title}/${props.product.id}`}>
+                <Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>
                 <img src={props.product.image} className="card-img-top" alt="..."/>  </Link>
                 <div className="card-body">
-                    <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`}>{props.product.title}</Link></h4>
-                    <h5 className="card-title text-muted">Price: {props.product.price}</h5>
+                    <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>{props.product.title}</Link></h4>
                 </div>
                 <div className='card-footer'>
-                    <button title = "Add to Cart" className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i></button>
-                    <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-2'><i className="fa fa-heart"></i></button>
+                <h5 className="card-title text-danger">
+                        Price: {CurrencyData === 'usd' ? `$${props.product.usd_price}` : `${props.product.price} VND`}
+                    </h5>
                 </div>
 
             </div>

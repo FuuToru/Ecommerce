@@ -176,7 +176,10 @@ function ProductDetail() {
         });
 
     }
-    console.log(productData);
+//     var quantity = cartData.product.qty;
+
+// // In ra giá trị qty
+// console.log(quantity);
     return (
         <section className="container mt-4">
             <div className="row">
@@ -222,31 +225,36 @@ function ProductDetail() {
                     <h3>{productData.title}</h3>
                     <p>{productData.detail}</p>
                     {
-                        CurrencyData != 'usd' && <h5 className="card-title">Price:  {productData.price} VND</h5>
+                        CurrencyData != 'usd' && <h5 className="card-title text-danger">Price:  {productData.price} VND</h5>
                     }
                     {
-                        CurrencyData == 'usd' && <h5 className="card-title">Price: ${productData.usd_price}</h5>
+                        CurrencyData == 'usd' && <h5 className="card-title text-danger">Price: ${productData.usd_price}</h5>
                     }
-                    {
-                        cartData && cartData.map((item, index) => {
-                                return (
-                                    <div key={index} className="d-flex align-items-center my-2">
-                                        <button 
-                                            onClick={() => updateQuantity(item.product.id, -1)} 
-                                            className='btn btn-sm btn-secondary'>
-                                            -
-                                        </button>
-                                        <span className='mx-2'>{item.product.qty}</span>
-                                        <button 
-                                            onClick={() => updateQuantity(item.product.id, 1)} 
-                                            className='btn btn-sm btn-secondary'>
-                                            +
-                                        </button>                        
 
-                                    </div>
-                                );
-                            })
-                        }
+                    <div className="d-flex align-items-center my-2">
+                        <button 
+                            onClick={() => updateQuantity(productData.id, -1)} 
+                            className='btn btn-sm btn-secondary'>
+                            -
+                        </button>
+                        <span className='mx-2'>
+                            {cartData && cartData.length > 0 ? 
+                                cartData.map((cart) => {
+                                    if (cart.product.id === productData.id) {
+                                        return cart.product.qty;
+                                    }
+                                    return null;
+                                }).filter(qty => qty !== null)[0] ?? 1 
+                                : 1}
+                        </span>
+
+                        <button 
+                            onClick={() => updateQuantity(productData.id, 1)} 
+                            className='btn btn-sm btn-secondary'>
+                            +
+                        </button>                        
+
+                    </div>
                     <p className='mt-3'>
                         {!cartButtonClickStatus &&
                             <button title="Add to Cart" type="button" onClick={cartAddButtonHandler} className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>
@@ -254,11 +262,6 @@ function ProductDetail() {
                         {cartButtonClickStatus &&
                             <button title="Add to Cart" type="button" onClick={cartRemoveButtonHandler} className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
                         }
-                        <button 
-                            title="Buy Now" 
-                            className='btn btn-warning btn-sm ms-1'>
-                            <i className="fa-solid fa-bag-shopping"></i> Buy Now
-                        </button>
                         
 
 
@@ -311,8 +314,7 @@ function ProductDetail() {
                             // Thêm class 'active' vào div của carousel-item đầu tiên
                             return (
                                 <div className='carousel-item active' key={index} onClick={() => {
-                                    changeUrl(baseUrl + `/product/${product.id}/`);
-                                    changerelatedUrl(baseUrl + `/related-products/${product.id}`);
+                                    window.location.href = `/product/${product.title}/${product.id}`;
                                 }}>
                                     <SingleTagProduct product={product} />
                                 </div>
@@ -321,8 +323,7 @@ function ProductDetail() {
                             // Không cần thêm 'active' cho các carousel-item còn lại
                             return (
                                 <div className='carousel-item' key={index} onClick={() => {
-                                    changeUrl(baseUrl + `/product/${product.id}/`);
-                                    changerelatedUrl(baseUrl + `/related-products/${product.id}`);
+                                    window.location.href = `/product/${product.title}/${product.id}`;
                                 }}>
                                     <SingleTagProduct product={product} />
                                 </div>

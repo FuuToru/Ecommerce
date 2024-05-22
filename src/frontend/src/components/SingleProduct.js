@@ -1,40 +1,32 @@
-//Packages
 import { Link } from 'react-router-dom';
-//Assets
-import logo from '../logo.svg';
-import ProductDetail from './ProductDetail';
-import {CurrencyContext } from '../Context';
-import {useContext} from 'react';
-function SingleProduct(props){
-    const {CurrencyData, setCurrencyData} = useContext(CurrencyContext);
-    return(
-        <>
-        {/* product box */}
-        <div className="col-12 col-md-3 mb-2"  >
+import { useContext } from 'react';
+import { CurrencyContext } from '../Context';
+import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
+import logo from '../logo.svg'; // Ensure this is used or remove it if unnecessary
+
+function SingleProduct({ product }) {
+    const { CurrencyData } = useContext(CurrencyContext);
+
+    return (
+        <div className="col-12 col-md-3 mb-2">
             <div className="card">
-                <Link to={`/product/${props.product.title}/${props.product.id}`}>
-                <img src={props.product.image} className="card-img-top" width={250} height={250} alt="..." />  </Link>
+                <Link to={`/product/${product.title}/${product.id}`} className={styles['custom-link']}>
+                    <img src={product.image} className="card-img-top" width={250} height={250} alt={product.title} />
+                </Link>
                 <div className="card-body">
-                    <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`}>{props.product.title}</Link></h4>
-                    {
-                        CurrencyData!='usd' && <h5 className="card-title">Price:  {props.product.price} VND</h5>
-                    }
-                    {
-                        CurrencyData =='usd' &&                    
-                        <h5 className="card-title">Price: ${props.product.usd_price}</h5>
-                    }
-
+                    <h4 className="card-title">
+                        <Link to={`/product/${product.title}/${product.id}`} className={styles['custom-link']}>
+                            {product.title}
+                        </Link>
+                    </h4>
                 </div>
-                <div className='card-footer'>
-                    <button title = "Add to Cart" className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i></button>
-                    <button title = "Add to Wishlist" className='btn btn-danger btn-sm ms-2'><i className="fa fa-heart"></i></button>
+                <div className="card-footer">
+                    <h5 className="card-title text-danger">
+                        Price: {CurrencyData === 'usd' ? `$${product.usd_price}` : `${product.price} VND`}
+                    </h5>
                 </div>
-
             </div>
         </div>
-        {/* product box end */}
-        </>
-
     );
 }
 
