@@ -60,13 +60,9 @@ function ProductDetail() {
             .then((response) => response.json())
             .then((data) => {
                 setProductRating(data.results);
-
-
             });
     }
     console.log(productRating);
-
-
 
 
     const fetchCustomerRating = (customerId) => {
@@ -81,7 +77,6 @@ function ProductDetail() {
     };
 
 
-    // // Effect hook để gọi hàm fetchCustomerRating khi component được render
     useEffect(() => {
         productRating.forEach((rating) => {
             if (rating.product === productData.id && !customerRating[rating.customer]) {

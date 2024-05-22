@@ -136,6 +136,7 @@ class Order(models.Model):
     order_status = models.BooleanField(default= False)
     total_amount = models.DecimalField(max_digits =20, decimal_places =3, default = 0)
     total_usd_amount = models.DecimalField(max_digits =10, decimal_places =2, default = 0)
+    order_address = models.TextField(null=True)
 
 
     def __str__(self):
