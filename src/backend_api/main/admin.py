@@ -26,7 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(models.Product,ProductAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'customer', 'order_time', 'total_amount','total_usd_amount', 'order_status']
+    list_display = ['id', 'customer', 'order_time', 'total_amount','total_usd_amount', 'order_status', 'order_address']
 
 admin.site.register(models.Order,OrderAdmin)
 

@@ -131,7 +131,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
-        fields = ['id','customer','order_status','order_time', 'total_amount', 'total_usd_amount']
+        fields = ['id','customer','order_status','order_time', 'total_amount', 'total_usd_amount', 'order_address']
     # def __init__(self, *args, **kwargs):
     #     super(OrderSerializer, self).__init__(*args, **kwargs)
     #     self.Meta.depth = 1

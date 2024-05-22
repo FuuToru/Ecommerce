@@ -1,122 +1,121 @@
-import { UserContext, CartContext, CurrencyContext } from '../Context';
-import { useContext } from 'react';
-import axios from "axios";
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { UserContext, CartContext, CurrencyContext } from '../Context';
 
 const baseUrl = 'http://127.0.0.1:8000/api';
 
 function ConfirmOrder() {
-    const [ConfirmOrder, SetConfirmOrder] = useState(false);
-    const [orderId, SetorderId] = useState('');
-    const [orderAmount, setorderAmount] = useState(0);
+    const [confirmOrder, setConfirmOrder] = useState(false);
+    const [orderId, setOrderId] = useState('');
+    const [orderAmount, setOrderAmount] = useState(0);
+    const [payMethod, setPayMethod] = useState('');
+    const [addressData, setAddressData] = useState([]);
 
-    const [OrderStatus, SetOrderStatus] = useState(false);
-    const [PayMethod, SetPayMethod] = useState('');
     const userContext = useContext(UserContext);
     const { cartData, setCartData } = useContext(CartContext);
-    const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
+    const { CurrencyData } = useContext(CurrencyContext);
 
-    // console.log(userContext)
-    if (!userContext) {
-        window.location.href = "/customer/login"
-    } else {
-        if (ConfirmOrder == false) {
+    useEffect(() => {
+        fetchData(baseUrl + '/address/');
+    }, []);
+
+    useEffect(() => {
+        if (!confirmOrder && addressData.length > 0) {
             addOrderInTable();
         }
+    }, [addressData, confirmOrder]);
 
+    function fetchData(url) {
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => setAddressData(data.results));
+    }
+
+    if (!userContext) {
+        window.location.href = "/customer/login";
+        return null; // Prevent further rendering
     }
 
     function addOrderInTable() {
         const customerId = localStorage.getItem('customer_id');
-
-        var total_price = 0;
-        var total_usd = 0;
-        var previousCart = localStorage.getItem('cartData');
-        console.log(previousCart);
-        var cartJson = JSON.parse(previousCart);
-        cartJson.map((cart, index) => {
+        let result = 'No address found!';
+        if (addressData.length > 0) {
+            const address = addressData.find((address) => Number(address.customer) === Number(customerId) && address.default_address);
+            if (address) {
+                result = address.address;
+            }
+        }
+        
+        const previousCart = localStorage.getItem('cartData');
+        const cartJson = JSON.parse(previousCart);
+        let total_price = 0;
+        let total_usd = 0;
+        cartJson.forEach((cart) => {
             total_price += parseFloat(cart.product.price) * cart.product.qty;
-            total_usd += parseFloat(cart.product.usd_price) *  cart.product.qty;
-
-        })
+            total_usd += parseFloat(cart.product.usd_price) * cart.product.qty;
+        });
 
         const formData = new FormData();
         formData.append('customer', customerId);
         formData.append('order_status', true);
         formData.append('total_amount', total_price);
         formData.append('total_usd_amount', total_usd);
-        console.log(formData);
+        formData.append('order_address', result);
 
-        axios.post(baseUrl + '/orders/', formData).then(function (response) {
-            var orderId = response.data.id;
-            SetorderId(orderId);
-            if (CurrencyData == 'usd') {
-                setorderAmount(response.data.total_usd_amount);
-
-            } else {
-                setorderAmount(response.data.total_amount);
-
-
-            }
-            orderItems(orderId);
-            SetConfirmOrder(true);
-        }).catch(function (error) {
-            console.log(error);
+        axios.post(baseUrl + '/orders/', formData).then((response) => {
+            const newOrderId = response.data.id;
+            setOrderId(newOrderId);
+            setOrderAmount(CurrencyData === 'usd' ? response.data.total_usd_amount : response.data.total_amount);
+            orderItems(newOrderId);
+            setConfirmOrder(true);
+        }).catch((error) => {
+            console.error(error);
         });
-
     }
 
     function updateOrderStatus(order_status) {
-        axios.post(baseUrl + '/update-order-status/' + orderId).then(function (response) {
+        axios.post(`${baseUrl}/update-order-status/${orderId}`).then(() => {
             window.location.href = '/order/success';
-        }).catch(function (error) {
+        }).catch(() => {
             window.location.href = '/order/failure';
         });
-
     }
 
-    function orderItems(orderId) {
-        var previousCart = localStorage.getItem('cartData');
-        var cartJson = JSON.parse(previousCart);
-        console.log(cartJson);
+    function orderItems(newOrderId) {
+        const previousCart = localStorage.getItem('cartData');
+        const cartJson = JSON.parse(previousCart);
 
-        if (cartJson != null) {
-            cartJson.map((cart, index) => {
+        if (cartJson) {
+            cartJson.forEach((cart, index) => {
                 const formData = new FormData();
-                formData.append('order', orderId);
+                formData.append('order', newOrderId);
                 formData.append('product', cart.product.id);
                 formData.append('qty', cart.product.qty);
                 formData.append('price', cart.product.price);
                 formData.append('usd_price', cart.product.usd_price);
 
-
-                axios.post(baseUrl + '/orderitems/', formData).then(function (response) {
-                    cartJson.splice(index);
+                axios.post(baseUrl + '/orderitems/', formData).then(() => {
+                    cartJson.splice(index, 1);
                     localStorage.setItem('cartData', JSON.stringify(cartJson));
                     setCartData(cartJson);
-                }).catch(function (error) {
-                    console.log(error);
+                }).catch((error) => {
+                    console.error(error);
                 });
             });
-
-
         }
-
     }
 
-    function changePaymentMethod(paymethod) {
-        SetPayMethod(paymethod);
-
+    function changePaymentMethod(method) {
+        setPayMethod(method);
     }
 
-    function PayNowButton() {
-        if (PayMethod != '') {
-            changePaymentMethod(PayMethod);
+    function payNowButton() {
+        if (payMethod) {
+            changePaymentMethod(payMethod);
         } else {
             alert('Select Payment Method');
         }
-
     }
 
     return (
@@ -129,36 +128,32 @@ function ConfirmOrder() {
                     </div>
                     <div className='card py-3 mt-4'>
                         <form>
-                            {
-                                CurrencyData == 'usd' &&
+                            {CurrencyData === 'usd' &&
                                 <div className='form-group'>
                                     <label>
                                         <input type='radio' name='paymethod' onChange={() => changePaymentMethod('paypal')} value='Paypal' /> Paypal
                                     </label>
                                 </div>
                             }
-                            {
-                                CurrencyData != 'usd' &&
+                            {CurrencyData !== 'usd' &&
                                 <div className='form-group'>
                                     <label>
                                         <input type='radio' name='paymethod' onChange={() => changePaymentMethod('credit')} value='Credit Card' /> Credit Card
                                     </label>
                                 </div>
                             }
-
-
-                            <button type='button' onClick={PayNowButton} className='btn btn-sm btn-success mt-3'>Next</button>
+                            <button type='button' onClick={payNowButton} className='btn btn-sm btn-success mt-3'>Next</button>
                         </form>
-                        {PayMethod == 'paypal' &&
+                        {payMethod === 'paypal' &&
                             <PayPalScriptProvider options={{ "client-id": "AefouazOUhSIQcaDwt1DtRA4aUlyzJBt_FgKvJxN5EiKVZI9SXPDALUUYx6vgTvV_la7WienpoeU7NIe" }}>
-                                <PayPalButtons className="mt-3">
-                                    createOrder = {(data, actions) => {
+                                <PayPalButtons className="mt-3"
+                                    createOrder={(data, actions) => {
                                         return actions.order.create({
                                             purchase_units: [
                                                 {
                                                     amount: {
                                                         currency_code: "USD",
-                                                        value: { orderAmount },
+                                                        value: orderAmount,
                                                     },
                                                 },
                                             ],
@@ -166,24 +161,17 @@ function ConfirmOrder() {
                                     }}
                                     onApprove={(data, actions) => {
                                         return actions.order.capture().then((details) => {
-                                            const name = details.payer.name.given_name;
-                                            // alert(`Transaction completed by ${name}`);
-                                            // SetOrderStatus(true);
                                             updateOrderStatus(true);
-
                                         });
                                     }}
-                                </PayPalButtons>
+                                />
                             </PayPalScriptProvider>
-
                         }
                     </div>
                 </div>
             </div>
         </div>
-
     )
-
 }
 
 export default ConfirmOrder;
