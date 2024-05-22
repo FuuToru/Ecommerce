@@ -21,10 +21,8 @@ function ProductDetail() {
     const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
     const userContext = useContext(UserContext);
     const [vendorData, setVendorData] = useState([]);
-    const [vendorProfile, setVendorProfile] = useState([]);  // State for vendor data
     const [productRating, setProductRating] = useState([]);  // State for product rating
-    const [customerRating, setCustomerRating] = useState([]);  // State for customer rating
-    const [customerProfile, setCustomerProfile] = useState([]);  // State for customer profile
+    const [customerRating, setCustomerRating] = useState({});  // State for customer rating
 
     useEffect(() => {
         fetchData(baseUrl + '/product/' + product_id + '/');
@@ -62,7 +60,7 @@ function ProductDetail() {
             .then((response) => response.json())
             .then((data) => {
                 setProductRating(data.results);
-                
+
 
             });
     }
@@ -72,31 +70,34 @@ function ProductDetail() {
 
 
     const fetchCustomerRating = (customerId) => {
-        fetch(baseUrl + '/customer/'+ customerId + '/')
-        .then((response) => response.json())
-        .then((data) => {
-            setCustomerRating(data);
-            setCustomerProfile(data.user);
-        });
+        fetch(baseUrl + '/customer/' + customerId + '/')
+            .then((response) => response.json())
+            .then((data) => {
+                setCustomerRating(prevRatings => ({
+                    ...prevRatings,
+                    [customerId]: data
+                }));
+            });
     };
 
-    // Effect hook để gọi hàm fetchCustomerRating khi component được render
+
+    // // Effect hook để gọi hàm fetchCustomerRating khi component được render
     useEffect(() => {
         productRating.forEach((rating) => {
-            if (rating.product === productData.id) {
+            if (rating.product === productData.id && !customerRating[rating.customer]) {
                 fetchCustomerRating(rating.customer);
             }
         });
     }, [productRating]);
 
-    console.log(customerRating);
+
+    console.log(vendorData);
 
     function fetchVendorData(vendorId) {
         fetch(baseUrl + '/vendor/' + vendorId + '/')
             .then((response) => response.json())
             .then((data) => {
                 setVendorData(data);
-                setVendorProfile(data.user);
             });
     }
 
@@ -267,22 +268,22 @@ function ProductDetail() {
                     <p>{productData.detail}</p>
                     {CurrencyData !== 'usd' && <h5 className="card-title text-danger">Price:  {productData.price} VND</h5>}
                     {CurrencyData === 'usd' && <h5 className="card-title text-danger">Price: ${productData.usd_price}</h5>}
-                    
+
 
 
                     <div className="d-flex align-items-center my-2">
                         <button onClick={() => updateQuantity(productData.id, -1)} className='btn btn-sm btn-secondary'>-</button>
                         <span className='mx-2'>
-                            {cartData && cartData.length > 0 ? 
+                            {cartData && cartData.length > 0 ?
                                 cartData.map((cart) => {
                                     if (cart.product.id === productData.id) {
                                         return cart.product.qty;
                                     }
                                     return null;
-                                }).filter(qty => qty !== null)[0] ?? 1 
+                                }).filter(qty => qty !== null)[0] ?? 1
                                 : 1}
                         </span>
-                        <button onClick={() => updateQuantity(productData.id, 1)} className='btn btn-sm btn-secondary'>+</button>                        
+                        <button onClick={() => updateQuantity(productData.id, 1)} className='btn btn-sm btn-secondary'>+</button>
                     </div>
                     <p className='mt-3'>
                         {!cartButtonClickStatus &&
@@ -316,7 +317,7 @@ function ProductDetail() {
                             <div className={styles["avatar-wrapper"]}>
                                 <img src={vendorData.profile_img} alt="Vendor Avatar" className={styles['avatar-img']} />
                             </div>
-                            <h6 className={styles['vendor-info']}>Vendor: {vendorProfile.username}</h6>
+                            <h6 className={styles['vendor-info']}>Vendor: {vendorData.user.username}</h6>
                         </>
                     }
                 </div>
@@ -327,17 +328,17 @@ function ProductDetail() {
             </div>
             <h5 className='mt-5 mb-3 text-center'>Review Products</h5>
             <span className='mx-2'>
-                {productRating && productRating.length > 0 ? 
+                {productRating && productRating.length > 0 ?
                     productRating.map((rating) => {
-                        // const customer = customerRating[rating.customer];
-                        if (rating.product === productData.id) {
+                        const customer = customerRating[rating.customer];
+                        if (rating.product === productData.id && customer) {
                             return (
                                 <div key={rating.id} className={styles["review-wrapper"]}>
                                     <div className={styles["review-avatar"]}>
-                                        <img src={customerRating.profile_img} alt="Customer Avatar" className={styles['avatar-img']} />
+                                        <img src={customer.profile_img} alt="Customer Avatar" className={styles['avatar-img']} />
                                     </div>
                                     <div className={styles["review-content"]}>
-                                        <h6>{customerProfile.username}</h6>
+                                        <h6>{customer.user.username}</h6>
                                         <p>Rating: {renderStars(rating.rating)}</p>
                                         <p>Review: {rating.reviews}</p>
                                     </div>
@@ -346,7 +347,8 @@ function ProductDetail() {
                         }
                         return null;
                     })
-                : "No ratings available for this product."}
+                    : "No ratings available for this product."}
+
             </span>
 
 

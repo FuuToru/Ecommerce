@@ -95,10 +95,11 @@ function Home() {
             categories.map((category) =>
               <div className='col-12 col-md-3 mb-2'>
                 <div className="card">
+                <Link to={`/category/${category.title}/${category.id}`} className={styles['custom-link']}>
                   <img src={category.category_img} width={250} height={250} className="card-img-top" alt={category.title} />
                   <div className="card-body">
-                    <h4 className="card-title"> <Link to={`/category/${category.title}/${category.id}`} className={styles['custom-link']}>{category.title} </Link></h4>
-                  </div>
+                    <h4 className="card-title"> {category.title} </h4>
+                  </div></Link>
                   <div className='card-footer'>
                     Product: 2356
                   </div>
