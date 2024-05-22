@@ -14,7 +14,7 @@ function SingleTagProduct(props){
         <div className="col-4 offset-4 mb-4"  >
             <div className="card">
                 <Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>
-                <img src={props.product.image} className="card-img-top" alt="..."/>  </Link>
+                <img src={props.product.image} className="card-img-top" alt="..." width={250} height={250}/>  </Link>
                 <div className="card-body">
                     <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>{props.product.title}</Link></h4>
                 </div>

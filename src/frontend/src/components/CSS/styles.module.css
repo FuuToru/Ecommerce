@@ -4,5 +4,84 @@
 }
 
 .custom-link:hover {
-    color: #000; /* Màu khi hover, bạn có thể thay đổi màu tùy ý */
+    color: #000; 
+}
+
+
+.avatar-wrapper {
+    width: 70px; 
+    height: 70px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+}
+
+.avatar-img {
+    width: 100%; 
+    height: auto; 
+}
+
+
+/* styles.module.css */
+
+.avatar-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vendor-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.vendor-info h6 {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.vendor-description {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.review-avatar {
+    flex: 0 0 50px;
+    margin-right: 15px;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-content h6 {
+    margin: 0;
+    font-weight: 600;
 }

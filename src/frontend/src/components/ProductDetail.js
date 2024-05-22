@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { UserContext, CartContext, CurrencyContext } from '../Context';
 import axios from "axios";
-
+import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
 
 function ProductDetail() {
     const baseUrl = 'http://127.0.0.1:8000/api';
@@ -20,7 +20,11 @@ function ProductDetail() {
     const { cartData, setCartData } = useContext(CartContext);
     const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
     const userContext = useContext(UserContext);
-
+    const [vendorData, setVendorData] = useState([]);
+    const [vendorProfile, setVendorProfile] = useState([]);  // State for vendor data
+    const [productRating, setProductRating] = useState([]);  // State for product rating
+    const [customerRating, setCustomerRating] = useState([]);  // State for customer rating
+    const [customerProfile, setCustomerProfile] = useState([]);  // State for customer profile
 
     useEffect(() => {
         fetchData(baseUrl + '/product/' + product_id + '/');
@@ -48,10 +52,54 @@ function ProductDetail() {
                 setproductData(data);
                 setproductImgs(data.product_imgs);
                 setproductTags(data.tag_list);
+                fetchVendorData(data.vendor);  // Fetch vendor data
+                fetchProductRating(data.id);
+            });
+    }
+
+    function fetchProductRating(product_id) {
+        fetch(baseUrl + '/productrating/')
+            .then((response) => response.json())
+            .then((data) => {
+                setProductRating(data.results);
+                
 
             });
-
     }
+    console.log(productRating);
+
+
+
+
+    const fetchCustomerRating = (customerId) => {
+        fetch(baseUrl + '/customer/'+ customerId + '/')
+        .then((response) => response.json())
+        .then((data) => {
+            setCustomerRating(data);
+            setCustomerProfile(data.user);
+        });
+    };
+
+    // Effect hook để gọi hàm fetchCustomerRating khi component được render
+    useEffect(() => {
+        productRating.forEach((rating) => {
+            if (rating.product === productData.id) {
+                fetchCustomerRating(rating.customer);
+            }
+        });
+    }, [productRating]);
+
+    console.log(customerRating);
+
+    function fetchVendorData(vendorId) {
+        fetch(baseUrl + '/vendor/' + vendorId + '/')
+            .then((response) => response.json())
+            .then((data) => {
+                setVendorData(data);
+                setVendorProfile(data.user);
+            });
+    }
+
     function changeUrl(baseurl) {
         fetchData(baseurl);
     }
@@ -61,10 +109,9 @@ function ProductDetail() {
             .then((response) => response.json())
             .then((data) => {
                 setrelatedProducts(data.results);
-
             });
-
     }
+
     function changerelatedUrl(baseurl) {
         fetchRelatedData(baseurl);
     }
@@ -87,30 +134,24 @@ function ProductDetail() {
                 'title': productData.title,
                 'image': productData.image,
                 'qty': productData.qty
-
             },
             'vendor': {
                 'id': productData.vendor,
             }
-
         }
         if (cartJson != null) {
             cartJson.push(cartData);
             var cartString = JSON.stringify(cartJson);
             localStorage.setItem('cartData', cartString);
             setCartData(cartJson);
-
-        }
-        else {
+        } else {
             var newCartList = [];
             newCartList.push(cartData);
             var cartString = JSON.stringify(newCartList);
             localStorage.setItem('cartData', cartString);
-
         }
 
         setcartButtonClickStatus(true);
-
     }
 
     const cartRemoveButtonHandler = () => {
@@ -118,7 +159,6 @@ function ProductDetail() {
         var cartJson = JSON.parse(previousCart);
         cartJson.map((cart, index) => {
             if (cart != null && cart.product.id == productData.id) {
-                // delete cartJson[index];
                 cartJson.splice(index, 1);
             }
         });
@@ -126,13 +166,11 @@ function ProductDetail() {
         localStorage.setItem('cartData', cartString);
         setcartButtonClickStatus(false);
         setCartData(cartJson);
-
     }
 
     const updateQuantity = (product_id, quantity) => {
         var previousCart = localStorage.getItem('cartData');
         var cartJson = JSON.parse(previousCart);
-        console.log(cartJson);
         cartJson.map((cart, index) => {
             if (cart != null && cart.product.id == product_id) {
                 cart.product.qty += quantity;
@@ -149,7 +187,6 @@ function ProductDetail() {
         const formData = new FormData();
         formData.append('customer', customerId);
         formData.append('product', productData.id);
-        console.log(formData);
         axios.post(baseUrl + '/wishlist/', formData).then(function (response) {
             if (response.data.id) {
                 setProductInWishlist(true);
@@ -164,7 +201,6 @@ function ProductDetail() {
         const formData = new FormData();
         formData.append('customer', customerId);
         formData.append('product', product_id);
-        console.log(formData);
         axios.post(baseurl, formData).then(function (response) {
             if (response.data.bool == true) {
                 setProductInWishlist(true);
@@ -174,12 +210,19 @@ function ProductDetail() {
         }).catch(function (error) {
             console.log(error);
         });
-
     }
-//     var quantity = cartData.product.qty;
 
-// // In ra giá trị qty
-// console.log(quantity);
+    function renderStars(rating) {
+        const stars = [];
+        for (let i = 0; i < 5; i++) {
+            stars.push(
+                <i key={i} className={`fa-solid fa-star ${i < rating ? 'text-warning' : ''}`}></i>
+            );
+        }
+        return stars;
+    }
+
+
     return (
         <section className="container mt-4">
             <div className="row">
@@ -187,28 +230,27 @@ function ProductDetail() {
                     <div id="productThumbnailSlider" className="carousel carousel-dark slide carousel-fade" data-bs-ride="true">
                         <div className="carousel-indicators">
                             {productImgs.map((img, index) => {
-                                if (index == 0) {
-                                    return <button type="button" data-bs-target="#productThumbnailSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
-                                    </button>
-                                } else {
-                                    return <button type="button" data-bs-target="#productThumbnailSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
-                                    </button>
-                                }
+                                return (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        data-bs-target="#productThumbnailSlider"
+                                        data-bs-slide-to={index}
+                                        className={index === 0 ? 'active' : ''}
+                                        aria-current={index === 0 ? 'true' : 'false'}
+                                        aria-label={`Slide ${index + 1}`}
+                                    ></button>
+                                );
                             })}
                         </div>
                         <div className="carousel-inner">
-                            {
-                                productImgs.map((img, index) => {
-                                    if (index == 0) {
-                                        return <div className='carousel-item active'>
-                                            <img src={img.image} className='img-thumbnail mb-5' width={250} height={250} alt={index}></img></div>
-                                    } else {
-                                        return <div className='carousel-item'>
-                                            <img src={img.image} className='img-thumbnail mb-5' width={250} height={250} alt={index}></img></div>
-                                    }
-                                })
-                            }
-
+                            {productImgs.map((img, index) => {
+                                return (
+                                    <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                                        <img src={img.image} className='img-thumbnail mb-5' width={250} height={250} alt={index}></img>
+                                    </div>
+                                );
+                            })}
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#productThumbnailSlider" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -219,24 +261,17 @@ function ProductDetail() {
                             <span className="visually-hidden">Next</span>
                         </button>
                     </div>
-
                 </div>
                 <div className="col-8">
                     <h3>{productData.title}</h3>
                     <p>{productData.detail}</p>
-                    {
-                        CurrencyData != 'usd' && <h5 className="card-title text-danger">Price:  {productData.price} VND</h5>
-                    }
-                    {
-                        CurrencyData == 'usd' && <h5 className="card-title text-danger">Price: ${productData.usd_price}</h5>
-                    }
+                    {CurrencyData !== 'usd' && <h5 className="card-title text-danger">Price:  {productData.price} VND</h5>}
+                    {CurrencyData === 'usd' && <h5 className="card-title text-danger">Price: ${productData.usd_price}</h5>}
+                    
+
 
                     <div className="d-flex align-items-center my-2">
-                        <button 
-                            onClick={() => updateQuantity(productData.id, -1)} 
-                            className='btn btn-sm btn-secondary'>
-                            -
-                        </button>
+                        <button onClick={() => updateQuantity(productData.id, -1)} className='btn btn-sm btn-secondary'>-</button>
                         <span className='mx-2'>
                             {cartData && cartData.length > 0 ? 
                                 cartData.map((cart) => {
@@ -247,107 +282,105 @@ function ProductDetail() {
                                 }).filter(qty => qty !== null)[0] ?? 1 
                                 : 1}
                         </span>
-
-                        <button 
-                            onClick={() => updateQuantity(productData.id, 1)} 
-                            className='btn btn-sm btn-secondary'>
-                            +
-                        </button>                        
-
+                        <button onClick={() => updateQuantity(productData.id, 1)} className='btn btn-sm btn-secondary'>+</button>                        
                     </div>
                     <p className='mt-3'>
                         {!cartButtonClickStatus &&
                             <button title="Add to Cart" type="button" onClick={cartAddButtonHandler} className='btn btn-primary btn-sm'><i className="fa-solid fa-cart-plus"></i> Add to Cart</button>
                         }
                         {cartButtonClickStatus &&
-                            <button title="Add to Cart" type="button" onClick={cartRemoveButtonHandler} className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
+                            <button title="Remove from Cart" type="button" onClick={cartRemoveButtonHandler} className='btn btn-warning btn-sm'><i className="fa-solid fa-cart-plus"></i> Remove from Cart</button>
                         }
-                        
-
-
-                        
-                        {
-                            (userContext && !ProductInWishlist) &&
+                        {userContext && !ProductInWishlist &&
                             <button onClick={saveInWishList} title="Add to Wishlist" className='btn btn-danger btn-sm ms-1'><i className="fa fa-heart"></i> Wishlist</button>
                         }
-                        {
-                            userContext == null &&
+                        {userContext == null &&
                             <button title="Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
                         }
-                        {
-                            (userContext && ProductInWishlist) &&
+                        {userContext && ProductInWishlist &&
                             <button onClick={saveInWishList} title="Add to Wishlist" className='btn btn-danger btn-sm ms-1 disabled'><i className="fa fa-heart"></i> Wishlist</button>
                         }
-
                     </p>
                     <div className='producttags mt-4'>
                         <h5>Tags</h5>
-                        <p >
+                        <p>
                             {tagsLinks}
-
                         </p>
                     </div>
-
                 </div>
             </div>
-            {/* Related product */}
+            <div className="row mt-5">
+                <div className="mt-5 col-4">
+                    {vendorData.profile_img &&
+                        <>
+                            <div className={styles["avatar-wrapper"]}>
+                                <img src={vendorData.profile_img} alt="Vendor Avatar" className={styles['avatar-img']} />
+                            </div>
+                            <h6 className={styles['vendor-info']}>Vendor: {vendorProfile.username}</h6>
+                        </>
+                    }
+                </div>
+                <div className='col-8'>
+                    <h5 className='mt-3 mb-3'>Vendor Description</h5>
+                    <p className={styles['vendor-description']}>{vendorData.description}</p>
+                </div>
+            </div>
+            <h5 className='mt-5 mb-3 text-center'>Review Products</h5>
+            <span className='mx-2'>
+                {productRating && productRating.length > 0 ? 
+                    productRating.map((rating) => {
+                        // const customer = customerRating[rating.customer];
+                        if (rating.product === productData.id) {
+                            return (
+                                <div key={rating.id} className={styles["review-wrapper"]}>
+                                    <div className={styles["review-avatar"]}>
+                                        <img src={customerRating.profile_img} alt="Customer Avatar" className={styles['avatar-img']} />
+                                    </div>
+                                    <div className={styles["review-content"]}>
+                                        <h6>{customerProfile.username}</h6>
+                                        <p>Rating: {renderStars(rating.rating)}</p>
+                                        <p>Review: {rating.reviews}</p>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })
+                : "No ratings available for this product."}
+            </span>
+
+
+
             <h5 className='mt-5 mb-3 text-center'>Related Products</h5>
-            <div id="relatedProductsSlider" className="carousel
-            carousel-dark slide " data-bs-ride="true">
+            <div id="relatedProductsSlider" className="carousel carousel-dark slide" data-bs-ride="true">
                 <div className="carousel-indicators">
                     {relatedProducts.map((product, index) => {
-                        if (index == 0) {
-                            return <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
-
-                            </button>
-                        } else {
-                            return <button type="button" data-bs-target="#relatedProductsSlider" data-bs-slide-to={index} className='active' aria-current='true' aria-label='Slide 1'>
-
-                            </button>
-                        }
+                        return (
+                            <button
+                                key={index}
+                                type="button"
+                                data-bs-target="#relatedProductsSlider"
+                                data-bs-slide-to={index}
+                                className={index === 0 ? 'active' : ''}
+                                aria-current={index === 0 ? 'true' : 'false'}
+                                aria-label={`Slide ${index + 1}`}
+                            ></button>
+                        );
                     })}
                 </div>
                 <div className="carousel-inner">
-                    {/* Sử dụng dấu ngoặc nhọn thay vì dấu ngoặc vuông */}
                     {relatedProducts && relatedProducts.map((product, index) => {
-                        if (index === 0) {
-                            // Thêm class 'active' vào div của carousel-item đầu tiên
-                            return (
-                                <div className='carousel-item active' key={index} onClick={() => {
-                                    window.location.href = `/product/${product.title}/${product.id}`;
-                                }}>
-                                    <SingleTagProduct product={product} />
-                                </div>
-                            );
-                        } else {
-                            // Không cần thêm 'active' cho các carousel-item còn lại
-                            return (
-                                <div className='carousel-item' key={index} onClick={() => {
-                                    window.location.href = `/product/${product.title}/${product.id}`;
-                                }}>
-                                    <SingleTagProduct product={product} />
-                                </div>
-                            );
-                        }
+                        return (
+                            <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} onClick={() => {
+                                window.location.href = `/product/${product.title}/${product.id}`;
+                            }}>
+                                <SingleTagProduct product={product} />
+                            </div>
+                        );
                     })}
                 </div>
-
-                {/* <button className="carousel-control-prev" type="button" data-bs-target="#relatedProductsSlider" data-bs-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Previous</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#relatedProductsSlider" data-bs-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="visually-hidden">Next</span>
-                </button> */}
             </div>
-
-            {/* end related product */}
-
-
-
         </section>
-
     );
 }
 
