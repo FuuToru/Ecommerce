@@ -45,6 +45,19 @@ function Home() {
         setVendorList(data.results);
       });
   }
+  const CardFooter = ({ detail, maxLength }) => {
+    const truncateText = (text, maxLength) => {
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+      }
+      return text;
+    };
+  
+    return (
+      <p> {truncateText(detail, maxLength)}</p>
+
+    );
+  };
 
   return (
     <main className='mt-4'>
@@ -77,9 +90,9 @@ function Home() {
           </button>
         </div>
         {/* Lastest Product */}
-        <h1 className='mb-4'>Lastest Products <Link to="/products" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></Link>
+        <h1 className='mb-4 mt-4'>Lastest Products <Link to="/products" className='float-end btn btn-sm btn-dark m-2'>View All Products<i className="fa-solid fa-arrow-right"></i></Link>
         </h1>
-        <div className='row mb-4'>
+        <div className='row mb-4 mt-4'>
           {
             products.map((product) => <SingleProduct product={product} />)
           }
@@ -101,7 +114,7 @@ function Home() {
                     <h4 className="card-title"> {category.title} </h4>
                   </div></Link>
                   <div className='card-footer'>
-                    Product: 2356
+                    <CardFooter detail={category.detail} maxLength={50} />
                   </div>
 
                 </div>
@@ -199,7 +212,7 @@ function Home() {
         </div>
         {/* Popular Product end */}
         {/* Popular Seller */}
-        <h1 className='mb-4'>Popular Sellers <Link to="/vendors" className='float-end btn btn-sm btn-dark m-2'>View All Sellers<i className="fa-solid fa-arrow-right"></i></Link>
+        <h1 className='mb-4'>Popular Vendors <Link to="/vendors" className='float-end btn btn-sm btn-dark m-2'>View All Vendors<i className="fa-solid fa-arrow-right"></i></Link>
         </h1>
         <div className='row mb-4'>
           {

@@ -15,7 +15,9 @@ function VendorDetail(){
         'user':{
             'username':'',
             'total_products':0,
-        }
+        },
+        'description':'',
+        'address':'',
     });
     const {vendor_username,vendor_id} = useParams();
     const userContext = useContext(UserContext);
@@ -60,9 +62,12 @@ function VendorDetail(){
                         !VendorData.user.first_name && <h3>{VendorData.user.username}</h3>
                     }
                     <p>Total Products: {VendorData.total_products}</p>
+                    <p>Description: {VendorData.description}</p>
+                    <p>Address: {VendorData.address}</p>
                 </div>
             </div>
-            <div className="row">
+            <div className="row mt-5">
+                <h3>Products</h3>
             {
             ProductList.map((product) => <SingleProduct key={product.id} product={product} />)       
              }

@@ -308,18 +308,23 @@ function ProductDetail() {
             </div>
             <div className="row mt-5">
                 <div className="mt-5 col-4">
+                    
                     {vendorData.profile_img &&
                         <>
+                        <Link to={`/vendor/${vendorData.user.username}/${vendorData.id}`} className={styles['custom-link']}>
                             <div className={styles["avatar-wrapper"]}>
                                 <img src={vendorData.profile_img} alt="Vendor Avatar" className={styles['avatar-img']} />
                             </div>
                             <h6 className={styles['vendor-info']}>Vendor: {vendorData.user.username}</h6>
+                            </Link>
                         </>
                     }
                 </div>
                 <div className='col-8'>
                     <h5 className='mt-3 mb-3'>Vendor Description</h5>
-                    <p className={styles['vendor-description']}>{vendorData.description}</p>
+                    <p className={styles['vendor-description']}>Total Products: {vendorData.total_products}</p>
+                    <p className={styles['vendor-description']}>Address: {vendorData.address}</p>
+                    <p className={styles['vendor-description']}>Description: {vendorData.description}</p>
                 </div>
             </div>
             <h5 className='mt-5 mb-3 text-center'>Review Products</h5>
