@@ -1,13 +1,16 @@
 
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
+import { CurrencyContext } from '../../Context';
 
 function OrderRow(props) {
     const index = props.index;
     const item = props.item;
     const baseUrl = 'http://127.0.0.1:8000';
     const [totalDownload, setTotalDownload] = useState(item.product.downloads || 0);
+    const { CurrencyData, setCurrencyData } = useContext(CurrencyContext);
+
 
     const countDownloads = (product_id) => {
         const formData = new FormData();
@@ -39,17 +42,20 @@ function OrderRow(props) {
                 <p><Link to={`/product/${item.product.slug}/${item.product.id}`}>{item.product.title}</Link></p>
             </td>
             <td>
-                {item.product.price}
+            {(CurrencyData == 'vnd' || CurrencyData == undefined) && <td>{item.product.price} VND</td>}
+                                                        {CurrencyData == 'usd' && <td>${item.product.usd_price}</td>}
             </td>
             <td>
-                <span>
-                    {item.order.order_status && <i className='fa fa-check-circle text-success'></i>}
-                    {!item.order.order_status && <i className='fa fa-spinner fa-spin text-dark'></i>}
-                </span>
+                {
+                    item.order.order_status && <span className='text-success'><i className='fa fa-check-circle'></i>Completed</span>
+                }
+                {
+                    !item.order.order_status && <span className='text-warning'><i className='fa fa-spinner'></i>Pending</span>
+                }
             </td>
             <td>
                 {item.order.order_status && (
-                    <Link  className='btn btn-success btn-sm ms-2' to={`/customer/add-review/${item.product.id}`}>
+                    <Link className='btn btn-success btn-sm ms-2' to={`/customer/add-review/${item.product.id}`}>
                         Add Review
                     </Link>
                 )}

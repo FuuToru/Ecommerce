@@ -20,7 +20,6 @@ function VendorAddProduct(props){
         'tags':'',
         'slug':'',
         'image':'',
-        'demo_url':'',
         'product_file':''
         
     });
@@ -60,8 +59,6 @@ function VendorAddProduct(props){
         formData.append('tags', productData.tags);
         formData.append('slug', productData.slug);
         formData.append('image', productData.image);
-        formData.append('demo_url', productData.demo_url);
-        formData.append('product_file', productData.product_file);
         // formData.append('product_img', productData.product_img);
 
         // console.log(productData);
@@ -86,7 +83,6 @@ function VendorAddProduct(props){
                     'tags':'',
                     'slug':'',
                     'image':'',
-                    'demo_url':'',
                     'product_file':'',
                     'product_img':''
                 });
@@ -203,20 +199,12 @@ function VendorAddProduct(props){
                         <textarea className="form-control" name='tags' value={productData.tags} onChange={inputHandler} rows="8" id="Tags"></textarea>
                     </div>
                     <div className="mb-3">
-                        <label for="Demo_URL" className="form-label">Demo URL</label>
-                        <input type="url" name='demo_url' value={productData.demo_url} onChange={inputHandler} className="form-control" id="Demo_URL" />
-                    </div>
-                    <div className="mb-3">
-                        <label for="ProductImg" className="form-label">Feqatured Images</label>
+                        <label for="ProductImg" className="form-label">Featured Images</label>
                         <input type="file" name='image' className="form-control" onChange={fileHandler} id="ProductImg" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="Product_Images" className="form-label">Product Images</label>
                         <input type="file" name='product_imgs' className="form-control" onChange={multipleFileHandler} multiple />
-                    </div>
-                    <div className="mb-3">
-                        <label for="Product_File" className="form-label">Product File</label>
-                        <input type="file" name='product_file' className="form-control" onChange={fileHandler} id="Product_File" />
                     </div>
         
                     <button type="buttom" onClick={submitHandler} className="btn btn-primary">Submit</button>

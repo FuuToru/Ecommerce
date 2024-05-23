@@ -28,7 +28,6 @@ function VendorUpdateProduct(props){
         'tag_list':'',
         'slug':'',
         'image':'',
-        'demo_url':'',
         'product_imgs':'', 
         
     });
@@ -75,7 +74,6 @@ function VendorUpdateProduct(props){
         formData.append('usd_price', productData.usd_price);
         formData.append('tag_list', productData.tag_list);
         formData.append('slug', productData.slug);
-        formData.append('demo_url', productData.demo_url);
         if (isFeatureImagesSelected) {
             formData.append('image', productData.image);
         }
@@ -167,8 +165,6 @@ function VendorUpdateProduct(props){
                 'tag_list':data.tag_list,
                 'slug':data.slug,
                 'image':data.image,
-                'demo_url':data.demo_url,
-                'product_file':data.product_file,
                 'product_imgs':data.product_imgs
             
             });
@@ -225,12 +221,9 @@ function VendorUpdateProduct(props){
                         <label for="Tag_list" className="form-label">Tag List</label>
                         <textarea className="form-control" name='tag_list' value={productData.tag_list} onChange={inputHandler} rows="8" id="Tag_list"></textarea>
                     </div>
+
                     <div className="mb-3">
-                        <label for="Demo_URL" className="form-label">Demo URL</label>
-                        <input type="url" name='demo_url' value={productData.demo_url} onChange={inputHandler} className="form-control" id="Demo_URL" />
-                    </div>
-                    <div className="mb-3">
-                        <label for="Feqatured_Images" className="form-label">Feqatured Images</label>
+                        <label for="Feqatured_Images" className="form-label">Featured Images</label>
                         <input type="file" name='image' className="form-control" onChange={fileHandler} id="Feqatured_Images" />
                         <img src={productData.image} className='img rounded border mt-2' width='200' />
                     </div>
@@ -246,10 +239,6 @@ function VendorUpdateProduct(props){
                             )
 
                         }
-                    </div>
-                    <div className="mb-3">
-                        <label for="Product_File" className="form-label">Product File</label>
-                        <input type="file" name='product_file' className="form-control" onChange={fileHandler} id="Product_File" />
                     </div>
                     <button type="buttom" onClick={submitHandler} className="btn btn-primary">Submit</button>
                     </form>

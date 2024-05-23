@@ -73,7 +73,7 @@ function VendorOrders(props){
                                             <tr key={index}>
                                                 <td>{index+1}</td>
                                                 <td>
-                                                    <Link><img src={item.product.image} className='img-thumbnail' width ='80' alt='...'></img>
+                                                    <Link to={`/product/${item.product.slug}/${item.product.id}`}><img src={item.product.image} className='img-thumbnail' width ='80' alt='...'></img>
                                                         <p>{item.product.title}</p></Link>
                                                 </td>
                                                 <td>
