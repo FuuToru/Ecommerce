@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  backend:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: ./backend_api
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - frontend:/app/build
+    ports:
+      - "3000:3000"
+
+volumes:
+  static:
+  frontend:
