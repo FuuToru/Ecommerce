@@ -50,7 +50,7 @@ function VendorDetail(){
     return(
         <section className="container mt-4">
             <div className="row">
-                <div className='col-3'>
+                <div className='col-3 text-center'>
                     <img src={VendorData.profile_img} className="img-thumbnail" width={250} height={250} alt={VendorData.user} />
 
                 </div>
@@ -61,20 +61,20 @@ function VendorDetail(){
                     {
                         !VendorData.user.first_name && <h3>{VendorData.user.username}</h3>
                     }
-                    <p>Total Products: {VendorData.total_products}</p>
-                    <p>Description: {VendorData.description}</p>
-                    <p>Address: {VendorData.address}</p>
+                    <p><strong>Total Products:</strong> {VendorData.total_products}</p>
+                    <p><strong>Description:</strong> {VendorData.description}</p>
+                    <p><strong>Address:</strong> {VendorData.address}</p>
                 </div>
             </div>
             <div className="row mt-5">
-                <h3>Products</h3>
+                <h3 className='text-center mb-4'>Products List</h3>
             {
             ProductList.map((product) => <SingleProduct key={product.id} product={product} />)       
-             }
+            }
             </div>
         </section>
 
     );
 }
 
-export default VendorDetail;
+export default VendorDetail; 

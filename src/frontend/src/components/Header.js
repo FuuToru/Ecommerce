@@ -57,8 +57,8 @@ function Header(props) {
             {
               checkVendor == 'true' && (
                 <li className="nav-item">
-                <Link className="nav-link" to="/checkout">
-                  <i className="fa-solid fa-cart-shopping"></i>New Orders (4)
+                <Link className="nav-link" to="/vendor/orders">
+                  <i className="fa-solid fa-cart-shopping"></i>New Orders
                 </Link>
               </li>
               )

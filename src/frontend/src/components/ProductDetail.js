@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { UserContext, CartContext, CurrencyContext } from '../Context';
 import axios from "axios";
+
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
 
 function ProductDetail() {
@@ -217,7 +221,7 @@ function ProductDetail() {
         }
         return stars;
     }
-
+    console.log(relatedProducts.length);
 
     return (
         <section className="container mt-4">
@@ -242,7 +246,7 @@ function ProductDetail() {
                         <div className="carousel-inner">
                             {productImgs.map((img, index) => {
                                 return (
-                                    <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                                    <div key={index} className={`carousel-item text-center ${index === 0 ? 'active' : ''}`}>
                                         <img src={img.image} className='img-thumbnail mb-5' width={250} height={250} alt={index}></img>
                                     </div>
                                 );
@@ -308,26 +312,26 @@ function ProductDetail() {
             </div>
             <div className="row mt-5">
                 <div className="mt-5 col-4">
-                    
+
                     {vendorData.profile_img &&
                         <>
-                        <Link to={`/vendor/${vendorData.user.username}/${vendorData.id}`} className={styles['custom-link']}>
-                            <div className={styles["avatar-wrapper"]}>
-                                <img src={vendorData.profile_img} alt="Vendor Avatar" className={styles['avatar-img']} />
-                            </div>
-                            <h6 className={styles['vendor-info']}>Vendor: {vendorData.user.username}</h6>
+                            <Link to={`/vendor/${vendorData.user.username}/${vendorData.id}`} className={styles['custom-link']}>
+                                <div className={styles["avatar-wrapper"]}>
+                                    <img src={vendorData.profile_img} alt="Vendor Avatar" className={styles['avatar-img']} />
+                                </div>
+                                <h6 className={styles['vendor-info']}>Vendor: {vendorData.user.username}</h6>
                             </Link>
                         </>
                     }
                 </div>
                 <div className='col-8'>
-                    <h5 className='mt-3 mb-3'>Vendor Description</h5>
+                    <h3 className='mt-3 mb-3'>Vendor Description</h3>
                     <p className={styles['vendor-description']}>Total Products: {vendorData.total_products}</p>
                     <p className={styles['vendor-description']}>Address: {vendorData.address}</p>
                     <p className={styles['vendor-description']}>Description: {vendorData.description}</p>
                 </div>
             </div>
-            <h5 className='mt-5 mb-3 text-center'>Review Products</h5>
+            <h3 className='mt-5 mb-3 text-center'>Review Products</h3>
             <span className='mx-2'>
                 {productRating && productRating.length > 0 ?
                     productRating.map((rating) => {
@@ -353,36 +357,16 @@ function ProductDetail() {
             </span>
 
 
-
-            <h5 className='mt-5 mb-3 text-center'>Related Products</h5>
-            <div id="relatedProductsSlider" className="carousel carousel-dark slide" data-bs-ride="true">
-                <div className="carousel-indicators">
+            
+            <h3 className='mt-5 mb-3 text-center'>Related Products</h3>
+            {relatedProducts.length > 0 &&
+                <OwlCarousel className='owl-nav' items={4} loop={false} margin={10}>
                     {relatedProducts.map((product, index) => {
-                        return (
-                            <button
-                                key={index}
-                                type="button"
-                                data-bs-target="#relatedProductsSlider"
-                                data-bs-slide-to={index}
-                                className={index === 0 ? 'active' : ''}
-                                aria-current={index === 0 ? 'true' : 'false'}
-                                aria-label={`Slide ${index + 1}`}
-                            ></button>
-                        );
+                        return <div class='item'>
+                            <SingleTagProduct key={index} product={product} /> </div>
                     })}
-                </div>
-                <div className="carousel-inner">
-                    {relatedProducts && relatedProducts.map((product, index) => {
-                        return (
-                            <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`} onClick={() => {
-                                window.location.href = `/product/${product.title}/${product.id}`;
-                            }}>
-                                <SingleTagProduct product={product} />
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+                </OwlCarousel>
+            }
         </section>
     );
 }

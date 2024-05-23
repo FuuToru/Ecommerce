@@ -1,34 +1,40 @@
-//Packages
-import { Link } from 'react-router-dom';
-//Assets
+// Packages
+import { useContext } from 'react';
+// Assets
 import logo from '../logo.svg';
 import ProductDetail from './ProductDetail';
-import { useContext } from 'react';
 import { CurrencyContext } from '../Context';
 import styles from './CSS/styles.module.css'; // assuming you're using CSS modules
-function SingleTagProduct(props){
+
+function SingleTagProduct(props) {
     const { CurrencyData } = useContext(CurrencyContext);
-    return(
+
+    const handleClick = () => {
+        window.location.href = `/product/${props.product.title}/${props.product.id}`;
+    };
+
+    return (
         <>
         {/* product box */}
-        <div className="col-4 offset-4 mb-4"  >
-            <div className="card">
-                <Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>
-                <img src={props.product.image} className="card-img-top" alt="..." width={250} height={250}/>  </Link>
+            <div className="card" onClick={handleClick}>
+                <div className={styles['custom-link']}>
+                    <img src={props.product.image} className="card-img-top" alt="..." width={250} height={250}/>  
+                </div>
                 <div className="card-body">
-                    <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`} className={styles['custom-link']}>{props.product.title}</Link></h4>
+                    <h4 className="card-title">
+                        <div className={styles['custom-link']}>
+                            {props.product.title}
+                        </div>
+                    </h4>
                 </div>
                 <div className='card-footer'>
-                <h5 className="card-title text-danger">
+                    <h5 className="card-title text-danger">
                         Price: {CurrencyData === 'usd' ? `$${props.product.usd_price}` : `${props.product.price} VND`}
                     </h5>
                 </div>
-
             </div>
-        </div>
         {/* product box end */}
         </>
-
     );
 }
 
