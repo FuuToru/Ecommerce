@@ -3,6 +3,8 @@
 ### 3.1. Activity Diagram
 
 ### 3.2. ER Diagram
+![ER Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/18097f89-331d-4488-bd54-58a62257677d)
+
 
 ### 3.3. Database Diagram
 
