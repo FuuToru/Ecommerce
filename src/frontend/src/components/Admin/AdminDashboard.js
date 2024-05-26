@@ -61,7 +61,7 @@ function AdminDashboard(props) {
                         <div className='col-md-3 mb-2'>
                             <div className='card'>
                                 <div className='card-body text-center'>
-                                    <h4><Link to="/admin-page/customers" style={{ color: 'black', textDecoration: 'none' }}>Total Vendors</Link></h4>
+                                    <h4><Link to="/admin-page/vendors" style={{ color: 'black', textDecoration: 'none' }}>Total Vendors</Link></h4>
                                     <h4><span style={{ color: 'red' }}>{adminData.totalVendor}</span></h4>
                                 </div>
                             </div>

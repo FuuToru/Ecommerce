@@ -67,7 +67,10 @@ import AdminCustomer from './components/Admin/AdminCustomer';
 import AdminCustomerDetail from './components/Admin/AdminCustomerDetail';
 import AdminVendor from './components/Admin/AdminVendor';
 import AdminVendorDetail from './components/Admin/AdminVendorDetail';
-
+import AdminReport from './components/Admin/AdminReport';
+import AdminDailyReport from './components/Admin/AdminDailyReport';
+import AdminMonthlyReport from './components/Admin/AdminMonthlyReport';
+import AdminYearlyReport from './components/Admin/AdminYearlyReport';
 
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
@@ -135,6 +138,10 @@ function App() {
         <Route path="/admin-page/customer/:customer_id/:customer_username" element={<AdminCustomerDetail/>} />
         <Route path="/admin-page/vendors" element={<AdminVendor/>} />
         <Route path="/admin-page/vendor/:vendor_id/:vendor_username" element={<AdminVendorDetail/>} />
+        <Route path="/admin-page/report" element={<AdminReport/>} />
+        <Route path="/admin-page/daily-report" element={<AdminDailyReport/>} />
+        <Route path="/admin-page/monthly-report" element={<AdminMonthlyReport/>} />
+        <Route path="/admin-page/yearly-report" element={<AdminYearlyReport/>} />
         {/* Rating and review */}
         {/* end Ratings and Reviews */}
       </Routes>

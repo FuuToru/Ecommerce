@@ -13,6 +13,7 @@ from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.db.models import Count
 from django.views.decorators.http import require_http_methods
+import datetime
 # Create your views here.
 
 
@@ -269,16 +270,6 @@ class CustomerOrderItemList(generics.ListAPIView):
         return qs 
 
 class VendorOrderItemList(generics.ListAPIView):
-    queryset = models.OrderItems.objects.all()
-    serializer_class = serializers.OrderItemSerializer
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        vendor_id = self.kwargs['pk']
-        qs = qs.filter(product__vendor__id=vendor_id)
-        return qs
-
-class VendorDailyReport(generics.ListAPIView):
     queryset = models.OrderItems.objects.all()
     serializer_class = serializers.OrderItemSerializer
 
