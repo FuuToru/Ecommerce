@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import banner1 from '../banner/banner1.jpeg';
-import banner2 from '../banner/banner2.jpeg';
-import banner3 from '../banner/banner3.jpeg';
+import banner1 from '../banner/banner1.jpg';
+import banner2 from '../banner/banner2.jpg';
+import banner3 from '../banner/banner3.jpg';
 import logo from '../logo.svg';
 import AllProducts from './AllProducts';
 import SingleVendor from './Vendor/SingleVendor';

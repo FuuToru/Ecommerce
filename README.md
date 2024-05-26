@@ -9,7 +9,66 @@
 
 ## Deployment
 
-- Update when project completed
+### Deploy without Docker
+1. Download and install Git to your computer - see [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+2. Once you have installed Git, you will need to create a folder on your computer and then run the _git clone_ command. A demonstration of this code can be seen below:
+
+```terminal
+mkdir ecommerceApp
+cd ecommerceApp
+git clone https://github.com/FuuToru/23_Ecommerce
+```
+**_The following steps should all be performed while in the src folder of your git clone from step 2_**
+
+3. Then git clone using the following terminal command:
+
+```
+cd src/backend_api
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+4. Then you add a new terminal command and using the following command:
+
+```
+cd src/frontend
+npm start
+```
+
+5. The application will now be viewable at the following address:
+
+```url
+http://localhost:3000/
+```
+### Deploy with Docker
+
+1. You will need to download and install [Docker Desktop](https://www.docker.com/get-started)
+
+2. Download and install Git to your computer - see [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+3. Once you have installed Git, you will need to create a folder on your computer and then run the _git clone_ command. A demonstration of this code can be seen below:
+
+```terminal
+mkdir ecommerceApp
+cd ecommerceApp
+git clone https://github.com/FuuToru/23_Ecommerce
+```
+**_The following steps should all be performed while in the src folder of your git clone from step 2_**
+
+5. Then git clone using the following terminal command:
+
+```
+cd src
+docker compose up
+```
+6. The application will now be viewable at the following address:
+
+```url
+http://localhost:3000/
+```
 
 ## Member Information
 

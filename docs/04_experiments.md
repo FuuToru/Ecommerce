@@ -1,8 +1,13 @@
-## 4. HIỆN THỰC
+## 4. EXPERIMENTS
 
-### 4.1. Công nghệ sử dụng
+### 4.1. Technologies Used
 
-Giới thiệu các công nghệ sử dụng ở đây (từ front-end, back-end, extensions...)
+- Front-end
+    - react,html,css
+- Back-end
+    - django,django rest framework, 
+- Extensions
+    - docker, aws, postgresql, draw.io, dbdiagram.io
 
 ### 4.2. Giao diện ứng dụng
 
