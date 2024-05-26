@@ -87,7 +87,6 @@ class VendorList(generics.ListCreateAPIView):
         qs = super().get_queryset()
         if 'fetch_limit' in self.request.GET:
             limit =int(self.request.GET['fetch_limit'])
-            qs=qs.annotate(downloads=Count('product')).order_by('-downloads', '-id')
             qs =qs[:limit]
         return qs
 
@@ -228,6 +227,12 @@ class ProductRatingViewSet(viewsets.ModelViewSet):
 class CategoryList(generics.ListCreateAPIView):
     queryset = models.ProductCategory.objects.all()
     serializer_class = serializers.CategorySerializer
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'fetch_limit' in self.request.GET:
+            limit =int(self.request.GET['fetch_limit'])
+            qs =qs[:limit]
+        return qs
 
 
 class CategoryDetail(generics.RetrieveAPIView):
