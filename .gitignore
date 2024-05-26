@@ -4,4 +4,4 @@ venv/
 data.json
 .vscode/
 .DS_Store
-../backend_api/env
+.env
