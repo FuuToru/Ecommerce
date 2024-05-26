@@ -59,6 +59,15 @@ import VendorProfile from './components/Vendor/VendorProfile';
 import VendorChangePassword from './components/Vendor/VendorChangePassword';
 import VendorLogout from './components/Vendor/VendorLogout';
 
+// Admin
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminLogin from './components/Admin/AdminLogin';
+import AdminLogout from './components/Admin/AdminLogout';
+import AdminCustomer from './components/Admin/AdminCustomer';
+import AdminCustomerDetail from './components/Admin/AdminCustomerDetail';
+import AdminVendor from './components/Admin/AdminVendor';
+import AdminVendorDetail from './components/Admin/AdminVendorDetail';
+
 
 import { CartContext, CurrencyContext } from './Context';
 import {useState} from 'react';
@@ -118,6 +127,14 @@ function App() {
         <Route path='/vendor/changepassword' element={<VendorChangePassword/>}></Route>
         <Route path='/vendor/logout' element={<VendorLogout/>}></Route>
         <Route path='/vendor/customer/:customer_id/orderitems/' element={<VendorCustomerOrders/>}></Route>
+        {/* Admin Route */}
+        <Route path='/admin-page/dashboard' element={<AdminDashboard/>}></Route>
+        <Route path="/admin-page" element={<AdminLogin/>} />
+        <Route path="/admin-page/logout" element={<AdminLogout/>} />
+        <Route path="/admin-page/customers" element={<AdminCustomer/>} />
+        <Route path="/admin-page/customer/:customer_id/:customer_username" element={<AdminCustomerDetail/>} />
+        <Route path="/admin-page/vendors" element={<AdminVendor/>} />
+        <Route path="/admin-page/vendor/:vendor_id/:vendor_username" element={<AdminVendorDetail/>} />
         {/* Rating and review */}
         {/* end Ratings and Reviews */}
       </Routes>

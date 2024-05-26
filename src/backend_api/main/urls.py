@@ -7,6 +7,11 @@ router.register('address',views.CustomerAddressViewSet)
 router.register('productrating',views.ProductRatingViewSet)
 
 urlpatterns = [
+    #Admin
+    path('admin/dashboard/', views.admin_dashboard, name='admin-dashboard'),
+    path('admin/login/', views.admin_login, name='admin-login'),
+    path('admin/delete-vendor/<int:pk>/', views.delete_vendor, name='delete-vendor'),
+    path('admin-page/customer/<int:customer_id>/', views.AdminCustomerDetail.as_view()),
     # Vendors
     path('vendors/', views.VendorList.as_view()),
     path('vendor/<int:pk>/', views.VendorDetail.as_view()),
@@ -28,6 +33,7 @@ urlpatterns = [
     path('product-imgs/', views.ProductImgsList.as_view()),
     path('product-imgs/<int:product_id>/', views.ProductImgsDetail.as_view()),
     path('product-img/<int:pk>/', views.ProductImgDetail.as_view()),
+    path('product-order/<int:product_id>/', views.ProductOrder, name='product-order'),
     # Products Categories
     path('categories/', views.CategoryList.as_view()),
     path('category/<int:pk>/', views.CategoryDetail.as_view()),

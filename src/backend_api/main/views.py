@@ -15,6 +15,69 @@ from django.db.models import Count
 from django.views.decorators.http import require_http_methods
 # Create your views here.
 
+
+# Admin
+    
+@csrf_exempt
+def admin_login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    if user.is_staff:
+        msg = {
+                'bool': True,
+                'admin': user.username,
+            }
+    else:
+        msg = {
+            'bool': False,
+            'msg': 'Invalid username or password.',
+        }
+    
+    print(msg)
+    # print(msg)
+    return JsonResponse(msg)
+
+@csrf_exempt
+def admin_dashboard(request):
+    totalVendor = models.Vendor.objects.all().count()
+    totalCustomer = models.Customer.objects.all().count()
+    totalOrder = models.Order.objects.all().count()
+    totalProduct = models.Product.objects.all().count()
+
+    msg = {
+        'totalVendor': totalVendor,
+        'totalCustomer': totalCustomer,
+        'totalOrder': totalOrder,
+        'totalProduct': totalProduct,
+    }
+
+    return JsonResponse(msg)
+
+class AdminCustomerDetail(generics.ListAPIView):
+    queryset = models.OrderItems.objects.all()
+    serializer_class = serializers.OrderItemSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        customer_id = self.kwargs['customer_id']
+        qs = qs.filter(order__customer__id=customer_id)
+        return qs
+
+@csrf_exempt
+def delete_vendor(request, vendor_id):
+    if request.method == 'DELETE':
+        order = models.Vendor.objects.filter(customer__id=vendor_id).delete()
+        msg={
+            'bool':False,
+        }
+        if order:
+            msg={
+                'bool':True,
+                }
+    return JsonResponse(msg)
+
+
 # Vendor
 class VendorList(generics.ListCreateAPIView):
     queryset = models.Vendor.objects.all()
@@ -45,6 +108,7 @@ class VendorProductList(generics.ListCreateAPIView):
 class CustomerList(generics.ListCreateAPIView):
     queryset = models.Customer.objects.all()
     serializer_class = serializers.CustomerSerializer
+    
 
 class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Customer.objects.all()
@@ -78,6 +142,29 @@ class ProductList(generics.ListCreateAPIView):
             vendor_id = self.request.GET['vendor_id']
             qs = qs.filter(vendor_id=vendor_id)
         return qs
+
+@csrf_exempt
+def ProductOrder(request, product_id):
+    if request.method == 'GET':
+        try:
+            product = models.OrderItems.objects.filter(product__id=product_id)
+            totalOrder = product.count()
+            msg = {
+                'product_id': product_id,
+                'totalOrder': totalOrder,
+            }
+        except models.Product.DoesNotExist:
+            msg = {
+                'error': 'Product not found',
+                'product_id': product_id,
+            }
+    else:
+        msg = {
+            'error': 'Invalid request method',
+            'allowed_methods': ['POST']
+        }
+
+    return JsonResponse(msg)
     
 
 class addProduct(generics.ListCreateAPIView):
@@ -281,18 +368,6 @@ def delete_customer_order(request, customer_id):
                 }
     return JsonResponse(msg)
 
-@csrf_exempt
-def delete_customer_order(request, customer_id):
-    if request.method == 'DELETE':
-        order = models.Order.objects.filter(customer__id=customer_id).delete()
-        msg={
-            'bool':False,
-        }
-        if order:
-            msg={
-                'bool':True,
-                }
-    return JsonResponse(msg)
 
 
     

@@ -84,8 +84,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres.cjdelqtepxhvzbrbdovs',
-        'PASSWORD': 'Ecommerce1337890',
+        'USER': 'postgres.oasihucqloqjtvojmnmf',
+        'PASSWORD': 'Chatbot1337',
         'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
         'PORT': '5432'
     }
