@@ -1,4 +1,4 @@
-## 3. THIẾT KẾ
+## 3. DESIGN
 
 ### 3.1. Activity Diagram
 ![Activity Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/1f18b99b-505d-4635-8a28-f402a9bcdc74)
