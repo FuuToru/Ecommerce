@@ -79,14 +79,23 @@ http://localhost:3000/
 ## Responsibility
 
 - Dang Huu Tri:
-    - 
-    - 
+    - Backend Development
+    - API Integration
+    - UI/UX Design
+    - Frontend Development
+
+    
 - Tran Ky:
-    - 
-    - 
+    - Backend Development
+    - API Integration
+    - Database Management
+    - Frontend Development
+
 - Le Thi Minh Trang:
-    - 
-    - 
+    - Quality Assurance
+    - API Integration
+    - Backend Development
+    - Frontend Development
 
 
 ---
