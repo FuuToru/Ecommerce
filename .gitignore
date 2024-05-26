@@ -5,3 +5,4 @@ data.json
 .vscode/
 .DS_Store
 .env
+./src/backend_api/.env
