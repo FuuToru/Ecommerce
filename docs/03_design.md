@@ -1,6 +1,7 @@
 ## 3. THIẾT KẾ
 
 ### 3.1. Activity Diagram
+![Activity Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/1f18b99b-505d-4635-8a28-f402a9bcdc74)
 
 ### 3.2. ER Diagram
 ![ER Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/18097f89-331d-4488-bd54-58a62257677d)
