@@ -27,6 +27,19 @@ function Categories(){
   function changeUrl(baseurl){
     fetchData(baseurl);
   }
+  const CardFooter = ({ detail, maxLength }) => {
+    const truncateText = (text, maxLength) => {
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+      }
+      return text;
+    };
+  
+    return (
+      <p> {truncateText(detail, maxLength)}</p>
+
+    );
+  };
   var links = [];
   var limit =12;
   var totalLinks = totalResult/limit;
@@ -47,8 +60,8 @@ function Categories(){
                   <h4 className="card-title"> {category.title}</h4>
               </div></Link>
               <div className='card-footer'>
-                Product: 2356
-                </div>
+                    <CardFooter detail={category.detail} maxLength={50} />
+                  </div>
 
           </div>
         </div> )
