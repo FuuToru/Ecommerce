@@ -1,6 +1,6 @@
-![1](./01_plan.md)
-![2](./02_analysis.md)
-![3](./03_design.md)
-![4](./04_experiments.md)
-![5](./05_work-logs.md)
-![6](./06_references.md)
+01_plan.md
+02_analysis.md
+03_design.md
+04_experiments.md
+05_work-logs.md
+06_references.md
