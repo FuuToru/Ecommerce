@@ -25,7 +25,6 @@
 ![image](https://github.com/FuuToru/23_Ecommerce/assets/104120017/c743bb37-e4fb-45ea-9227-a41243a580bb)
 - Category detail page:
 ![image](https://github.com/FuuToru/23_Ecommerce/assets/104120017/6e44756d-f13e-4897-940f-6b6e0dfe0d8d)
-- 
 
 ### 4.3. Result
 
