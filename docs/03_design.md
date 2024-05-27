@@ -1,7 +1,7 @@
 ## 3. DESIGN
 
 ### 3.1. Activity Diagram
-![vendorActivity Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/fea1c91a-8ddc-4b0b-928e-179d6b8a65ee)
+![vendorActivity Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/46e6a5d9-f604-48ad-a7b3-428f042a730a)
 
 ### 3.2. ER Diagram
 ![ER Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/06de72af-bc28-4092-9af2-1da89195e65c)
