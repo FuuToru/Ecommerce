@@ -1,5 +1,4 @@
-## 6. THAM KHẢO
+## 6. References
 
-- [1] A webpage title [LINK](https://update-this-link)
-- [2] A book, tên tác giả [LINK](https://link-to-amazone-BOOK)
-- [3] A paper title, tên tác giả, link [LINK](https://update-this-link)
+- [1] Multivendor-Ecommerce-Website-in-Django-Django-REST-Framework-and-ReactJs [LINK](https://github.com/codeartisanlab/Multivendor-Ecommerce-Website-in-Django-Django-REST-Framework-and-ReactJsk)
+- [2] django-ecommerce-1 [LINK](https://github.com/Code-Institute-Submissions/django-ecommerce-1)

@@ -10,6 +10,8 @@
 
 ## Deployment
 
+**_If you want to have data available in the database upon deployment, you need to have a `.env` file located in the `src/backend_api` directory. You can contact me via email at huutri231103@gmail.com to obtain the `.env` file. After that, follow the steps below._**
+
 ### Deploy without Docker
 1. Download and install Git to your computer - see [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
@@ -29,7 +31,6 @@ cd src/backend_api
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuperuser
 python manage.py runserver
 ```
 4. Then you add a new terminal command and using the following command:

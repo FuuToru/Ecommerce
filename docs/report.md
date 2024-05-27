@@ -1,1 +1,6 @@
-Kết hợp tất cả các file 01_... -> 06_..., lưu thành file docx hoặc pdf
+![1](./01_plan.md)
+![2](./02_analysis.md)
+![3](./03_design.md)
+![4](./04_experiments.md)
+![5](./05_work-logs.md)
+![6](./06_references.md)
