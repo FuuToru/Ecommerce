@@ -12,6 +12,8 @@
 ### 4.2. Giao diện ứng dụng
 
 Chụp hình một số screenshots của ứng dụng
+![Screenshot_27-5-2024_181336_localhost](https://github.com/FuuToru/23_Ecommerce/assets/104120017/40759fc1-2090-40ff-a579-7bb497beee61)
+
 
 ### 4.3. Result
 
