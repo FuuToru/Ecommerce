@@ -1,10 +1,25 @@
-## 5. GHI CHÚ CÁC CÔNG VIỆC
+## 5. Work Logs
 
-### 5.1 Phân công
+### 5.1 Assignment
 
-Bảng phân công công việc của các thành viên trong team. Thành viên nào làm những gì
+- Kỳ:
+    - Code login and register for customer and vendor
+    - Build the database and deploy it on Docker
+    - Implement vendor functions
+    - Write the report and create diagrams
+- Trang:
+    - Code vendor functions
+    - Implement Add to Cart for customer
+    - Code the admin page
+    - Write the report and slides
+- Trí:
+    - CCode front-end for basic pages
+    - Build the database and deploy it on Docker
+    - Add data
+    - Test the website
+    - Write the report and create the demo video
 
-### 5.2 Nhật ký
+### 5.2 Work dairy
 
 - Week 10/04 - 18/04:
     - Tasks:
