@@ -9,7 +9,7 @@
 ![adminActivity Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/c7e39983-b2f7-4286-be0a-972de23f82f1)
 
 ### 3.2. ER Diagram
-![ER Diagram](https://github.com/FuuToru/23_Ecommerce/assets/128732306/06de72af-bc28-4092-9af2-1da89195e65c)
+![image](https://github.com/FuuToru/23_Ecommerce/assets/128732306/2e4bd8de-9ea8-41d0-84ac-08d0c7586fcb)
 
 
 ### 3.3. Database Diagram
