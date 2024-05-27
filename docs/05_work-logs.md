@@ -6,22 +6,37 @@ Bảng phân công công việc của các thành viên trong team. Thành viên
 
 ### 5.2 Nhật ký
 
-- Tuần 10/04 - 18/04: 
-    - Thực hiện
-        - Phân tích đề tài: Kỳ, Trang, Trí
-        - Xây database: Kỳ, Trí
-        - Làm slide báo cáo: Trang, Trí
-    - Vấn đề
-        - Chưa xác định được phạm vi đề tài
-- Tuần 19/04 - 28/04: 
-    - Thực hiện:
-        - Xác định lại đúng hướng đề tài: Kỳ, Trang, Trí
-        - Bắt đầu xây khung sườn cho project: Trí, Kỳ, Trang
-        - Thêm các trang cơ bản (All Product, ...): Trí
-    - Vấn đề:
-        - Gặp khó khăn trong việc code front-end và cả back-end
-- Tuần 29/04 - 10/05:
-    - Thực hiện: 
-        - 
-
+- Week 10/04 - 18/04:
+    - Tasks:
+        - Topic Analysis: Kỳ, Trang, Trí
+        - Database Construction: Kỳ, Trí
+        - Report Slide Preparation: Trang, Trí
+    - Issues:
+        - Scope of the topic not yet determined
+- Week 19/04 - 28/04:
+    - Tasks:
+        - Reevaluate and properly define the topic direction: Kỳ, Trang, Trí
+        - Begin structuring the project framework: Trí, Kỳ, Trang
+        - Add basic pages (All Product, ...): Trí
+    - Issues:
+        - Difficulties with front-end and back-end coding
+- Week 29/04 - 10/05:
+    - Tasks:
+        - Front-end coding for product, category, customer, vendor pages: Trí
+        - Front-end and back-end coding for Add to Cart: Trang
+        - Back-end coding for vendor and customer registration and login: Kỳ
+    - Issues:
+        - Many challenges in back-end coding for login and registration
+- Week 11/05 - 24/05:
+    - Tasks:
+        - Add data to the database for testing, customer profile update: Trí
+        - Implement additional vendor functions: Trang, Kỳ
+    - Issues:
+        - Some difficulties in adding product functions for the vendor
+- Week 25/05 - 27/05:
+    - Tasks:
+        - Code the admin page: Trang
+        - Build the database on Supabase, Docker: Trí, Kỳ
+        - Review and finalize the website: Trang, Trí, Kỳ
+        - Write the report, create diagrams: Trang, Trí, Kỳ
 ...
