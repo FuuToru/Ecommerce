@@ -13,7 +13,7 @@
     - Code the admin page
     - Write the report and slides
 - Trí:
-    - CCode front-end for basic pages
+    - Code front-end for basic pages
     - Build the database and deploy it on Docker
     - Add data
     - Test the website
