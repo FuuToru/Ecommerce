@@ -4,7 +4,6 @@
 
 - The purpose of this project was to build a ecommerce project where vendor can register, add, edit/delete their shop product on their shop profile, receive orders from customers, see their total earnings and revenue payment, and also is for customers who can register, set their profile, search for their favorite products , order and purchase product from their favorite shops.
 
-- A live demo can be found: Update when project completed
 - Sceenshot:
   <detail> ![Screenshot_27-5-2024_181336_localhost](https://github.com/FuuToru/23_Ecommerce/assets/104120017/e3bfc165-8bb0-4589-83fd-74477b241a2e)</detail>
 
